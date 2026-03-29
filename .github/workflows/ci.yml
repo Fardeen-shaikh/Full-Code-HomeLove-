@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Payload import map
+        working-directory: apps/api
+        run: npx payload generate:importmap
+        env:
+          DATABASE_URI: postgresql://fake:fake@localhost:5432/fake
+          PAYLOAD_SECRET: ci-secret-not-real-just-for-build
+
+      - name: Build API
+        run: pnpm build:api
+        env:
+          DATABASE_URI: postgresql://fake:fake@localhost:5432/fake
+          PAYLOAD_SECRET: ci-secret-not-real-just-for-build
+
+      - name: Build Web
+        run: pnpm build:web
