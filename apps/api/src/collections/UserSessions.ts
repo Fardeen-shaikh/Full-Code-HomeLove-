@@ -6,29 +6,9 @@ export const UserSessions: CollectionConfig = {
     defaultColumns: ['sessionId', 'checklistProfile', 'createdAt', 'updatedAt'],
   },
   fields: [
-    {
-      name: 'sessionId',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        readOnly: true,
-      },
-    },
-    {
-      name: 'favourites',
-      type: 'json',
-      admin: {
-        description: 'Array of CrazyDeal IDs',
-      },
-    },
-    {
-      name: 'checklistSelections',
-      type: 'json',
-      admin: {
-        description: 'Object mapping checklist item IDs to checked state',
-      },
-    },
+    { name: 'sessionId', type: 'text', required: true, unique: true, admin: { readOnly: true } },
+    { name: 'favourites', type: 'json', admin: { description: 'Array of CrazyDeal IDs' } },
+    { name: 'checklistSelections', type: 'json', admin: { description: 'Checklist item ID -> checked state' } },
     {
       name: 'checklistProfile',
       type: 'select',

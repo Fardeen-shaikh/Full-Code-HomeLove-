@@ -4,42 +4,15 @@ export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'publishedAt', 'status'],
+    defaultColumns: ['title', 'category', 'publishedAt', '_status'],
   },
-  versions: {
-    drafts: true,
-  },
+  versions: { drafts: true },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'excerpt',
-      type: 'textarea',
-      required: true,
-    },
-    {
-      name: 'content',
-      type: 'richText',
-      required: true,
-    },
-    {
-      name: 'featuredImage',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-    },
+    { name: 'title', type: 'text', required: true },
+    { name: 'slug', type: 'text', required: true, unique: true, admin: { position: 'sidebar' } },
+    { name: 'excerpt', type: 'textarea', required: true },
+    { name: 'content', type: 'richText', required: true },
+    { name: 'featuredImage', type: 'upload', relationTo: 'media', required: true },
     {
       name: 'category',
       type: 'select',
@@ -53,20 +26,12 @@ export const BlogPosts: CollectionConfig = {
         { label: 'Smart Home', value: 'smart-home' },
       ],
     },
-    {
-      name: 'author',
-      type: 'text',
-    },
+    { name: 'author', type: 'text' },
     {
       name: 'publishedAt',
       type: 'date',
       required: true,
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayOnly',
-        },
-      },
+      admin: { position: 'sidebar', date: { pickerAppearance: 'dayOnly' } },
     },
     {
       name: 'seo',

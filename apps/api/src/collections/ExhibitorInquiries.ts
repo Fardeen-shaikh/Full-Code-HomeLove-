@@ -7,34 +7,11 @@ export const ExhibitorInquiries: CollectionConfig = {
     defaultColumns: ['companyName', 'email', 'exhibitVenue', 'createdAt'],
   },
   fields: [
-    {
-      name: 'email',
-      type: 'email',
-      required: true,
-    },
-    {
-      name: 'phone',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'exhibitVenue',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'companyName',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'productService',
-      type: 'textarea',
-      required: true,
-    },
-    {
-      name: 'additionalInfo',
-      type: 'textarea',
-    },
+    { name: 'email', type: 'email', required: true },
+    { name: 'phone', type: 'text', required: true },
+    { name: 'exhibitVenue', type: 'text', required: true },
+    { name: 'companyName', type: 'text', required: true },
+    { name: 'productService', type: 'textarea', required: true },
+    { name: 'additionalInfo', type: 'textarea' },
   ],
 }

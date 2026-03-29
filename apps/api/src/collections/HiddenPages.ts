@@ -7,25 +7,9 @@ export const HiddenPages: CollectionConfig = {
     defaultColumns: ['title', 'type', 'exhibition', 'isPublished'],
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'content',
-      type: 'richText',
-      required: true,
-    },
+    { name: 'title', type: 'text', required: true },
+    { name: 'slug', type: 'text', required: true, unique: true, admin: { position: 'sidebar' } },
+    { name: 'content', type: 'richText', required: true },
     {
       name: 'type',
       type: 'select',
@@ -38,19 +22,8 @@ export const HiddenPages: CollectionConfig = {
         { label: 'Other', value: 'other' },
       ],
     },
-    {
-      name: 'exhibition',
-      type: 'relationship',
-      relationTo: 'exhibitions',
-    },
-    {
-      name: 'isPublished',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        position: 'sidebar',
-      },
-    },
+    { name: 'exhibition', type: 'relationship', relationTo: 'exhibitions' },
+    { name: 'isPublished', type: 'checkbox', defaultValue: false, admin: { position: 'sidebar' } },
     {
       name: 'seo',
       type: 'group',

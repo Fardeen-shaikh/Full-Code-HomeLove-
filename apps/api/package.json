@@ -4,26 +4,31 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon",
-    "build": "payload build",
-    "serve": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.js NODE_ENV=production node dist/server.js",
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint .",
     "generate:types": "payload generate:types",
-    "lint": "eslint src",
-    "clean": "rm -rf dist build"
+    "generate:importmap": "payload generate:importmap",
+    "clean": "rm -rf .next dist"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "^3.0.0",
-    "@payloadcms/richtext-lexical": "^3.0.0",
-    "@payloadcms/ui": "^3.0.0",
-    "cross-env": "^7.0.3",
+    "@payloadcms/db-postgres": "3.80.0",
+    "@payloadcms/next": "3.80.0",
+    "@payloadcms/richtext-lexical": "3.80.0",
+    "@payloadcms/ui": "3.80.0",
     "dotenv": "^16.4.0",
-    "express": "^4.21.0",
-    "payload": "^3.0.0"
+    "graphql": "^16.8.1",
+    "next": "15.3.9",
+    "payload": "3.80.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
     "@types/node": "^22.0.0",
-    "nodemon": "^3.1.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "typescript": "^5.8.0"
   }
 }

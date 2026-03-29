@@ -7,24 +7,9 @@ export const ContactInquiries: CollectionConfig = {
     defaultColumns: ['name', 'email', 'phone', 'createdAt'],
   },
   fields: [
-    {
-      name: 'name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'email',
-      type: 'email',
-      required: true,
-    },
-    {
-      name: 'phone',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'message',
-      type: 'textarea',
-    },
+    { name: 'name', type: 'text', required: true },
+    { name: 'email', type: 'email', required: true },
+    { name: 'phone', type: 'text', required: true },
+    { name: 'message', type: 'textarea' },
   ],
 }
