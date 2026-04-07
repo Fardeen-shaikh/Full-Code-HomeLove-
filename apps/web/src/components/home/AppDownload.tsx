@@ -1,3 +1,7 @@
+'use client'
+
+import { useScrollAnimation } from '@/lib/useScrollAnimation'
+
 const FEATURES = [
   { icon: '🎫', title: 'Cash Vouchers & Gift Redemptions' },
   { icon: '📢', title: 'Latest Event Promotions' },
@@ -6,11 +10,16 @@ const FEATURES = [
 ]
 
 export default function AppDownload() {
+  const sectionRef = useScrollAnimation<HTMLElement>()
+
   return (
-    <section className="bg-gradient-to-br from-amber-50 to-amber-200 py-20">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section ref={sectionRef} className="relative bg-gradient-to-br from-amber-50 to-amber-200 py-20 overflow-hidden">
+      {/* Floating blob */}
+      <div className="absolute -top-20 right-10 w-60 h-60 rounded-full bg-orange/10 blur-3xl animate-float-slow" />
+
+      <div className="relative max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Content */}
-        <div>
+        <div className="animate-on-scroll">
           <span className="text-orange text-sm font-semibold uppercase tracking-wider">Mobile App</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark mt-2">Download the HOMElove App</h2>
           <p className="text-gray mt-4 leading-relaxed">
@@ -29,21 +38,21 @@ export default function AppDownload() {
           <div className="flex flex-wrap gap-4 mt-8">
             <a
               href="#"
-              className="bg-dark text-white px-6 py-3 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-colors"
+              className="bg-dark text-white px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] active:translate-y-0 active:scale-[0.98]"
             >
               <span className="text-2xl">▶</span>
               <div>
-                <span className="text-[10px] uppercase block">Get it on</span>
+                <span className="text-[10px] uppercase block leading-tight">Get it on</span>
                 <span className="font-semibold text-sm">Google Play</span>
               </div>
             </a>
             <a
               href="#"
-              className="bg-dark text-white px-6 py-3 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-colors"
+              className="bg-dark text-white px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] active:translate-y-0 active:scale-[0.98]"
             >
               <span className="text-2xl">🍎</span>
               <div>
-                <span className="text-[10px] uppercase block">Download on the</span>
+                <span className="text-[10px] uppercase block leading-tight">Download on the</span>
                 <span className="font-semibold text-sm">App Store</span>
               </div>
             </a>
@@ -51,13 +60,13 @@ export default function AppDownload() {
         </div>
 
         {/* Phone Mockup */}
-        <div className="hidden lg:flex justify-center">
-          <div className="w-[280px] h-[560px] bg-dark rounded-[40px] p-3 shadow-2xl">
-            <div className="w-full h-full bg-white rounded-[32px] flex items-center justify-center">
+        <div className="hidden lg:flex justify-center animate-on-scroll" style={{ transitionDelay: '0.3s' }}>
+          <div className="w-[280px] h-[560px] bg-dark rounded-[40px] p-3 shadow-[0_10px_40px_rgba(0,0,0,0.12),0_30px_60px_rgba(0,0,0,0.3)] animate-float">
+            <div className="w-full h-full bg-white rounded-[32px] flex items-center justify-center overflow-hidden">
               <div className="text-center">
-                <span className="text-4xl block mb-3">📱</span>
-                <span className="text-primary font-bold text-lg">HOME</span>
-                <span className="text-secondary font-bold text-lg">love</span>
+                <span className="text-5xl block mb-3">📱</span>
+                <span className="text-primary font-extrabold text-xl">HOME</span>
+                <span className="text-secondary font-extrabold text-xl">love</span>
                 <p className="text-gray text-xs mt-2">App Preview</p>
               </div>
             </div>

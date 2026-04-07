@@ -1,4 +1,8 @@
+'use client'
+
 import Link from 'next/link'
+import Image from 'next/image'
+import { useScrollAnimation } from '@/lib/useScrollAnimation'
 
 const EVENTS = [
   {
@@ -9,6 +13,7 @@ const EVENTS = [
     days: '3 Days',
     desc: 'Explore top home brands and exclusive expo deals in East Malaysia.',
     tags: ['Furniture', 'Appliances'],
+    image: '/images/events/event-kuching.png',
   },
   {
     title: 'HOMElove Kuantan',
@@ -18,6 +23,7 @@ const EVENTS = [
     days: '4 Days',
     desc: 'Discover renovation ideas, kitchen solutions, and smart home products.',
     tags: ['Renovation', 'Kitchen'],
+    image: '/images/events/event-penang.jpeg',
   },
   {
     title: 'HOMElove Penang',
@@ -27,14 +33,17 @@ const EVENTS = [
     days: '3 Days',
     desc: 'The ultimate home & living expo experience in northern Malaysia.',
     tags: ['Smart Home', 'Living'],
+    image: '/images/hero/hero-bg.jpg',
   },
 ]
 
 export default function Exhibitions() {
+  const sectionRef = useScrollAnimation<HTMLElement>()
+
   return (
-    <section id="exhibitions" className="py-20 bg-gray-light">
+    <section ref={sectionRef} id="exhibitions" className="py-20 bg-gray-light">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-on-scroll">
           <span className="text-primary text-sm font-semibold uppercase tracking-wider">Upcoming</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark mt-2">Find an Exhibition Near You</h2>
           <p className="text-gray mt-3 max-w-2xl mx-auto">
@@ -44,17 +53,23 @@ export default function Exhibitions() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {EVENTS.map((event) => (
+          {EVENTS.map((event, i) => (
             <div
               key={event.title}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group"
+              className="animate-on-scroll bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-400 group"
+              style={{ transitionDelay: `${i * 0.15}s` }}
             >
-              {/* Image Placeholder */}
-              <div className="h-48 bg-gradient-to-br from-primary/20 to-primary/5 relative flex items-center justify-center">
-                <span className="text-5xl opacity-30">🏠</span>
+              {/* Image */}
+              <div className="h-48 relative overflow-hidden">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
                 <div className="absolute top-3 right-3 flex gap-2">
                   {event.tags.map((tag) => (
-                    <span key={tag} className="bg-primary text-white text-[10px] font-semibold px-2 py-1 rounded-full">
+                    <span key={tag} className="bg-primary text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
                       {tag}
                     </span>
                   ))}
@@ -62,7 +77,7 @@ export default function Exhibitions() {
               </div>
 
               <div className="p-5">
-                <h3 className="font-bold text-dark text-lg group-hover:text-primary transition-colors">
+                <h3 className="font-bold text-dark text-lg group-hover:text-primary transition-colors duration-300">
                   {event.title}
                 </h3>
                 <p className="text-xs text-gray mt-1">{event.venue}, {event.state}</p>
@@ -84,10 +99,10 @@ export default function Exhibitions() {
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 animate-on-scroll">
           <Link
             href="/exhibitions"
-            className="inline-block bg-primary text-white font-semibold px-8 py-3.5 rounded-full hover:bg-primary-light transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            className="inline-block bg-primary text-white font-semibold px-8 py-3.5 rounded-full hover:bg-primary-light transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(1,75,152,0.3)]"
           >
             View All Exhibitions
           </Link>
