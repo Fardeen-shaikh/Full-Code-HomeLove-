@@ -1,7 +1,5 @@
-'use client'
-
 import Image from 'next/image'
-import { useScrollAnimation } from '@/lib/useScrollAnimation'
+import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
 const FEATURES = [
   { title: 'Verified Track Record', desc: 'Over a decade of hosting large-scale events across Malaysia' },
@@ -11,23 +9,20 @@ const FEATURES = [
 ]
 
 export default function About() {
-  const sectionRef = useScrollAnimation<HTMLElement>()
-
   return (
-    <section ref={sectionRef} id="about-preview" className="bg-gray-light py-20">
+    <section id="about-preview" className="bg-gray-light py-20">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Image */}
-        <div className="animate-on-scroll relative rounded-2xl overflow-hidden aspect-[4/3] group">
+        <AnimateOnScroll className="relative rounded-2xl overflow-hidden aspect-[4/3] group">
           <Image
             src="/images/events/event-kuching.png"
             alt="HOMElove Exhibition"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        </div>
+        </AnimateOnScroll>
 
-        {/* Content */}
-        <div className="animate-on-scroll" style={{ transitionDelay: '0.2s' }}>
+        <AnimateOnScroll delay={0.2}>
           <span className="text-primary text-sm font-semibold uppercase tracking-wider">
             About HOMElove
           </span>
@@ -40,8 +35,8 @@ export default function About() {
             as a premier home living exhibition.
           </p>
           <ul className="mt-6 space-y-4">
-            {FEATURES.map((feat, i) => (
-              <li key={feat.title} className="flex items-start gap-3 animate-on-scroll" style={{ transitionDelay: `${0.3 + i * 0.1}s` }}>
+            {FEATURES.map((feat) => (
+              <li key={feat.title} className="flex items-start gap-3">
                 <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5 text-xs">✓</span>
                 <div>
                   <span className="font-semibold text-dark text-sm">{feat.title}</span>
@@ -50,7 +45,7 @@ export default function About() {
               </li>
             ))}
           </ul>
-        </div>
+        </AnimateOnScroll>
       </div>
     </section>
   )

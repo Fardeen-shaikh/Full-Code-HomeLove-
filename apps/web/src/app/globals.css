@@ -134,19 +134,6 @@ body {
 .delay-400 { animation-delay: 0.4s; }
 .delay-600 { animation-delay: 0.6s; }
 
-/* ===== SCROLL-TRIGGERED ===== */
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* ===== MARQUEE PAUSE ON HOVER ===== */
 
 .hover-pause:hover {
