@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const ContactInquiries: CollectionConfig = {
   slug: 'contact-inquiries',
+  access: { read: () => true, create: () => true },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'phone', 'createdAt'],

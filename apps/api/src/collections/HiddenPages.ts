@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const HiddenPages: CollectionConfig = {
   slug: 'hidden-pages',
+  access: { read: () => true },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'exhibition', 'isPublished'],

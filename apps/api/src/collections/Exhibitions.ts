@@ -8,6 +8,9 @@ const MALAYSIAN_STATES = [
 
 export const Exhibitions: CollectionConfig = {
   slug: 'exhibitions',
+  access: {
+    read: () => true,
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'state', 'startDate', 'endDate', 'isUpcoming'],
@@ -42,6 +45,30 @@ export const Exhibitions: CollectionConfig = {
     { name: 'isUpcoming', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },
     { name: 'countdownEnabled', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },
     { name: 'mapLink', type: 'text', admin: { description: 'Google Maps link to venue' } },
+    { name: 'tncPage', type: 'relationship', relationTo: 'hidden-pages', admin: { description: 'Link to TNC hidden page (upload 1-2 weeks before event)' } },
+    {
+      name: 'contest',
+      type: 'group',
+      admin: { description: 'Contest section (e.g. Colouring Contest)' },
+      fields: [
+        { name: 'enabled', type: 'checkbox', defaultValue: false },
+        { name: 'title', type: 'text', admin: { description: 'e.g. Colouring Contest' } },
+        { name: 'description', type: 'textarea' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'formFields', type: 'json', admin: { description: 'Custom form fields as JSON array' } },
+      ],
+    },
+    {
+      name: 'shareAndWin',
+      type: 'group',
+      admin: { description: 'Share & Win section' },
+      fields: [
+        { name: 'enabled', type: 'checkbox', defaultValue: false },
+        { name: 'title', type: 'text' },
+        { name: 'description', type: 'textarea' },
+        { name: 'hiddenPage', type: 'relationship', relationTo: 'hidden-pages' },
+      ],
+    },
     {
       name: 'programSchedule',
       type: 'array',

@@ -1,0 +1,845 @@
+/* About Us Page Styles */
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal.slide-left {
+    transform: translateX(-40px);
+}
+
+.scroll-reveal.slide-left.revealed {
+    transform: translateX(0);
+}
+
+.scroll-reveal.slide-right {
+    transform: translateX(40px);
+}
+
+.scroll-reveal.slide-right.revealed {
+    transform: translateX(0);
+}
+
+.scroll-reveal.scale-in {
+    transform: scale(0.92);
+}
+
+.scroll-reveal.scale-in.revealed {
+    transform: scale(1);
+}
+
+/* ===== HERO ===== */
+.about-hero {
+    background: linear-gradient(135deg, rgba(1, 75, 152, 0.93) 0%, rgba(10, 40, 100, 0.95) 100%),
+        url('https://homelove.com.my/sites/default/files/node/page/image/2021-10/Website_Slide-Banner_About-us-1.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 170px 0 90px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.about-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.about-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    backdrop-filter: blur(4px);
+    animation: fadeInUp 0.7s ease forwards;
+}
+
+.about-hero h1 {
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    animation: fadeInUp 0.7s ease 0.1s forwards;
+    opacity: 0;
+}
+
+.about-hero p {
+    font-size: 19px;
+    opacity: 0.9;
+    animation: fadeInUp 0.7s ease 0.2s forwards;
+    opacity: 0;
+}
+
+/* ===== STATS ===== */
+.about-stats {
+    padding: 0;
+    margin-top: -44px;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 32px 20px;
+    border-right: 1px solid #f0f0f0;
+    transition: background 0.3s;
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-item:hover {
+    background: rgba(1, 75, 152, 0.03);
+}
+
+.stat-value {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* ===== JOURNEY TIMELINE ===== */
+.about-journey {
+    padding: 100px 0 80px;
+    background: var(--white);
+}
+
+.about-journey .container {
+    position: relative;
+}
+
+/* Vertical timeline line */
+.timeline-line {
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--orange));
+    border-radius: 3px;
+    opacity: 0.2;
+}
+
+/* Timeline dot */
+.timeline-dot {
+    position: absolute;
+    left: -60px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.timeline-dot::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px rgba(1, 75, 152, 0.2);
+    margin-bottom: 6px;
+}
+
+.timeline-year {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Journey blocks */
+.journey-block {
+    position: relative;
+    margin-left: 80px;
+    margin-bottom: 80px;
+    padding-left: 0;
+}
+
+.journey-block:last-child {
+    margin-bottom: 0;
+}
+
+/* Journey labels */
+.journey-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(1, 75, 152, 0.08);
+    color: var(--primary);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.journey-label.light {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+}
+
+/* ===== OUR STORY ===== */
+.journey-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.journey-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.journey-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+}
+
+.journey-image:hover img {
+    transform: scale(1.03);
+}
+
+.journey-content h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.journey-content p {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+
+/* ===== MISSION ===== */
+.mission-card {
+    background: var(--primary);
+    border-radius: 20px;
+    padding: 48px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+}
+
+.mission-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+}
+
+.mission-card h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.mission-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin-bottom: 28px;
+    max-width: 600px;
+}
+
+.mission-points {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mission-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 20px;
+    backdrop-filter: blur(4px);
+    transition: background 0.3s;
+}
+
+.mission-point:hover {
+    background: rgba(255,255,255,0.14);
+}
+
+.point-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.point-icon.check {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.point-icon.arrow {
+    background: rgba(1, 75, 152, 0.1);
+    color: var(--primary);
+}
+
+.mission-point span,
+.vision-point span {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.mission-point span {
+    color: rgba(255,255,255,0.9);
+}
+
+/* ===== VISION ===== */
+.vision-content h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 14px;
+}
+
+.vision-intro {
+    font-size: 16px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 600px;
+}
+
+.vision-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.vision-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--gray-light);
+    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid #eee;
+    transition: all 0.3s;
+}
+
+.vision-point:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.vision-point span {
+    color: var(--dark);
+}
+
+/* ===== STRENGTHS ===== */
+.about-strengths {
+    padding: 80px 0;
+    background: var(--gray-light);
+}
+
+.about-strengths .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.about-strengths .section-header h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.about-strengths .section-header p {
+    font-size: 16px;
+    color: var(--gray);
+}
+
+.strengths-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.strength-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 22px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.strength-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+    border-color: var(--primary);
+}
+
+.strength-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    transition: transform 0.3s;
+}
+
+.strength-card:hover .strength-icon {
+    transform: scale(1.1) rotate(4deg);
+}
+
+.strength-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.strength-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+/* ===== LOCATIONS ===== */
+.about-locations {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+}
+
+.locations-content .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(1, 75, 152, 0.08);
+    color: var(--primary);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.locations-content h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 14px;
+}
+
+.locations-content p {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.location-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.location-tag {
+    padding: 8px 18px;
+    background: var(--gray-light);
+    border: 1.5px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    transition: all 0.3s;
+}
+
+.location-tag:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* Map with pins */
+.locations-map {
+    text-align: center;
+}
+
+.map-container {
+    position: relative;
+    display: inline-block;
+}
+
+.map-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.about-map-pin {
+    position: absolute;
+    z-index: 5;
+    cursor: default;
+    transition: transform 0.2s ease;
+}
+
+.about-map-pin:hover {
+    transform: scale(1.2);
+    z-index: 10;
+}
+
+.about-map-pin svg {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.about-pin-label {
+    position: absolute;
+    left: 24px;
+    top: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.about-pin-label.label-left {
+    left: auto;
+    right: 24px;
+    text-align: right;
+}
+
+/* ===== ORGANISER ===== */
+.about-org {
+    padding: 60px 0 80px;
+    background: var(--gray-light);
+}
+
+.org-card {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.org-logo img {
+    height: 56px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.org-content h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.org-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 6px;
+}
+
+.org-name span {
+    font-weight: 400;
+    color: var(--gray);
+}
+
+.org-address {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.org-contacts {
+    display: flex;
+    gap: 20px;
+}
+
+.org-contacts a {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.org-contacts a:hover {
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .strengths-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .vision-points {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 150px 0 70px;
+    }
+
+    .about-hero h1 {
+        font-size: 32px;
+    }
+
+    .about-hero p {
+        font-size: 16px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-item {
+        padding: 24px 16px;
+    }
+
+    .stat-item:nth-child(2) {
+        border-right: none;
+    }
+
+    .stat-item:nth-child(1),
+    .stat-item:nth-child(2) {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    /* Timeline adjustments */
+    .timeline-line {
+        left: 16px;
+    }
+
+    .timeline-dot {
+        left: -44px;
+    }
+
+    .journey-block {
+        margin-left: 52px;
+        margin-bottom: 60px;
+    }
+
+    .journey-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .journey-content h2,
+    .mission-card h2,
+    .vision-content h2 {
+        font-size: 26px;
+    }
+
+    .mission-card {
+        padding: 32px 24px;
+    }
+
+    .about-journey,
+    .about-strengths,
+    .about-locations,
+    .about-org {
+        padding: 60px 0;
+    }
+
+    .strengths-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .locations-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .locations-map {
+        order: -1;
+    }
+
+    .locations-content h2 {
+        font-size: 28px;
+    }
+
+    .about-pin-label {
+        font-size: 8px;
+        left: 18px;
+    }
+
+    .about-pin-label.label-left {
+        right: 18px;
+    }
+
+    .about-map-pin svg {
+        width: 14px;
+        height: 20px;
+    }
+
+    .org-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .org-contacts {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-hero {
+        padding: 140px 0 60px;
+    }
+
+    .about-hero h1 {
+        font-size: 26px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+
+    .timeline-line {
+        display: none;
+    }
+
+    .timeline-dot {
+        position: relative;
+        left: 0;
+        flex-direction: row;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .journey-block {
+        margin-left: 0;
+    }
+
+    .strengths-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-strengths .section-header h2 {
+        font-size: 26px;
+    }
+
+    .locations-content h2 {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .about-hero h1 {
+        font-size: 54px;
+    }
+}

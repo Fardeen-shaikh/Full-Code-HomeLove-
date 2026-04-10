@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const ChecklistCategories: CollectionConfig = {
   slug: 'checklist-categories',
+  access: { read: () => true },
   admin: {
     useAsTitle: 'room',
     defaultColumns: ['room', 'profile', 'order'],

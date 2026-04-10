@@ -8,6 +8,7 @@ const MALAYSIAN_STATES = [
 
 export const Subscribers: CollectionConfig = {
   slug: 'subscribers',
+  access: { read: () => true, create: () => true },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['name', 'email', 'state', 'source', 'createdAt'],

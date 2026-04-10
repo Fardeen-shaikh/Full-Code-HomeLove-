@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const ChecklistProfiles: CollectionConfig = {
   slug: 'checklist-profiles',
+  access: { read: () => true },
   admin: { useAsTitle: 'name' },
   fields: [
     { name: 'name', type: 'text', required: true },

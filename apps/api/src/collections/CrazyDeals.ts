@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const CrazyDeals: CollectionConfig = {
   slug: 'crazy-deals',
+  access: { read: () => true },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'exhibition', 'dealPrice', 'order'],

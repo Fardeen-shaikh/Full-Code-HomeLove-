@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const ExhibitorInquiries: CollectionConfig = {
   slug: 'exhibitor-inquiries',
+  access: { read: () => true, create: () => true },
   admin: {
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'email', 'exhibitVenue', 'createdAt'],

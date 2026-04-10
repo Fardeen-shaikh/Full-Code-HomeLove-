@@ -276,6 +276,43 @@ export interface Exhibition {
    * Google Maps link to venue
    */
   mapLink?: string | null;
+  /**
+   * Link to TNC hidden page (upload 1-2 weeks before event)
+   */
+  tncPage?: (number | null) | HiddenPage;
+  /**
+   * Contest section (e.g. Colouring Contest)
+   */
+  contest?: {
+    enabled?: boolean | null;
+    /**
+     * e.g. Colouring Contest
+     */
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+    /**
+     * Custom form fields as JSON array
+     */
+    formFields?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  /**
+   * Share & Win section
+   */
+  shareAndWin?: {
+    enabled?: boolean | null;
+    title?: string | null;
+    description?: string | null;
+    hiddenPage?: (number | null) | HiddenPage;
+  };
   programSchedule?:
     | {
         time: string;
@@ -295,6 +332,39 @@ export interface Exhibition {
     metaTitle?: string | null;
     metaDescription?: string | null;
     ogImage?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hidden-pages".
+ */
+export interface HiddenPage {
+  id: number;
+  title: string;
+  slug: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  type: 'tnc' | 'contest' | 'crazy-deals' | 'share-win' | 'other';
+  exhibition?: (number | null) | Exhibition;
+  isPublished?: boolean | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -473,39 +543,6 @@ export interface ExhibitorInquiry {
   companyName: string;
   productService: string;
   additionalInfo?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hidden-pages".
- */
-export interface HiddenPage {
-  id: number;
-  title: string;
-  slug: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  type: 'tnc' | 'contest' | 'crazy-deals' | 'share-win' | 'other';
-  exhibition?: (number | null) | Exhibition;
-  isPublished?: boolean | null;
-  seo?: {
-    metaTitle?: string | null;
-    metaDescription?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -783,6 +820,24 @@ export interface ExhibitionsSelect<T extends boolean = true> {
   isUpcoming?: T;
   countdownEnabled?: T;
   mapLink?: T;
+  tncPage?: T;
+  contest?:
+    | T
+    | {
+        enabled?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+        formFields?: T;
+      };
+  shareAndWin?:
+    | T
+    | {
+        enabled?: T;
+        title?: T;
+        description?: T;
+        hiddenPage?: T;
+      };
   programSchedule?:
     | T
     | {

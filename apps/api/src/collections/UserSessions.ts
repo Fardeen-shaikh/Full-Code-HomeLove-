@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const UserSessions: CollectionConfig = {
   slug: 'user-sessions',
+  access: { read: () => true, create: () => true, update: () => true },
   admin: {
     defaultColumns: ['sessionId', 'checklistProfile', 'createdAt', 'updatedAt'],
   },
