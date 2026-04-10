@@ -53,7 +53,7 @@ export default buildConfig({
   ],
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || '',
+      connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
     },
   }),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -61,5 +61,10 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   sharp,
-  cors: ['http://localhost:3000'],
+  cors: [
+    'http://localhost:3000',
+    'https://homelove-web-production.up.railway.app',
+    'https://homelove.com.my',
+    process.env.NEXT_PUBLIC_SERVER_URL || '',
+  ].filter(Boolean),
 })
