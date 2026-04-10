@@ -395,7 +395,12 @@ export function mediaUrl(media: MediaItem | string | null | undefined): string {
   if (!media) return ''
   if (typeof media === 'string') return media
   if (media.url?.startsWith('http')) return media.url
-  return `${API_URL}${media.url}`
+  // In production, Payload media files need the API base URL
+  // If the API has NEXT_PUBLIC_SERVER_URL set, media URLs are already absolute
+  const baseUrl = typeof window !== 'undefined'
+    ? (process.env.NEXT_PUBLIC_API_URL || '')
+    : (process.env.NEXT_PUBLIC_API_URL || API_URL)
+  return `${baseUrl}${media.url}`
 }
 
 // ===== SHARED TYPES =====

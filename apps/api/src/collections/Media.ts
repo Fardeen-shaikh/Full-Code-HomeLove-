@@ -5,6 +5,7 @@ export const Media: CollectionConfig = {
   access: { read: () => true },
   upload: {
     mimeTypes: ['image/*', 'video/*', 'application/pdf'],
+    staticDir: process.env.MEDIA_DIR || 'media',
   },
   admin: {
     useAsTitle: 'alt',
