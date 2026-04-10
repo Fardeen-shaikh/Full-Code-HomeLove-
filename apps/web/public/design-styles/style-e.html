@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMElove — Bold Modern</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #000000;
+      --surface:  #0a0a0a;
+      --surface2: #111111;
+      --text:     #ffffff;
+      --text2:    #888888;
+      --accent:   #6366f1;
+      --accent2:  #a5b4fc;
+      --border:   rgba(255,255,255,0.08);
+      --border-h: rgba(255,255,255,0.18);
+      --cta:      #6366f1;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 2px; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled {
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border);
+      padding: 14px 60px;
+    }
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    nav a:hover { color: var(--text); }
+    nav a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #fff !important;
+      padding: 8px 20px !important;
+      border-radius: 4px;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      transition: opacity 0.3s, transform 0.3s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { opacity: 0.85 !important; transform: translateY(-1px) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .hero-dot-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 0;
+    }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(99,102,241,0.2), transparent 70%);
+      z-index: 1;
+    }
+    .hero-glow-top {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+      z-index: 1;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFloat 6s infinite;
+      z-index: 2;
+    }
+    .particle:nth-child(1) { left: 15%; top: 20%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 35%; top: 70%; animation-delay: 1s; }
+    .particle:nth-child(3) { left: 55%; top: 30%; animation-delay: 2s; }
+    .particle:nth-child(4) { left: 75%; top: 60%; animation-delay: 0.5s; }
+    .particle:nth-child(5) { left: 85%; top: 25%; animation-delay: 1.5s; }
+    .particle:nth-child(6) { left: 25%; top: 45%; animation-delay: 2.5s; }
+    .particle:nth-child(7) { left: 65%; top: 80%; animation-delay: 3s; }
+    .particle:nth-child(8) { left: 45%; top: 55%; animation-delay: 0.8s; }
+    @keyframes particleFloat {
+      0% { opacity: 0; transform: translateY(0); }
+      20% { opacity: 0.6; }
+      80% { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-80px); }
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 900px;
+      padding: 0 24px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--accent2);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .hero-badge-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero-headline {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .hero-headline .accent { color: var(--accent); }
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--text2);
+      max-width: 560px;
+      margin: 0 auto 44px;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(99,102,241,0.4); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-h);
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(99,102,241,0.08); transform: translateY(-2px); }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 3;
+      color: var(--text2);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 1px solid var(--text2);
+      border-bottom: 1px solid var(--text2);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s infinite;
+    }
+    @keyframes scrollBounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(6px); } }
+
+    /* ── MARQUEE STRIP ── */
+    .marquee-strip {
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 35s linear infinite;
+    }
+    .marquee-track span {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text2);
+      padding: 0 36px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .marquee-track span.dot { color: var(--accent); padding: 0 6px; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text2);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+    .section-header { margin-bottom: 64px; }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── UPCOMING EXPOS ── */
+    #expos { background: var(--surface); }
+    .expos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .expo-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    .expo-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(99,102,241,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,102,241,0.15);
+    }
+    .expo-card-img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+      background: #111;
+    }
+    .expo-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      opacity: 0;
+      display: block;
+    }
+    .expo-card-img img.loaded { opacity: 1; }
+    .expo-card:hover .expo-card-img img { transform: scale(1.06); }
+    .expo-card-body { padding: 24px; }
+    .expo-tag {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      color: var(--accent2);
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .expo-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .expo-meta { font-size: 0.875rem; color: var(--text2); margin-bottom: 5px; }
+    .expo-meta strong { color: var(--text); font-weight: 500; }
+    .expo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      transition: gap 0.3s;
+    }
+    .expo-link:hover { gap: 10px; }
+
+    /* ── HOW TO SHOP ── */
+    #how-to-shop { background: var(--bg); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+    }
+    .step-card {
+      background: var(--surface);
+      padding: 48px 36px;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .step-card:last-child { border-right: none; }
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+      transform-origin: left;
+    }
+    .step-card:hover::before { transform: scaleX(1); }
+    .step-card:hover { background: var(--surface2); }
+    .step-num {
+      font-size: 4.5rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(99,102,241,0.12);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-icon { font-size: 2rem; margin-bottom: 14px; }
+    .step-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .step-desc { font-size: 0.875rem; color: var(--text2); line-height: 1.75; }
+
+    /* ── WHY CHOOSE ── */
+    #why-choose { background: var(--surface); text-align: center; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    .stat-box {
+      background: var(--surface2);
+      padding: 48px 20px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .stat-box:hover { background: #161616; }
+    .stat-num {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-box:nth-child(4) .stat-num { color: var(--accent); }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text2);
+      margin-top: 10px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── WHAT TO EXPECT ── */
+    #what-to-expect { background: var(--bg); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .feature-card {
+      background: var(--surface);
+      padding: 40px 32px;
+      transition: background 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .feature-card:hover { background: var(--surface2); }
+    .feature-card:hover::after { opacity: 1; }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 20px; display: block; }
+    .feature-title {
+      font-size: 0.975rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .feature-desc { font-size: 0.875rem; color: var(--text2); line-height: 1.7; }
+
+    /* ── BLOG / TRENDS ── */
+    #trends { background: var(--surface); }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      height: 540px;
+    }
+    .blog-card {
+      background: var(--surface2);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .blog-card.featured { grid-row: 1 / 3; }
+    .blog-card-img {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: #111;
+    }
+    .blog-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      opacity: 0;
+      display: block;
+    }
+    .blog-card-img img.loaded { opacity: 1; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
+    .blog-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 35%, transparent 75%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+    .blog-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      align-self: flex-start;
+    }
+    .blog-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+      line-height: 1.35;
+    }
+    .blog-card.featured .blog-title { font-size: 1.5rem; }
+    .blog-meta { font-size: 0.775rem; color: rgba(255,255,255,0.55); margin-top: 7px; }
+
+    /* ── BRANDS MARQUEE ── */
+    #brands { background: var(--bg); padding: 80px 0; }
+    #brands .section-header { padding: 0 60px; }
+    .brands-marquee { overflow: hidden; white-space: nowrap; margin-top: 48px; }
+    .brands-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 64px;
+      padding: 0 32px;
+      animation: marquee 28s linear infinite;
+    }
+    .brands-track img {
+      height: 38px;
+      width: auto;
+      filter: grayscale(1) invert(1) brightness(0.45);
+      transition: filter 0.4s, transform 0.3s;
+      object-fit: contain;
+    }
+    .brands-track img:hover {
+      filter: grayscale(0) brightness(1);
+      transform: scale(1.1);
+    }
+
+    /* ── SPONSORS ── */
+    #sponsors { background: var(--surface); }
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    .sponsor-box {
+      background: var(--surface2);
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+    }
+    .sponsor-box:hover { background: #161616; }
+    .sponsor-logo-placeholder {
+      width: 110px; height: 38px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--text2);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .sponsor-tier {
+      font-size: 0.68rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    /* ── VENUES ── */
+    #venues { background: var(--bg); }
+    .venues-scroll {
+      overflow-x: auto;
+      margin-top: 48px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+      padding-bottom: 8px;
+    }
+    .venues-scroll::-webkit-scrollbar { height: 3px; }
+    .venues-scroll::-webkit-scrollbar-track { background: transparent; }
+    .venues-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .venues-inner {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+    }
+    .venue-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 22px;
+      width: 190px;
+      flex-shrink: 0;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .venue-card:hover { border-color: rgba(99,102,241,0.4); transform: translateY(-4px); }
+    .venue-icon { font-size: 1.3rem; margin-bottom: 12px; }
+    .venue-name { font-size: 0.9rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 5px; }
+    .venue-city { font-size: 0.8rem; color: var(--text2); }
+
+    /* ── FAQ ── */
+    #faq { background: var(--surface); }
+    .faq-inner { max-width: 720px; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.975rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 22px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: color 0.3s;
+      letter-spacing: -0.01em;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s, border-color 0.3s, background 0.3s;
+      font-size: 0.65rem;
+      color: var(--text2);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); border-color: var(--accent); background: rgba(99,102,241,0.12); color: var(--accent); }
+    .faq-a { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
+    .faq-a-inner { padding: 0 0 22px; font-size: 0.9rem; color: var(--text2); line-height: 1.75; }
+
+    /* ── SOCIAL ── */
+    #social { background: var(--bg); text-align: center; }
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    .social-tile {
+      background: var(--surface2);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .social-tile-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(99,102,241,0.18);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent2);
+      font-weight: 600;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .social-tile:hover .social-tile-overlay { opacity: 1; }
+    .social-handles {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .social-handle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.3s;
+    }
+    .social-handle:hover { color: var(--accent); }
+    .social-handle-icon {
+      width: 36px; height: 36px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer { background: var(--surface); border-top: 1px solid var(--border); }
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 56px;
+      padding: 80px 60px 60px;
+    }
+    .footer-brand-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .footer-brand-name span { color: var(--accent); }
+    .footer-desc { font-size: 0.875rem; color: var(--text2); line-height: 1.7; margin-bottom: 28px; }
+    .footer-newsletter-form { display: flex; }
+    .footer-newsletter-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .footer-newsletter-input:focus { border-color: rgba(99,102,241,0.5); }
+    .footer-newsletter-input::placeholder { color: var(--text2); }
+    .footer-newsletter-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      padding: 10px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .footer-newsletter-btn:hover { opacity: 0.85; }
+    .footer-col-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: var(--text2); text-decoration: none; font-size: 0.875rem; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-contact-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+    .footer-contact-icon { font-size: 0.9rem; margin-top: 1px; flex-shrink: 0; }
+    .footer-contact-text { font-size: 0.875rem; color: var(--text2); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 22px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 0.8rem; color: var(--text2); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 0.8rem; color: var(--text2); text-decoration: none; transition: color 0.3s; }
+    .footer-legal a:hover { color: var(--text); }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed;
+      bottom: 100px; right: 28px;
+      width: 52px; height: 52px;
+      background: #25d366;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      z-index: 900;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
+
+    /* ── BACK TO TOP ── */
+    #back-to-top {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 52px; height: 52px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--text2);
+      cursor: pointer;
+      z-index: 900;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.3s, transform 0.3s, border-color 0.3s, color 0.3s;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── MOCKUP BANNER ── */
+    .mockup-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.96);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      padding: 10px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2000;
+    }
+    .mockup-banner-text { font-size: 0.8rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+    .mockup-banner-note { font-size: 0.75rem; color: var(--text2); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 16px 24px; }
+      header.scrolled { padding: 12px 24px; }
+      nav { display: none; }
+      section { padding: 70px 24px; }
+      .hero-headline { font-size: clamp(2.4rem, 11vw, 3.8rem); }
+      .expos-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .step-card:last-child { border-bottom: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
+      .blog-card.featured { grid-row: auto; }
+      .blog-card-img { min-height: 240px; }
+      .blog-card.featured .blog-card-img { min-height: 320px; }
+      .sponsors-grid { grid-template-columns: repeat(2, 1fr); }
+      .social-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-main { grid-template-columns: 1fr; gap: 36px; padding: 56px 24px 36px; }
+      .footer-bottom { flex-direction: column; gap: 12px; padding: 18px 24px; text-align: center; }
+      .mockup-banner { padding: 10px 24px; }
+      #brands .section-header { padding: 0 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-outline { text-align: center; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .social-handles { flex-direction: column; align-items: center; gap: 16px; }
+      .footer-legal { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Header -->
+  <header id="header">
+    <a class="logo" href="#">HOME<span>love</span></a>
+    <nav>
+      <a href="#expos">Exhibitions</a>
+      <a href="#brands">Exhibitors</a>
+      <a href="#trends">Trends</a>
+      <a href="#faq">About</a>
+      <a href="#expos" class="nav-cta">Register Free</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-dot-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow-top"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Malaysia's #1 Home &amp; Living Exhibition
+      </div>
+      <h1 class="hero-headline">Find Your<br><span class="accent">Dream Home</span><br>at Malaysia's Finest Expo</h1>
+      <p class="hero-sub">Discover premium home products, exclusive deals, and expert advice — all under one roof. Join 5 million visitors across 141+ exhibitions.</p>
+      <div class="hero-btns">
+        <a href="#expos" class="btn-primary">Explore Upcoming Expos</a>
+        <a href="#why-choose" class="btn-outline">View Highlights</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Marquee Strip -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>141+ Exhibitions</span><span class="dot">✦</span>
+      <span>6,173+ Exhibitors</span><span class="dot">✦</span>
+      <span>5 Million Visitors</span><span class="dot">✦</span>
+      <span>Est. Since 2015</span><span class="dot">✦</span>
+      <span>8 Locations Nationwide</span><span class="dot">✦</span>
+      <span>Free Entry</span><span class="dot">✦</span>
+      <span>Exclusive Expo Deals</span><span class="dot">✦</span>
+      <span>Premium Home Brands</span><span class="dot">✦</span>
+      <!-- duplicate for loop -->
+      <span>141+ Exhibitions</span><span class="dot">✦</span>
+      <span>6,173+ Exhibitors</span><span class="dot">✦</span>
+      <span>5 Million Visitors</span><span class="dot">✦</span>
+      <span>Est. Since 2015</span><span class="dot">✦</span>
+      <span>8 Locations Nationwide</span><span class="dot">✦</span>
+      <span>Free Entry</span><span class="dot">✦</span>
+      <span>Exclusive Expo Deals</span><span class="dot">✦</span>
+      <span>Premium Home Brands</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- Upcoming Expos -->
+  <section id="expos">
+    <div class="section-header reveal">
+      <div class="section-label">What's On</div>
+      <h2 class="section-title">Upcoming Exhibitions</h2>
+      <p class="section-sub">Step into Malaysia's most anticipated home &amp; living events — showcasing hundreds of brands under one roof.</p>
+    </div>
+    <div class="expos-grid">
+      <div class="expo-card reveal reveal-delay-1">
+        <div class="expo-card-img">
+          <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching 2026" loading="lazy"/>
+        </div>
+        <div class="expo-card-body">
+          <div class="expo-tag">Upcoming</div>
+          <div class="expo-card-title">HOMElove Kuching 2026</div>
+          <div class="expo-meta"><strong>Venue:</strong> BCCK, Kuching, Sarawak</div>
+          <div class="expo-meta"><strong>Date:</strong> 2 – 5 April 2026</div>
+          <div class="expo-meta"><strong>Hours:</strong> 10am – 10pm Daily</div>
+          <a href="#" class="expo-link">Register Free →</a>
+        </div>
+      </div>
+      <div class="expo-card reveal reveal-delay-2">
+        <div class="expo-card-img">
+          <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan 2026" loading="lazy"/>
+        </div>
+        <div class="expo-card-body">
+          <div class="expo-tag">Upcoming</div>
+          <div class="expo-card-title">HOMElove Kuantan 2026</div>
+          <div class="expo-meta"><strong>Venue:</strong> SASICC, Kuantan, Pahang</div>
+          <div class="expo-meta"><strong>Date:</strong> 9 – 12 April 2026</div>
+          <div class="expo-meta"><strong>Hours:</strong> 10am – 10pm Daily</div>
+          <a href="#" class="expo-link">Register Free →</a>
+        </div>
+      </div>
+      <div class="expo-card reveal reveal-delay-3">
+        <div class="expo-card-img">
+          <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg" alt="HOMElove Miri 2026" loading="lazy"/>
+        </div>
+        <div class="expo-card-body">
+          <div class="expo-tag">Upcoming</div>
+          <div class="expo-card-title">HOMElove Miri 2026</div>
+          <div class="expo-meta"><strong>Venue:</strong> Boulevard Mall, Miri, Sarawak</div>
+          <div class="expo-meta"><strong>Date:</strong> 30 April – 3 May 2026</div>
+          <div class="expo-meta"><strong>Hours:</strong> 10am – 10pm Daily</div>
+          <a href="#" class="expo-link">Register Free →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Shop -->
+  <section id="how-to-shop">
+    <div class="section-header reveal">
+      <div class="section-label">Process</div>
+      <h2 class="section-title">How to Shop with HOMElove</h2>
+      <p class="section-sub">Three simple steps to finding everything you need for your dream home.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num">01</div>
+        <div class="step-icon">🗓</div>
+        <div class="step-title">Register &amp; Plan Your Visit</div>
+        <div class="step-desc">Sign up free online and receive your visitor pass. Browse the exhibitor directory and shortlist the brands you want to visit for maximum efficiency.</div>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-num">02</div>
+        <div class="step-icon">🏠</div>
+        <div class="step-title">Explore &amp; Compare</div>
+        <div class="step-desc">Walk through hundreds of booths showcasing furniture, appliances, décor, renovation services, and smart home tech — all under one roof.</div>
+      </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-num">03</div>
+        <div class="step-icon">🛒</div>
+        <div class="step-title">Secure Exclusive Deals</div>
+        <div class="step-desc">Grab expo-only pricing, bundle packages, and freebies you won't find anywhere else. Deals are negotiable direct with exhibitors on the spot.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose -->
+  <section id="why-choose">
+    <div class="section-header reveal">
+      <div class="section-label">By the Numbers</div>
+      <h2 class="section-title">Why 5 Million Visitors Choose HOMElove</h2>
+      <p class="section-sub" style="margin:0 auto;">Malaysia's most trusted home &amp; living exhibition platform, growing every year since 2015.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box reveal reveal-delay-1">
+        <div class="stat-num" data-target="141" data-suffix="+">0</div>
+        <div class="stat-label">Exhibitions Held</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-2">
+        <div class="stat-num" data-target="6173" data-suffix="+">0</div>
+        <div class="stat-label">Total Exhibitors</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-3">
+        <div class="stat-num" data-target="5" data-suffix="M+">0</div>
+        <div class="stat-label">Visitors Nationwide</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-4">
+        <div class="stat-num" data-target="2015" data-suffix="">0</div>
+        <div class="stat-label">Est. Since</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-5">
+        <div class="stat-num" data-target="8" data-suffix="">0</div>
+        <div class="stat-label">Locations Across Malaysia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to Expect -->
+  <section id="what-to-expect">
+    <div class="section-header reveal">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">What to Expect at HOMElove</h2>
+      <p class="section-sub">From first-time homeowners to seasoned interior enthusiasts — there's something for everyone.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🛋</span>
+        <div class="feature-title">Furniture &amp; Interior Design</div>
+        <div class="feature-desc">Explore hundreds of furniture brands and interior solutions — from minimalist Scandinavian to contemporary tropical Malaysian styles.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">Smart Home &amp; Appliances</div>
+        <div class="feature-desc">Discover the latest in smart home technology, energy-efficient appliances, and automation systems for modern living.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🪟</span>
+        <div class="feature-title">Renovation &amp; Build</div>
+        <div class="feature-desc">Meet trusted contractors, architects, and material suppliers. Get quotes and plan your renovation project on the spot.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🌿</span>
+        <div class="feature-title">Lifestyle &amp; Décor</div>
+        <div class="feature-desc">From plants and art to kitchenware and lighting — find curated lifestyle products that complete every room in your home.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">💡</span>
+        <div class="feature-title">Expert Talks &amp; Demos</div>
+        <div class="feature-desc">Attend free seminars and live demonstrations by industry professionals on topics from interior trends to property investment.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🏷</span>
+        <div class="feature-title">Expo-Only Deals</div>
+        <div class="feature-desc">Exclusive pricing, free gifts, and bundle packages negotiated directly with exhibitors — deals you simply won't find online.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Trends -->
+  <section id="trends">
+    <div class="section-header reveal">
+      <div class="section-label">Inspiration</div>
+      <h2 class="section-title">Latest Trends &amp; Ideas</h2>
+      <p class="section-sub">Stay ahead with curated home design content from our editorial team.</p>
+    </div>
+    <div class="blog-grid reveal">
+      <div class="blog-card featured">
+        <div class="blog-card-img">
+          <img src="https://homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen Renovation" loading="lazy"/>
+        </div>
+        <div class="blog-card-overlay">
+          <div class="blog-tag">Kitchen</div>
+          <div class="blog-title">10 Kitchen Renovation Ideas That Will Transform Your Home in 2026</div>
+          <div class="blog-meta">February 2025 · 5 min read</div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa Guide" loading="lazy"/>
+        </div>
+        <div class="blog-card-overlay">
+          <div class="blog-tag">Living Room</div>
+          <div class="blog-title">How to Choose the Perfect Sofa for Your Living Space</div>
+          <div class="blog-meta">February 2022 · 4 min read</div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/modern-bathroom-interior-design-white-wall-3d-rendering.jpg" alt="Bathroom Design" loading="lazy"/>
+        </div>
+        <div class="blog-card-overlay">
+          <div class="blog-tag">Bathroom</div>
+          <div class="blog-title">Modern Bathroom Design: White &amp; Minimalist Interiors</div>
+          <div class="blog-meta">February 2022 · 3 min read</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands Marquee -->
+  <section id="brands">
+    <div class="section-header reveal">
+      <div class="section-label">Brands</div>
+      <h2 class="section-title">Participating Brands</h2>
+      <p class="section-sub">Trusted by Malaysia's leading home &amp; living labels.</p>
+    </div>
+    <div class="brands-marquee">
+      <div class="brands-track">
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/zarossa%20logo-01.png" alt="Zarossa"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/Vees%20Logo-03.png" alt="Vees"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/spring%20air_2022-01.png" alt="Spring Air"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/Schlaf%20New%20Logo-01.png" alt="Schlaf"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/room%20place-01.png" alt="Room Place"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/rock%20master-01.png" alt="Rock Master"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/zarossa%20logo-01.png" alt="Zarossa"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/Vees%20Logo-03.png" alt="Vees"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/spring%20air_2022-01.png" alt="Spring Air"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/Schlaf%20New%20Logo-01.png" alt="Schlaf"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/room%20place-01.png" alt="Room Place"/>
+        <img src="https://homelove.com.my/sites/default/files/styles/logo/public/node/exhibitor/image/2023-04/rock%20master-01.png" alt="Rock Master"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors -->
+  <section id="sponsors">
+    <div class="section-header reveal">
+      <div class="section-label">Sponsors &amp; Partners</div>
+      <h2 class="section-title">Proud Sponsors &amp; Partners</h2>
+      <p class="section-sub">Building great homes together with Malaysia's most trusted institutional partners.</p>
+    </div>
+    <div class="sponsors-grid">
+      <div class="sponsor-box reveal reveal-delay-1">
+        <div class="sponsor-logo-placeholder">MAYBANK</div>
+        <div class="sponsor-tier">Official Banking Partner</div>
+      </div>
+      <div class="sponsor-box reveal reveal-delay-2">
+        <div class="sponsor-logo-placeholder">TOUCH 'N GO</div>
+        <div class="sponsor-tier">Digital Payment Partner</div>
+      </div>
+      <div class="sponsor-box reveal reveal-delay-3">
+        <div class="sponsor-logo-placeholder">ASTRO</div>
+        <div class="sponsor-tier">Official Media Partner</div>
+      </div>
+      <div class="sponsor-box reveal reveal-delay-4">
+        <div class="sponsor-logo-placeholder">NAPIC</div>
+        <div class="sponsor-tier">Official Data Partner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Venue Partners -->
+  <section id="venues">
+    <div class="section-header reveal">
+      <div class="section-label">Locations</div>
+      <h2 class="section-title">Our Venue Partners</h2>
+      <p class="section-sub">Eight world-class venues across Malaysia hosting HOMElove year-round.</p>
+    </div>
+    <div class="venues-scroll reveal">
+      <div class="venues-inner">
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">Sunway Pyramid</div>
+          <div class="venue-city">Shah Alam, Selangor</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">Mid Valley</div>
+          <div class="venue-city">Kuala Lumpur</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">Setia SPICE</div>
+          <div class="venue-city">Penang</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">BCCK</div>
+          <div class="venue-city">Kuching, Sarawak</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">SASICC</div>
+          <div class="venue-city">Kuantan, Pahang</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">Boulevard Mall</div>
+          <div class="venue-city">Miri, Sarawak</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">SICC</div>
+          <div class="venue-city">Kota Kinabalu, Sabah</div>
+        </div>
+        <div class="venue-card">
+          <div class="venue-icon">🏢</div>
+          <div class="venue-name">iOi Grand</div>
+          <div class="venue-city">Putrajaya</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-header reveal">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-inner">
+      <div class="faq-item">
+        <button class="faq-q">What is HOMElove? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">HOMElove is Malaysia's premier home &amp; living exhibition, bringing together hundreds of brands across furniture, appliances, renovation, décor, and lifestyle — all under one roof. We've hosted 141+ exhibitions since 2015.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is entry free? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes! Entry to all HOMElove exhibitions is completely free. Simply register online to receive your visitor pass and get early access to exhibitor announcements and special promotions.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What can I find at a HOMElove expo? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">You'll find a comprehensive selection — furniture, kitchen appliances, flooring, lighting, smart home technology, bathroom fittings, renovation contractors, interior designers, and much more across hundreds of exhibitor booths.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">When is the next expo? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Coming up: HOMElove Kuching at BCCK (2–5 April 2026), HOMElove Kuantan at SASICC (9–12 April 2026), and HOMElove Miri at Boulevard Mall (30 April – 3 May 2026).</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How can I exhibit at HOMElove? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Brands can submit an inquiry through our Exhibit With Us page or contact us at +603-7620 2672 or info@homelove.com.my. Our team will respond within 2 business days with package details and pricing.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Are deals only available at the expo? <span class="faq-chevron">▾</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Most expo deals are exclusively available on-site during the event. Exhibitors offer their best pricing, bundles, and free installation packages only at the physical exhibition — it pays to visit in person!</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social -->
+  <section id="social">
+    <div class="section-header reveal">
+      <div class="section-label">Social Media</div>
+      <h2 class="section-title">Follow the Journey</h2>
+      <p class="section-sub" style="margin:0 auto;">Get inspired daily with real home transformations, expo highlights, and design tips from our community.</p>
+    </div>
+    <div class="social-grid reveal">
+      <div class="social-tile">📸<div class="social-tile-overlay">@homeloveexpo</div></div>
+      <div class="social-tile">🏠<div class="social-tile-overlay">Dream Homes</div></div>
+      <div class="social-tile">✨<div class="social-tile-overlay">Daily Inspo</div></div>
+      <div class="social-tile">🎉<div class="social-tile-overlay">Expo Moments</div></div>
+    </div>
+    <div class="social-handles">
+      <a href="https://instagram.com/homeloveexpo" class="social-handle" target="_blank">
+        <div class="social-handle-icon">📸</div>
+        <span>@homeloveexpo</span>
+      </a>
+      <a href="https://facebook.com/homeloveexpo" class="social-handle" target="_blank">
+        <div class="social-handle-icon">👍</div>
+        <span>/homeloveexpo</span>
+      </a>
+      <a href="https://wa.me/60102323620" class="social-handle" target="_blank">
+        <div class="social-handle-icon">💬</div>
+        <span>+6010-232 3620</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand-name">HOME<span>love</span></div>
+        <p class="footer-desc">Malaysia's premier home &amp; living exhibition platform since 2015. Connecting homeowners with the best brands, ideas, and exclusive deals across the nation.</p>
+        <div class="footer-newsletter-form">
+          <input type="email" class="footer-newsletter-input" placeholder="your@email.com"/>
+          <button class="footer-newsletter-btn">Subscribe</button>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Exhibitions</div>
+        <ul class="footer-links">
+          <li><a href="#">Upcoming Expos</a></li>
+          <li><a href="#">Past Events</a></li>
+          <li><a href="#">Kuala Lumpur</a></li>
+          <li><a href="#">Penang</a></li>
+          <li><a href="#">East Malaysia</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Exhibit With Us</a></li>
+          <li><a href="#">Trends &amp; Ideas</a></li>
+          <li><a href="#">Visiting Guide</a></li>
+          <li><a href="#">Home Checklist</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">📞</div>
+          <div class="footer-contact-text">+603-7620 2672</div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">✉</div>
+          <div class="footer-contact-text">info@homelove.com.my</div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">💬</div>
+          <div class="footer-contact-text">wa.me/60102323620</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HOMElove Malaysia. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a class="wa-float" href="https://wa.me/60102323620" target="_blank" title="Chat on WhatsApp">💬</a>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- Mockup Banner -->
+  <div class="mockup-banner">
+    <div class="mockup-banner-text">✦ Design Sample 5 — Bold Modern</div>
+    <div class="mockup-banner-note">Design mockup for client review · Not a live site</div>
+  </div>
+
+  <script>
+    // ── Scroll Progress
+    const progress = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total > 0) progress.style.width = (scrolled / total * 100) + '%';
+    }, { passive: true });
+
+    // ── Header morph
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Back to top
+    const btt = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+
+    // ── Parallax hero dot grid
+    const dotGrid = document.querySelector('.hero-dot-grid');
+    window.addEventListener('scroll', () => {
+      if (dotGrid) dotGrid.style.transform = 'translateY(' + (window.scrollY * 0.15) + 'px)';
+    }, { passive: true });
+
+    // ── IntersectionObserver reveals
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // ── Count-up stats
+    function animateCount(el) {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const steps = 60;
+      const increment = target / steps;
+      let current = 0;
+      let count = 0;
+      const timer = setInterval(() => {
+        count++;
+        current = Math.min(current + increment, target);
+        const display = target > 999 ? Math.floor(current).toLocaleString() : Math.floor(current);
+        el.textContent = display + suffix;
+        if (count >= steps) clearInterval(timer);
+      }, duration / steps);
+    }
+    const statsObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('[data-target]').forEach(n => {
+            if (!n.dataset.counted) { n.dataset.counted = '1'; animateCount(n); }
+          });
+        }
+      });
+    }, { threshold: 0.25 });
+    const sg = document.querySelector('.stats-grid');
+    if (sg) statsObs.observe(sg);
+
+    // ── FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-a');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-a').style.maxHeight = '0';
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ── Image fade-in on load
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('load', () => img.classList.add('loaded'));
+      if (img.complete && img.naturalWidth > 0) img.classList.add('loaded');
+    });
+
+    // ── Venue drag scroll
+    const vs = document.querySelector('.venues-scroll');
+    if (vs) {
+      let isDown = false, startX, sl;
+      vs.addEventListener('mousedown', e => { isDown = true; vs.style.cursor = 'grabbing'; startX = e.pageX - vs.offsetLeft; sl = vs.scrollLeft; });
+      vs.addEventListener('mouseleave', () => { isDown = false; vs.style.cursor = 'grab'; });
+      vs.addEventListener('mouseup', () => { isDown = false; vs.style.cursor = 'grab'; });
+      vs.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); vs.scrollLeft = sl - (e.pageX - vs.offsetLeft - startX) * 1.5; });
+    }
+  </script>
+</body>
+</html>

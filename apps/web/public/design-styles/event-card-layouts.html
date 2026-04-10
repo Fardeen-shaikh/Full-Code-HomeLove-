@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMElove — Event Preview Card Layout Options</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #014B98;
+            --primary-light: #144A95;
+            --secondary: #CB1510;
+            --orange: #E08103;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --card-radius: 14px;
+        }
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; color: var(--dark); }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; text-align: center; padding: 50px 24px 40px;
+        }
+        .page-header h1 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; margin-bottom: 8px; }
+        .page-header p { font-size: 0.9rem; opacity: 0.75; max-width: 500px; margin: 0 auto; }
+
+        .layout-option {
+            max-width: 480px; margin: 36px auto; background: white;
+            border-radius: 18px; overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            border: 2px solid transparent;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        .layout-option:hover { border-color: var(--primary); box-shadow: 0 8px 32px rgba(1,75,152,0.12); transform: translateY(-2px); }
+
+        .layout-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px; border-bottom: 1px solid #eef1f5;
+        }
+        .layout-header h2 { font-size: 1rem; font-weight: 700; }
+        .layout-badge {
+            background: var(--primary); color: white; padding: 4px 12px;
+            border-radius: 50px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+        }
+        .layout-body { padding: 20px; }
+
+        /* Shared event card styles */
+        .event-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-radius: var(--card-radius); overflow: hidden;
+        }
+        .event-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+
+        .date-badge {
+            background: var(--secondary); color: white; padding: 5px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .view-all {
+            display: block; text-align: center; margin-top: 16px; padding: 10px;
+            font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none;
+            border-radius: 10px; transition: background 0.2s;
+        }
+        .view-all:hover { background: #f0f4f8; }
+
+        .event-title { font-size: 13.5px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+        .event-venue { font-size: 10.5px; color: #888; }
+
+        .page-footer { text-align: center; padding: 30px 24px; font-size: 0.75rem; color: #999; }
+
+        @media (max-width: 520px) {
+            .layout-option { margin: 20px 12px; }
+            .layout-body { padding: 14px; }
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white !important; }
+            .page-header {
+                background: #014B98 !important; color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                padding: 20px 24px !important;
+            }
+            .page-header h1 { font-size: 1.2rem !important; margin-bottom: 4px !important; }
+            .page-header p { font-size: 0.75rem !important; }
+            .layout-option {
+                break-inside: avoid; page-break-inside: avoid;
+                margin: 10px auto !important;
+                border: 1.5px solid #ddd !important;
+                box-shadow: none !important;
+                max-width: 420px !important;
+                transform: none !important;
+            }
+            .layout-body { padding: 10px !important; }
+            .layout-header { padding: 8px 14px !important; }
+            .layout-header h2 { font-size: 0.85rem !important; }
+            .layout-header, .layout-badge, .date-badge, .date-block, .event-card,
+            div[style*="background"], img {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .event-card { transform: none !important; box-shadow: none !important; }
+            .page-footer { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>Event Preview Card — Layout Options</h1>
+    <p>Please select your preferred layout for the event preview cards on the homepage.</p>
+</div>
+
+<!-- OPTION A: Thumbnail + Text + Date Badge -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Option A — Thumbnail Style</h2>
+        <span class="layout-badge">OPTION A</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;flex-direction:column;gap:0;">
+            <!-- Event 1 -->
+            <div class="event-card" style="display:flex;align-items:center;gap:14px;padding:12px;border-bottom:1px solid #eef1f5;border-radius:0;">
+                <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching"
+                     style="width:110px;height:65px;object-fit:contain;border-radius:10px;flex-shrink:0;background:#f0f4f8;">
+                <div style="flex:1;min-width:0;">
+                    <h4 class="event-title">HOMElove Kuching</h4>
+                    <p class="event-venue">BCCK, Sarawak</p>
+                </div>
+                <div class="date-badge">APR 2–5</div>
+            </div>
+            <!-- Event 2 -->
+            <div class="event-card" style="display:flex;align-items:center;gap:14px;padding:12px;border-bottom:1px solid #eef1f5;border-radius:0;">
+                <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan"
+                     style="width:110px;height:65px;object-fit:contain;border-radius:10px;flex-shrink:0;background:#f0f4f8;">
+                <div style="flex:1;min-width:0;">
+                    <h4 class="event-title">HOMElove Kuantan</h4>
+                    <p class="event-venue">SASICC, Pahang</p>
+                </div>
+                <div class="date-badge">APR 9–12</div>
+            </div>
+            <!-- Event 3 -->
+            <div class="event-card" style="display:flex;align-items:center;gap:14px;padding:12px;border-radius:0;">
+                <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2002.jpg" alt="HOMElove Penang"
+                     style="width:110px;height:65px;object-fit:contain;border-radius:10px;flex-shrink:0;background:#f0f4f8;">
+                <div style="flex:1;min-width:0;">
+                    <h4 class="event-title">HOMElove Penang</h4>
+                    <p class="event-venue">SPICE, Penang</p>
+                </div>
+                <div class="date-badge">30 Jul – 2 Aug</div>
+            </div>
+        </div>
+        <a href="#" class="view-all">View All Exhibitions &rarr;</a>
+    </div>
+</div>
+
+<!-- OPTION B: Split Card — Text left, Image right -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Option B — Split Card</h2>
+        <span class="layout-badge">OPTION B</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Event 1 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Kuching</h4>
+                    <p class="event-venue" style="margin-bottom:6px;">BCCK, Sarawak</p>
+                    <div class="date-badge" style="display:inline-block;width:fit-content;padding:3px 10px;font-size:11px;">APR 2–5</div>
+                </div>
+                <div style="width:150px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+            <!-- Event 2 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Kuantan</h4>
+                    <p class="event-venue" style="margin-bottom:6px;">SASICC, Pahang</p>
+                    <div class="date-badge" style="display:inline-block;width:fit-content;padding:3px 10px;font-size:11px;">APR 9–12</div>
+                </div>
+                <div style="width:150px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+            <!-- Event 3 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Penang</h4>
+                    <p class="event-venue" style="margin-bottom:6px;">SPICE, Penang</p>
+                    <div class="date-badge" style="display:inline-block;width:fit-content;padding:3px 10px;font-size:11px;">30 Jul – 2 Aug</div>
+                </div>
+                <div style="width:150px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2002.jpg" alt="HOMElove Penang"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+        </div>
+        <a href="#" class="view-all">View All Exhibitions &rarr;</a>
+    </div>
+</div>
+
+<!-- OPTION C: Full Image + Info Bar -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Option C — Full Image + Info Bar</h2>
+        <span class="layout-badge">OPTION C</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            <!-- Event 1 -->
+            <div class="event-card" style="border:1px solid #eaeef3;">
+                <div style="height:70px;overflow:hidden;position:relative;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching"
+                         style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;">
+                    <div class="date-badge" style="position:absolute;top:8px;right:8px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">APR 2–5</div>
+                </div>
+                <div style="padding:10px 14px;background:white;">
+                    <h4 class="event-title">HOMElove Kuching</h4>
+                    <p class="event-venue">BCCK, Sarawak</p>
+                </div>
+            </div>
+            <!-- Event 2 -->
+            <div class="event-card" style="border:1px solid #eaeef3;">
+                <div style="height:70px;overflow:hidden;position:relative;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan"
+                         style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;">
+                    <div class="date-badge" style="position:absolute;top:8px;right:8px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">APR 9–12</div>
+                </div>
+                <div style="padding:10px 14px;background:white;">
+                    <h4 class="event-title">HOMElove Kuantan</h4>
+                    <p class="event-venue">SASICC, Pahang</p>
+                </div>
+            </div>
+            <!-- Event 3 -->
+            <div class="event-card" style="border:1px solid #eaeef3;">
+                <div style="height:70px;overflow:hidden;position:relative;background:#f0f4f8;display:flex;align-items:center;justify-content:center;">
+                    <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2002.jpg" alt="HOMElove Penang"
+                         style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;">
+                    <div class="date-badge" style="position:absolute;top:8px;right:8px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">30 Jul – 2 Aug</div>
+                </div>
+                <div style="padding:10px 14px;background:white;">
+                    <h4 class="event-title">HOMElove Penang</h4>
+                    <p class="event-venue">SPICE, Penang</p>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="view-all">View All Exhibitions &rarr;</a>
+    </div>
+</div>
+
+<!-- OPTION D: Image Background + Brand Overlay -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Option D — Image Background + Overlay</h2>
+        <span class="layout-badge">OPTION D</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Event 1 -->
+            <div class="event-card" style="position:relative;height:85px;">
+                <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt=""
+                     style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;position:absolute;inset:0;border-radius:var(--card-radius);">
+                <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,75,152,0.90) 0%,rgba(1,75,152,0.65) 50%,rgba(1,75,152,0.40) 100%);border-radius:var(--card-radius);"></div>
+                <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;height:100%;color:white;">
+                    <div>
+                        <h4 style="font-size:14px;font-weight:700;margin-bottom:2px;">HOMElove Kuching</h4>
+                        <p style="font-size:10.5px;opacity:0.85;">BCCK, Sarawak</p>
+                    </div>
+                    <div class="date-badge" style="box-shadow:0 2px 8px rgba(0,0,0,0.2);">APR 2–5</div>
+                </div>
+            </div>
+            <!-- Event 2 -->
+            <div class="event-card" style="position:relative;height:85px;">
+                <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt=""
+                     style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;position:absolute;inset:0;border-radius:var(--card-radius);">
+                <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,75,152,0.90) 0%,rgba(1,75,152,0.65) 50%,rgba(1,75,152,0.40) 100%);border-radius:var(--card-radius);"></div>
+                <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;height:100%;color:white;">
+                    <div>
+                        <h4 style="font-size:14px;font-weight:700;margin-bottom:2px;">HOMElove Kuantan</h4>
+                        <p style="font-size:10.5px;opacity:0.85;">SASICC, Pahang</p>
+                    </div>
+                    <div class="date-badge" style="box-shadow:0 2px 8px rgba(0,0,0,0.2);">APR 9–12</div>
+                </div>
+            </div>
+            <!-- Event 3 -->
+            <div class="event-card" style="position:relative;height:85px;">
+                <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2002.jpg" alt=""
+                     style="width:100%;height:100%;object-fit:contain;background:#f0f4f8;position:absolute;inset:0;border-radius:var(--card-radius);">
+                <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,75,152,0.90) 0%,rgba(1,75,152,0.65) 50%,rgba(1,75,152,0.40) 100%);border-radius:var(--card-radius);"></div>
+                <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;height:100%;color:white;">
+                    <div>
+                        <h4 style="font-size:14px;font-weight:700;margin-bottom:2px;">HOMElove Penang</h4>
+                        <p style="font-size:10.5px;opacity:0.85;">SPICE, Penang</p>
+                    </div>
+                    <div class="date-badge" style="box-shadow:0 2px 8px rgba(0,0,0,0.2);">30 Jul – 2 Aug</div>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="view-all" style="color:white;background:rgba(1,75,152,0.08);color:var(--primary);">View All Exhibitions &rarr;</a>
+    </div>
+</div>
+
+<!-- OPTION E: Date Block + Text + Image -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Option E — Date Block Style</h2>
+        <span class="layout-badge">OPTION E</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Event 1 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div class="date-block" style="background:var(--secondary);color:white;width:70px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;border-radius:var(--card-radius) 0 0 var(--card-radius);">
+                    <span style="font-size:9px;font-weight:600;text-transform:uppercase;opacity:0.85;letter-spacing:0.5px;">APR</span>
+                    <span style="font-size:24px;font-weight:800;line-height:1.1;">2–5</span>
+                </div>
+                <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Kuching</h4>
+                    <p class="event-venue">BCCK, Sarawak</p>
+                </div>
+                <div style="width:110px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;border-radius:0 var(--card-radius) var(--card-radius) 0;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+            <!-- Event 2 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div class="date-block" style="background:var(--secondary);color:white;width:70px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;border-radius:var(--card-radius) 0 0 var(--card-radius);">
+                    <span style="font-size:9px;font-weight:600;text-transform:uppercase;opacity:0.85;letter-spacing:0.5px;">APR</span>
+                    <span style="font-size:24px;font-weight:800;line-height:1.1;">9–12</span>
+                </div>
+                <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Kuantan</h4>
+                    <p class="event-venue">SASICC, Pahang</p>
+                </div>
+                <div style="width:110px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;border-radius:0 var(--card-radius) var(--card-radius) 0;">
+                    <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+            <!-- Event 3 -->
+            <div class="event-card" style="display:flex;border:1px solid #eaeef3;height:85px;">
+                <div class="date-block" style="background:var(--secondary);color:white;width:70px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;border-radius:var(--card-radius) 0 0 var(--card-radius);">
+                    <span style="font-size:8px;font-weight:600;text-transform:uppercase;opacity:0.85;letter-spacing:0.5px;">JUL–AUG</span>
+                    <span style="font-size:20px;font-weight:800;line-height:1.1;">30–2</span>
+                </div>
+                <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                    <h4 class="event-title">HOMElove Penang</h4>
+                    <p class="event-venue">SPICE, Penang</p>
+                </div>
+                <div style="width:110px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;border-radius:0 var(--card-radius) var(--card-radius) 0;">
+                    <img src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2002.jpg" alt="HOMElove Penang"
+                         style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            </div>
+        </div>
+        <a href="#" class="view-all">View All Exhibitions &rarr;</a>
+    </div>
+</div>
+
+<div class="page-footer">
+    <p>HOMElove Website Design 2026 &middot; Please select your preferred event card layout</p>
+    <p style="margin-top:8px;font-size:0.7rem;color:#bbb;">Note: Final version will use actual venue photos provided by the client.</p>
+</div>
+
+</body>
+</html>

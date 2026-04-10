@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMElove — Home Tips Section Layout Options</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #014B98;
+            --primary-light: #144A95;
+            --secondary: #CB1510;
+            --orange: #E08103;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --gray-light: #F3F4F6;
+        }
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; color: var(--dark); }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; text-align: center; padding: 60px 24px 50px;
+        }
+        .page-header h1 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 10px; }
+        .page-header p { font-size: 0.95rem; opacity: 0.75; max-width: 540px; margin: 0 auto; }
+
+        /* Layout option wrapper */
+        .layout-option {
+            max-width: 1200px; margin: 40px auto; background: white;
+            border-radius: 20px; overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .layout-option:hover { border-color: var(--primary); box-shadow: 0 8px 40px rgba(1,75,152,0.12); }
+
+        .layout-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 28px; border-bottom: 1px solid #f0f0f0;
+        }
+        .layout-header h2 { font-size: 1.1rem; font-weight: 700; }
+        .layout-badge {
+            background: var(--primary); color: white; padding: 5px 14px;
+            border-radius: 50px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+        }
+        .layout-body { padding: 28px; }
+
+        /* Shared blog card styles */
+        .blog-card {
+            background: white; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
+        .blog-category {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .blog-meta { font-size: 0.75rem; color: #999; margin-top: 8px; }
+
+        /* Footer */
+        .page-footer {
+            text-align: center; padding: 40px 24px; font-size: 0.78rem; color: #999;
+        }
+
+        /* Mobile — scale down layouts to show desktop preview */
+        @media (max-width: 768px) {
+            .page-header { padding: 30px 16px 24px; }
+            .page-header h1 { font-size: 1.3rem; }
+            .page-header p { font-size: 0.78rem; }
+            .layout-option { margin: 14px 10px; border-radius: 12px; }
+            .layout-body {
+                padding: 10px;
+                transform: scale(0.65);
+                transform-origin: top left;
+                width: 153.8%; /* 1/0.65 = 153.8% to compensate for scale */
+                margin-bottom: -35%; /* compensate for empty space from scale */
+            }
+            .layout-header { padding: 10px 14px; }
+            .layout-header h2 { font-size: 0.85rem; }
+            .layout-badge { font-size: 0.55rem; padding: 3px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="page-header">
+    <h1>Home Tips — Layout Options</h1>
+    <p>Please select your preferred layout for the Home Tips section. All options use the same content and brand colors.</p>
+</div>
+
+<!-- LAYOUT 1: 3 Equal Cards -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Layout A — 3 Equal Cards</h2>
+        <span class="layout-badge">CURRENT</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="small-card-grid">
+            <div class="blog-card">
+                <div style="height:180px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:18px;">
+                    <div class="blog-category">Kitchen</div>
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Guide to Buying the Best Kitchen Sinks in Malaysia</h3>
+                    <p style="font-size:0.82rem;color:#888;line-height:1.5;">Everything you need to know about choosing the perfect sink.</p>
+                    <div class="blog-meta">5 min read • Feb 2026</div>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div style="height:180px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:18px;">
+                    <div class="blog-category">Living Room</div>
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Sofa vs Couch: What's the Difference?</h3>
+                    <p style="font-size:0.82rem;color:#888;line-height:1.5;">Understanding the key differences to make the right choice.</p>
+                    <div class="blog-meta">4 min read • Feb 2026</div>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div style="height:180px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/Home-Tips-%28-Eco-friendly-bathroom%2902.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:18px;">
+                    <div class="blog-category">Bathroom</div>
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Home Decor Ideas for 2026</h3>
+                    <p style="font-size:0.82rem;color:#888;line-height:1.5;">Top trends and styling tips to transform your space.</p>
+                    <div class="blog-meta">6 min read • Jan 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT 2: Magazine Style -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Layout B — Magazine Style</h2>
+        <span class="layout-badge">NEW</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="magazine-grid">
+            <div class="blog-card" style="grid-row:1/3;">
+                <div style="height:300px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/Home-Tips-%28-Eco-friendly-bathroom%2902.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:20px;">
+                    <div class="blog-category">Bathroom</div>
+                    <h3 style="font-size:1.25rem;margin-bottom:8px;">Modern Bathroom Interior Design Guide 2026</h3>
+                    <p style="font-size:0.85rem;color:#888;line-height:1.6;">Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures and intelligent shower systems.</p>
+                    <a href="#" style="display:inline-block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--primary);text-decoration:none;">READ MORE →</a>
+                </div>
+            </div>
+            <div class="blog-card" style="display:grid;grid-template-columns:160px 1fr;overflow:hidden;">
+                <div style="overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;min-height:150px;"></div>
+                <div style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                    <div class="blog-category">Kitchen</div>
+                    <h3 style="font-size:1rem;margin-bottom:4px;">Kitchen Sinks: Ceramic or Stainless Steel?</h3>
+                    <p style="font-size:0.78rem;color:#888;">Pros and cons to help you pick the perfect sink.</p>
+                </div>
+            </div>
+            <div class="blog-card" style="display:grid;grid-template-columns:160px 1fr;overflow:hidden;">
+                <div style="overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa" style="width:100%;height:100%;object-fit:cover;min-height:150px;"></div>
+                <div style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                    <div class="blog-category">Living Room</div>
+                    <h3 style="font-size:1rem;margin-bottom:4px;">Fabric Sofa vs Leather: Which Is Right?</h3>
+                    <p style="font-size:0.78rem;color:#888;">Everything to consider before this investment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT 3: Bento Grid -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Layout C — Bento Grid</h2>
+        <span class="layout-badge">NEW</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:auto auto;gap:20px;" class="bento-grid">
+            <div class="blog-card" style="grid-row:1/3;position:relative;border-radius:20px;overflow:hidden;min-height:400px;">
+                <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/Home-Tips-%28-Eco-friendly-bathroom%2902.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.05) 60%);"></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:28px;color:white;">
+                    <span style="background:var(--secondary);color:white;padding:4px 12px;border-radius:50px;font-size:0.68rem;font-weight:700;text-transform:uppercase;">Bathroom</span>
+                    <h3 style="font-size:1.35rem;font-weight:700;margin:10px 0 6px;line-height:1.3;">Modern Bathroom Interior Design Guide 2026</h3>
+                    <p style="font-size:0.82rem;opacity:0.8;">Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div style="height:140px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:14px;">
+                    <div class="blog-category">Kitchen</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:4px;">Kitchen Sinks: Ceramic or Stainless Steel?</h3>
+                    <p style="font-size:0.75rem;color:#888;">Pros and cons for your kitchen.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div style="height:140px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:14px;">
+                    <div class="blog-category">Living Room</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:4px;">Fabric Sofa vs Leather: Which Is Right?</h3>
+                    <p style="font-size:0.75rem;color:#888;">Everything to consider before this investment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT 4: Featured Hero -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Layout D — Featured Hero</h2>
+        <span class="layout-badge">NEW</span>
+    </div>
+    <div class="layout-body">
+        <div style="position:relative;border-radius:20px;overflow:hidden;margin-bottom:20px;height:340px;" class="hero-featured">
+            <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/Home-Tips-%28-Eco-friendly-bathroom%2902.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.15) 60%);"></div>
+            <div style="position:absolute;top:50%;left:0;transform:translateY(-50%);padding:36px;max-width:480px;color:white;" class="hero-featured-content">
+                <span style="background:var(--secondary);color:white;padding:5px 14px;border-radius:50px;font-size:0.7rem;font-weight:700;">FEATURED</span>
+                <h3 style="font-size:1.5rem;font-weight:800;margin:12px 0 8px;line-height:1.25;">Modern Bathroom Interior Design Guide 2026</h3>
+                <p style="font-size:0.88rem;opacity:0.85;line-height:1.6;">Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.</p>
+                <a href="#" style="display:inline-block;margin-top:14px;padding:9px 22px;background:white;color:var(--dark);border-radius:8px;text-decoration:none;font-size:0.82rem;font-weight:700;">Read Article →</a>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="hero-cards-grid">
+            <div class="blog-card">
+                <div style="height:160px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:16px;">
+                    <div class="blog-category">Kitchen</div>
+                    <h3 style="font-size:1rem;margin-bottom:4px;">Kitchen Sinks: Ceramic or Stainless Steel?</h3>
+                    <p style="font-size:0.78rem;color:#888;">Pros and cons for your kitchen.</p>
+                    <div class="blog-meta">5 min read • Feb 2026</div>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div style="height:160px;overflow:hidden;"><img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="padding:16px;">
+                    <div class="blog-category">Living Room</div>
+                    <h3 style="font-size:1rem;margin-bottom:4px;">Fabric Sofa vs Leather: Which Is Right?</h3>
+                    <p style="font-size:0.78rem;color:#888;">Everything to consider before this investment.</p>
+                    <div class="blog-meta">4 min read • Feb 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT 5: Card Slider -->
+<div class="layout-option">
+    <div class="layout-header">
+        <h2>Layout E — Horizontal Scroll</h2>
+        <span class="layout-badge">NEW</span>
+    </div>
+    <div class="layout-body">
+        <div style="display:flex;gap:20px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;" class="slider-cards">
+            <div class="blog-card" style="min-width:300px;max-width:320px;flex-shrink:0;scroll-snap-align:start;">
+                <div style="height:180px;overflow:hidden;position:relative;">
+                    <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/Home-Tips-%28-Eco-friendly-bathroom%2902.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;">
+                    <span style="position:absolute;top:10px;left:10px;background:var(--secondary);color:white;padding:3px 10px;border-radius:50px;font-size:0.65rem;font-weight:700;">Bathroom</span>
+                </div>
+                <div style="padding:16px;">
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Modern Bathroom Interior Design Guide 2026</h3>
+                    <p style="font-size:0.78rem;color:#888;line-height:1.5;">Explore the defining bathroom trends.</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                        <span class="blog-meta" style="margin:0;">6 min read</span>
+                        <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-card" style="min-width:300px;max-width:320px;flex-shrink:0;scroll-snap-align:start;">
+                <div style="height:180px;overflow:hidden;position:relative;">
+                    <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;">
+                    <span style="position:absolute;top:10px;left:10px;background:var(--secondary);color:white;padding:3px 10px;border-radius:50px;font-size:0.65rem;font-weight:700;">Kitchen</span>
+                </div>
+                <div style="padding:16px;">
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Kitchen Sinks: Ceramic or Stainless Steel?</h3>
+                    <p style="font-size:0.78rem;color:#888;line-height:1.5;">Pros and cons for your kitchen.</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                        <span class="blog-meta" style="margin:0;">5 min read</span>
+                        <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-card" style="min-width:300px;max-width:320px;flex-shrink:0;scroll-snap-align:start;">
+                <div style="height:180px;overflow:hidden;position:relative;">
+                    <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Sofa" style="width:100%;height:100%;object-fit:cover;">
+                    <span style="position:absolute;top:10px;left:10px;background:var(--secondary);color:white;padding:3px 10px;border-radius:50px;font-size:0.65rem;font-weight:700;">Living Room</span>
+                </div>
+                <div style="padding:16px;">
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Fabric Sofa vs Leather: Which Is Right?</h3>
+                    <p style="font-size:0.78rem;color:#888;line-height:1.5;">Everything to consider before this investment.</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                        <span class="blog-meta" style="margin:0;">4 min read</span>
+                        <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-card" style="min-width:300px;max-width:320px;flex-shrink:0;scroll-snap-align:start;">
+                <div style="height:180px;overflow:hidden;position:relative;">
+                    <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2021-10/HOMEtips_GrenerKitchen_01.png" alt="Green Kitchen" style="width:100%;height:100%;object-fit:cover;">
+                    <span style="position:absolute;top:10px;left:10px;background:var(--secondary);color:white;padding:3px 10px;border-radius:50px;font-size:0.65rem;font-weight:700;">Kitchen</span>
+                </div>
+                <div style="padding:16px;">
+                    <h3 style="font-size:1rem;margin-bottom:6px;">Tips for a Greener Kitchen</h3>
+                    <p style="font-size:0.78rem;color:#888;line-height:1.5;">Simple changes for an eco-friendly kitchen.</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                        <span class="blog-meta" style="margin:0;">3 min read</span>
+                        <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>.slider-cards::-webkit-scrollbar{display:none;}.slider-cards{scrollbar-width:none;}</style>
+        <div style="text-align:center;margin-top:16px;"><a href="#" style="font-size:0.85rem;font-weight:700;color:var(--primary);text-decoration:none;">View All Articles →</a></div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+    <p>HOMElove Website Design 2026 · Please select your preferred layout and let us know</p>
+</div>
+
+</body>
+</html>

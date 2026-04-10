@@ -1,0 +1,3844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMElove - Wireframe Homepage (Client Branding)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #014B98;
+            --primary-light: #144A95;
+            --secondary: #CB1510;
+            --accent: #FFF100;
+            --orange: #E08103;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --gray-light: #F3F4F6;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 5px var(--orange), 0 0 10px var(--orange); }
+            50% { box-shadow: 0 0 20px var(--orange), 0 0 30px var(--orange); }
+        }
+
+        /* Focus states for accessibility */
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 3px solid var(--orange);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Skip to content */
+        .skip-link {
+            position: absolute; top: -100px; left: 16px; z-index: 10000;
+            background: var(--primary); color: white; padding: 12px 24px;
+            border-radius: 8px; font-weight: 600; text-decoration: none;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 16px; }
+
+        /* Mobile hamburger */
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            flex-direction: column; gap: 5px; padding: 8px; z-index: 200;
+        }
+        .mobile-menu-btn span {
+            display: block; width: 24px; height: 2.5px; background: var(--primary);
+            border-radius: 2px; transition: all 0.3s;
+        }
+        .mobile-menu-overlay {
+            display: none; position: fixed; inset: 0; z-index: 150;
+            background: white; padding: 80px 24px 24px;
+            flex-direction: column; gap: 8px; overflow-y: auto;
+        }
+        .mobile-menu-overlay.open { display: flex !important; }
+        .mobile-menu-overlay a {
+            font-size: 1.1rem; font-weight: 600; color: var(--dark);
+            text-decoration: none; padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+        }
+        .mobile-menu-overlay a:hover { color: var(--primary); }
+        .mobile-close-btn {
+            position: absolute; top: 20px; right: 20px; background: none;
+            border: none; font-size: 1.6rem; cursor: pointer; color: var(--dark); padding: 8px;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-top {
+            background: var(--primary);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-main {
+            padding: 16px 0;
+        }
+
+        .header-main .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--secondary);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(23, 41, 121, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #D97706;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(1, 75, 152, 0.92) 0%, rgba(20, 74, 149, 0.88) 100%), url('https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 130px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease forwards;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 span {
+            color: var(--orange);
+            position: relative;
+        }
+
+        .hero h1 span::after {
+            display: none;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 36px;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .hero-image {
+            animation: fadeInRight 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            max-width: 560px;
+            margin-top: 40px;
+            color: var(--dark);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-card:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .hero-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .hero-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .live-badge {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #DC2626;
+            border-radius: 50%;
+        }
+
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .event-list > div { padding: 4px !important; }
+        .event-list h4 { font-size: 16px !important; margin-bottom: 4px !important; }
+        .event-list p { font-size: 13px !important; }
+        .event-list div[style*="border-radius:6px"] { font-size: 13px !important; padding: 6px 12px !important; }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--gray-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .event-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .event-item:hover .event-date {
+            background: white;
+            color: var(--primary);
+        }
+
+        .event-item:hover .event-info p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .event-date {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            min-width: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .event-date .day {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .event-date .month {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .event-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .event-info p {
+            font-size: 13px;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+
+        /* Stats Section - Modern Design */
+        .stats {
+            background: linear-gradient(135deg, var(--primary) 0%, #1E3A8A 50%, #0f2557 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .stats::after {
+            content: '';
+            position: absolute;
+            bottom: -25%;
+            left: -8%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 65%);
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+
+        .stats .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 70px;
+            color: white;
+        }
+
+        .stats-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: 1.5px;
+            line-height: 1.4;
+            word-spacing: 4px;
+        }
+
+        .stats-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 17px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.4);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-suffix {
+            font-size: 24px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.92);
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .stats-tagline {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            display: inline-block;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stats-tagline-wrapper {
+            text-align: center;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--gray-light);
+            padding: 100px 0;
+        }
+
+        .about .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(23, 41, 121, 0.3), transparent);
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        .about-content p {
+            color: var(--gray);
+            font-size: 16px;
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        .about-list {
+            list-style: none;
+        }
+
+        .about-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .about-list li::before {
+            content: '✓';
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Section Common */
+        .section {
+            padding: 70px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(23, 41, 121, 0.1);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        /* Border chase hover effect for headings */
+        .chase-border {
+            display: inline-block;
+            position: relative;
+            padding: 12px 32px;
+            cursor: default;
+        }
+        .chase-border::before,
+        .chase-border::after,
+        .chase-border span::before,
+        .chase-border span::after {
+            content: '';
+            position: absolute;
+            background: var(--primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Top line */
+        .chase-border::before {
+            top: 0; left: 0; width: 0; height: 2px;
+        }
+        /* Right line */
+        .chase-border::after {
+            top: 0; right: 0; width: 2px; height: 0;
+        }
+        /* Bottom line */
+        .chase-border span::before {
+            bottom: 0; right: 0; width: 0; height: 2px;
+        }
+        /* Left line */
+        .chase-border span::after {
+            bottom: 0; left: 0; width: 2px; height: 0;
+        }
+        .chase-border:hover::before {
+            width: 100%;
+            transition-delay: 0s;
+        }
+        .chase-border:hover::after {
+            height: 100%;
+            transition-delay: 0.15s;
+        }
+        .chase-border:hover span::before {
+            width: 100%;
+            transition-delay: 0.3s;
+        }
+        .chase-border:hover span::after {
+            height: 100%;
+            transition-delay: 0.45s;
+        }
+
+        .section-header p {
+            font-size: 17px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Exhibitions */
+        .exhibitions {
+            background: var(--white);
+        }
+
+        .exhibitions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .exhibition-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .exhibition-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .exhibition-card:hover::before {
+            opacity: 1;
+        }
+
+        .exhibition-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .exhibition-image {
+            overflow: hidden;
+            position: relative;
+            background: #f0f4f8;
+            height: 220px;
+        }
+
+        .exhibition-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .exhibition-card:hover .exhibition-image img {
+            transform: scale(1.03);
+        }
+
+        .exhibition-image::after {
+            display: none;
+        }
+
+        .exhibition-content {
+            padding: 24px;
+        }
+
+        .exhibition-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .exhibition-meta span {
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            background: var(--gray-light);
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .exhibition-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .exhibition-content p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .exhibition-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exhibition-date {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Swipe hint — hidden on desktop, visible on mobile via media query */
+        .swipe-hint { display: none; }
+
+        /* App Section */
+        .app-section {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FBBF24 100%);
+            padding: 70px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .app-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-content h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .app-content p {
+            font-size: 17px;
+            color: var(--dark);
+            margin-bottom: 36px;
+            opacity: 0.8;
+        }
+
+        .app-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .app-feature {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .app-feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .app-feature:hover .app-feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(23, 41, 121, 0.3);
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .app-button {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            border: 1px solid rgba(255,255,255,0.08);
+            perspective: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .app-button:hover::before {
+            left: 100%;
+        }
+
+        .app-button:hover {
+            transform: translateY(-6px) rotateX(5deg) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(1,75,152,0.2);
+            border-color: rgba(255,255,255,0.15);
+            background: linear-gradient(145deg, #1a1a2e, #0a1628);
+        }
+
+        .app-button:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .app-button-icon {
+            font-size: 28px;
+        }
+
+        .app-button-text {
+            text-align: left;
+        }
+
+        .app-button-text small {
+            font-size: 11px;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .app-button-text span {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Mobile phone preview — hidden on desktop */
+        .app-phone-preview {
+            display: none;
+        }
+
+        .app-mockup {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+            background: linear-gradient(180deg, #1F2937, #111827);
+            border-radius: 44px;
+            padding: 14px;
+            box-shadow: var(--shadow-lg), 0 30px 60px rgba(0,0,0,0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .phone-screen {
+            background: white;
+            border-radius: 34px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .phone-header {
+            background: var(--primary);
+            color: white;
+            padding: 44px 24px 24px;
+            text-align: center;
+        }
+
+        .phone-logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 18px;
+            margin: 0 auto 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .phone-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .phone-header h4 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .phone-content {
+            padding: 24px;
+        }
+
+        .phone-search {
+            background: var(--gray-light);
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .phone-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .phone-menu-item {
+            text-align: center;
+            padding: 18px 10px;
+            background: var(--gray-light);
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .phone-menu-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .phone-menu-icon {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .phone-menu-item span {
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        .phone-menu-item:hover span {
+            color: white;
+        }
+
+        /* What to Expect */
+        .expect-section { background: var(--gray-light); padding: 50px 0 40px; }
+        .expect-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;
+        }
+        .expect-card {
+            background: linear-gradient(145deg,#ffffff,#f8faff); border-radius: 18px; padding: 36px 28px;
+            text-align: center; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            border: 1px solid #e8eef5; box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+        .expect-card:hover {
+            transform: translateY(-6px); box-shadow: 0 14px 36px rgba(1,75,152,0.12);
+            border-color: var(--primary);
+        }
+        .expect-icon {
+            width: auto; height: auto; border-radius: 0; background: none !important;
+            display: block; text-align: center;
+            margin: 0 auto 16px; font-size: 36px;
+        }
+        .expect-card h4 { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+        .expect-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            .expect-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+        }
+        @media (max-width: 480px) {
+            .expect-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .expect-card { padding: 20px 16px !important; }
+            .expect-card h4 { font-size: 14px !important; height: 40px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+            .expect-card p { font-size: 11px !important; }
+            .expect-icon { font-size: 28px !important; width: auto !important; height: auto !important; }
+        }
+
+        /* 3 Steps Process */
+        .steps-section { background: var(--primary); padding: 70px 0; color: white; }
+        .steps-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+            margin-top: 48px; position: relative;
+        }
+        .steps-row::before {
+            content: ''; position: absolute; top: 32px;
+            left: calc(16.67% + 24px); right: calc(16.67% + 24px);
+            height: 2px; border-top: 2.5px dashed rgba(255,255,255,0.2);
+        }
+        .step-card { text-align: center; position: relative; z-index: 1; }
+        .step-num {
+            width: 64px; height: 64px; border-radius: 50%;
+            background: var(--primary); color: white;
+            font-size: 1.4rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(1,75,152,0.4);
+        }
+        .step-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: white; }
+        .step-card p { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+        @media (max-width: 768px) {
+            /* 3 Steps — mobile timeline layout */
+            .steps-section { background: var(--primary) !important; padding: 30px 0 !important; }
+            .steps-section div[style*="text-align:center"] h2 { font-size: 23px !important; line-height: 1.3 !important; margin-bottom: 6px !important; }
+            .steps-section div[style*="text-align:center"] p { font-size: 13px !important; }
+            .steps-row {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                margin-top: 24px !important;
+                position: relative !important;
+                padding-left: 44px !important;
+            }
+            /* Vertical connecting line */
+            .steps-row::before {
+                content: '' !important;
+                position: absolute !important;
+                left: 20px !important;
+                top: 32px !important;
+                bottom: 32px !important;
+                width: 2px !important;
+                height: auto !important;
+                border-top: none !important;
+                border-left: 2px dashed rgba(255,255,255,0.25) !important;
+            }
+            .step-card {
+                display: flex !important;
+                align-items: flex-start !important;
+                text-align: left !important;
+                position: relative !important;
+                padding: 0 0 28px 24px !important;
+            }
+            .step-card:last-child { padding-bottom: 0 !important; }
+            .step-num {
+                position: absolute !important;
+                left: -44px !important;
+                top: 0 !important;
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background: var(--orange) !important;
+                color: white !important;
+                font-size: 16px !important;
+                font-weight: 800 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: 0 4px 14px rgba(224,129,3,0.4) !important;
+                z-index: 2 !important;
+            }
+            .step-num::after { content: '' !important; }
+            .step-card h4 {
+                display: block !important;
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                margin-bottom: 10px !important;
+                color: white !important;
+            }
+            .step-card p {
+                font-size: 13px !important;
+                line-height: 1.9 !important;
+                margin-top: 0 !important;
+                color: rgba(255,255,255,0.7) !important;
+            }
+            /* Wrap h4 and p in a text block */
+            .step-card { flex-direction: column !important; }
+            .steps-section div[style*="text-align:center;margin-top:40px"] { margin-top: 20px !important; }
+            .steps-section div[style*="text-align:center;margin-top:40px"] a { padding: 10px 24px !important; font-size: 13px !important; }
+        }
+
+        /* Scrolling Marquee */
+        .marquee-section {
+            background: #03396c;
+            padding: 14px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .marquee-track {
+            display: flex;
+            animation: marqueeScroll 25s linear infinite;
+            width: max-content;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+        }
+        .marquee-item::after {
+            content: '·';
+            font-size: 18px;
+            color: var(--orange);
+        }
+
+        /* Brands — Infinite Scrolling Marquee */
+        .brands {
+            background: white;
+            padding: 40px 0 30px;
+            overflow: hidden;
+        }
+        .brands .section-header {
+            margin-bottom: 20px;
+        }
+
+        .brands-marquee-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        .brands-marquee-wrapper::before,
+        .brands-marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 80px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .brands-marquee-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+        .brands-marquee-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
+        }
+
+        .brands-track {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            animation: brandsScroll 30s linear infinite;
+            width: max-content;
+            padding: 0 20px;
+            margin-bottom: 16px;
+        }
+        .brands-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes brandsScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .brand-logo {
+            height: 60px;
+            width: auto;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .brand-logo:hover {
+            transform: scale(1.15);
+        }
+
+        /* Blog */
+        .blog {
+            background: var(--gray-light);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .blog-image {
+            height: 200px;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            overflow: hidden;
+            position: relative;
+        }
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .blog-card:hover .blog-image img {
+            transform: scale(1.08);
+        }
+
+        .blog-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+
+        .blog-content {
+            padding: 28px;
+        }
+
+        .blog-category {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .blog-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            transition: color 0.3s;
+        }
+
+        .blog-card:hover .blog-content h3 {
+            color: var(--primary);
+        }
+
+        .blog-content p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .blog-meta {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: white;
+            padding: 70px 0;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .faq-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--gray-light);
+        }
+
+        .faq-question::before {
+            content: '▶';
+            font-size: 12px;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::before {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 24px 20px;
+            max-height: 200px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .faq-answer p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* FAQ view all — hidden on desktop */
+        .faq-view-all { display: none; }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            padding: 70px 0 70px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            margin: 20px 0 28px;
+            line-height: 1.8;
+        }
+
+        .footer h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.88);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .footer-bottom-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .footer-bottom-right span {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+        }
+        .footer-bottom-right img {
+            height: 36px;
+            width: auto;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+            filter: brightness(0) invert(1);
+        }
+        .footer-bottom-right img:hover { opacity: 1; }
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .footer-social a:hover {
+            transform: translateY(-5px) scale(1.1);
+            color: white;
+            border-color: transparent;
+        }
+        .footer-social a svg {
+            width: 18px;
+            height: 18px;
+        }
+        /* Brand colors on hover */
+        .footer-social a.social-fb:hover { background: #1877F2; box-shadow: 0 6px 20px rgba(24,119,242,0.5); }
+        .footer-social a.social-ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 6px 20px rgba(225,48,108,0.5); }
+        .footer-social a.social-tt:hover { background: #000000; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+        .footer-social a.social-yt:hover { background: #FF0000; box-shadow: 0 6px 20px rgba(255,0,0,0.5); }
+        .footer-social a.social-xhs:hover { background: #FF2442; box-shadow: 0 6px 20px rgba(255,36,66,0.5); }
+        .footer-contact {
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.8;
+        }
+        .footer-contact a {
+            color: rgba(255,255,255,0.88);
+            text-decoration: none;
+        }
+        .footer-contact a:hover { color: white; }
+        .footer-brands-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .footer-brands-row img {
+            height: 36px;
+            width: auto;
+            opacity: 0.6;
+            filter: brightness(0) invert(1);
+            transition: opacity 0.3s;
+        }
+        .footer-brands-row img:hover { opacity: 1; }
+        @media (max-width: 640px) {
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom-right { justify-content: center; flex-wrap: wrap; }
+            .footer-social { justify-content: center; }
+            .footer-brands-row { justify-content: center; flex-wrap: wrap; }
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .nav { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .header-actions .btn-outline { display: none; }
+            .hero .container { grid-template-columns: 1fr; text-align: center; gap: 16px !important; }
+            .hero-image { display: block; }
+            .hero-buttons { justify-content: center; }
+            /* Stats — compact 2x2 grid on mobile */
+            .stats { padding: 40px 0 !important; }
+            .stats-header { margin-bottom: 24px !important; }
+            .stats-header h2 { font-size: 26px !important; margin-bottom: 8px !important; line-height: 1.4 !important; }
+            .stats-header p { font-size: 12px !important; margin-bottom: 0 !important; line-height: 1.6 !important; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+            .stat-card { padding: 24px 16px !important; }
+            .stat-icon { width: 52px !important; height: 52px !important; font-size: 24px !important; margin-bottom: 14px !important; }
+            .stat-number { font-size: 22px !important; }
+            .stat-label { font-size: 15px !important; }
+            .about .container { grid-template-columns: 1fr; }
+            .about-image { order: -1; }
+            .exhibitions-grid { grid-template-columns: repeat(2, 1fr); }
+            .app-section { padding: 20px 0 !important; }
+            .app-section::before { display: none; }
+            .app-section .container { display: block !important; text-align: center; }
+            .app-section .container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center;
+                gap: 0 !important;
+            }
+            /* Flatten app-content so children participate in container's flex order */
+            .app-content {
+                display: contents !important;
+            }
+            .app-content h2 { font-size: 22px !important; margin-bottom: 4px !important; order: 1 !important; }
+            .app-content p { font-size: 13px !important; margin-bottom: 0 !important; order: 2 !important; padding: 0 16px !important; line-height: 1.5 !important; }
+            /* Hide plain feature list on mobile */
+            .app-features { display: none !important; }
+            /* Hide custom phone preview */
+            .app-phone-preview { display: none !important; }
+            /* Show phone mockup between text and buttons */
+            .app-mockup {
+                display: flex !important;
+                justify-content: center !important;
+                order: 3 !important;
+                margin: 12px 0 0 !important;
+            }
+            /* Hide desktop phone content, show mobile features inside phone */
+            .phone-search { display: none !important; }
+            .phone-menu { display: none !important; }
+            .phone-features-mobile {
+                display: flex !important;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .phone-features-mobile .phone-feat {
+                background: var(--gray-light);
+                border-radius: 10px;
+                padding: 10px 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .phone-feat-icon {
+                font-size: 18px;
+                flex-shrink: 0;
+                width: 24px;
+                text-align: center;
+            }
+            .phone-feat span {
+                font-size: 11px;
+                font-weight: 600;
+                color: var(--dark);
+                line-height: 1.3;
+                text-align: left;
+            }
+            /* Buttons below phone */
+            .app-buttons {
+                order: 4 !important;
+                margin-top: 24px !important;
+            }
+            .phone-frame {
+                width: 280px !important;
+                height: 500px !important;
+                border-radius: 36px !important;
+                padding: 10px !important;
+                animation: none !important;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
+            }
+            .phone-screen {
+                border-radius: 26px !important;
+            }
+            .phone-header {
+                padding: 28px 16px 16px !important;
+            }
+            .phone-logo {
+                width: 120px !important;
+                height: 120px !important;
+                border-radius: 26px !important;
+                margin: 0 auto 12px !important;
+                padding: 4px !important;
+            }
+            .phone-header h4 {
+                font-size: 14px !important;
+            }
+            .phone-content {
+                padding: 14px !important;
+            }
+            .phone-search {
+                padding: 10px 12px !important;
+                font-size: 11px !important;
+                margin-bottom: 14px !important;
+                border-radius: 10px !important;
+            }
+            .phone-menu {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px !important;
+            }
+            .phone-menu-item {
+                padding: 12px 6px !important;
+                border-radius: 10px !important;
+            }
+            .phone-menu-icon {
+                font-size: 20px !important;
+                margin-bottom: 4px !important;
+            }
+            .phone-menu-item span {
+                font-size: 9px !important;
+            }
+            .app-buttons { flex-direction: row !important; justify-content: center; gap: 10px !important; }
+            .app-buttons .app-button { padding: 10px 16px !important; gap: 10px !important; }
+            .app-buttons .app-button svg { width: 22px !important; height: 22px !important; }
+            .app-buttons .app-button .app-button-text small { font-size: 11px !important; }
+            .app-buttons .app-button .app-button-text span { font-size: 13px !important; }
+            .footer-grid { grid-template-columns: 1fr 1fr !important; }
+            .brands-grid { flex-wrap: wrap !important; gap: 16px; }
+            .brand-item { width: 140px; height: 70px; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-image { margin-top: 16px; }
+            .hero-card { max-width: 100%; padding: 14px !important; margin-top: 0 !important; margin-bottom: 22px !important; }
+            .hero-card h3 { font-size: 15px !important; }
+            .event-list { gap: 6px !important; }
+            .event-item { padding: 6px !important; }
+            .header-main .container { padding: 0 16px; }
+            .header-actions { gap: 8px; }
+            .header-actions .btn-primary { padding: 8px 14px; font-size: 12px; }
+            .hero { padding: 110px 0 10px; }
+            .hero h1 { font-size: 34px; line-height: 1.4; font-weight: 800; margin-bottom: 18px; }
+            .hero p { font-size: 13px; padding: 0 8px; line-height: 1.7; margin-bottom: 20px; }
+            .hero-badge { font-size: 12px; padding: 6px 14px; margin-bottom: 20px; }
+            .hero-buttons { margin-top: 20px; }
+            /* Logo bigger on mobile */
+            .header-main .logo img { height: 50px !important; }
+            .hero-buttons a { padding: 12px 24px; font-size: 14px; }
+            .container { padding: 0 16px !important; }
+            .section { padding: 50px 0; }
+            .expect-section { padding: 30px 0 !important; }
+            .expect-section .section-header { margin-bottom: 16px !important; }
+            .expect-section .section-header h2 { font-size: 26px !important; font-weight: 800 !important; }
+            .expect-section .section-header p { font-size: 13px !important; }
+            .expect-grid { margin-top: 16px !important; }
+            .section-header h2 { font-size: 26px; }
+            /* Exhibitions — single card carousel on mobile */
+            .exhibitions-grid {
+                display: flex !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 16px !important;
+                padding: 0 16px 16px !important;
+                scrollbar-width: none;
+            }
+            .exhibitions-grid::-webkit-scrollbar { display: none; }
+            .exhibitions-grid .exhibition-card {
+                min-width: calc(100vw - 64px) !important;
+                max-width: calc(100vw - 64px) !important;
+                flex-shrink: 0 !important;
+                scroll-snap-align: center;
+                overflow: hidden !important;
+            }
+            .swipe-hint { display: none !important; }
+            .carousel-dots { display: flex !important; }
+            .exhibitions-grid .exhibition-image img {
+                object-fit: contain !important;
+                background: #f0f4f8;
+            }
+            /* Exhibitions — bigger title, smaller desc */
+            .exhibitions { padding: 30px 0 !important; }
+            .exhibitions .section-header { margin-bottom: 12px !important; }
+            .exhibitions .section-header h2 { font-size: 24px !important; margin-bottom: 4px !important; }
+            .exhibitions .section-header p { font-size: 12px !important; }
+            .exhibition-image { height: 160px !important; }
+            .exhibition-content { padding: 14px !important; }
+            .exhibition-content h3 { font-size: 16px !important; margin-bottom: 4px !important; }
+            .exhibition-content p { font-size: 12px !important; margin-bottom: 8px !important; }
+            .exhibition-meta span { font-size: 11px !important; padding: 3px 10px !important; }
+            .exhibition-footer { margin-top: 8px !important; }
+            .exhibition-date { font-size: 13px !important; }
+            .exhibition-footer .btn { padding: 8px 14px !important; font-size: 12px !important; }
+            .exhibitions div[style*="text-align:center;margin-top:36px"] { margin-top: 12px !important; }
+            .exhibitions div[style*="text-align:center;margin-top:36px"] a { padding: 10px 24px !important; font-size: 13px !important; }
+            /* Blog section — bigger title on mobile */
+            .blog .section-header h2 { font-size: 26px !important; }
+            /* Blog — stacked vertical on mobile */
+            /* Blog — horizontal swipe carousel on mobile */
+            .blog-magazine {
+                display: flex !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 16px !important;
+                padding: 0 16px 16px !important;
+                scrollbar-width: none;
+            }
+            .blog-magazine::-webkit-scrollbar { display: none; }
+            .blog-magazine > div:first-child { grid-row: auto !important; }
+            .blog-magazine .blog-card {
+                min-width: calc(100vw - 64px) !important;
+                max-width: calc(100vw - 64px) !important;
+                flex-shrink: 0 !important;
+                scroll-snap-align: center;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .blog-magazine .blog-card[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+            .blog-magazine div[style*="height:280px"] { height: 180px !important; }
+            .blog-magazine div[style*="height:180px"] { height: 180px !important; }
+            .blog-magazine img {
+                object-fit: cover !important;
+                height: 180px !important;
+                width: 100% !important;
+            }
+            .blog-magazine .blog-content {
+                padding: 16px !important;
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .blog-magazine .blog-content h3 {
+                font-size: 1rem !important;
+                margin-bottom: 6px !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
+            }
+            .blog-magazine .blog-content p {
+                font-size: 0.8rem !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 3 !important;
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
+                flex: 1 !important;
+            }
+            .blog-magazine .blog-content a {
+                margin-top: 8px !important;
+            }
+            .blog-dots { display: flex !important; }
+            .section-header[style*="display:flex"] { flex-direction: column !important; }
+            .section-header[style*="display:flex"] a { align-self: flex-start; }
+            .brands-grid { gap: 12px; flex-wrap: wrap !important; }
+            .brand-item { width: 120px; height: 60px; padding: 10px; }
+            .footer { padding: 30px 0 80px !important; }
+            .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; margin-bottom: 16px !important; }
+            /* Logo row — compact, centered */
+            .footer-brand { grid-column: 1 / -1; text-align: center; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 4px; }
+            .footer-brand p { display: none !important; }
+            .footer-brand .footer-social { margin-top: 10px; }
+            /* Quick Links & Contact side by side */
+            .footer h4 { margin-bottom: 8px !important; font-size: 12px !important; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
+            .footer-links li { margin-bottom: 4px !important; }
+            .footer-links a { font-size: 12px !important; }
+            /* Follow Us & CTA — merge into brand row */
+            .footer-grid > div:nth-child(4) { grid-column: 1 / -1; text-align: center; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.15); }
+            .footer-grid > div:nth-child(4) h4 { display: none !important; }
+            .footer-social { justify-content: center; gap: 10px !important; }
+            .footer-social a { width: 36px !important; height: 36px !important; }
+            .footer-social svg { width: 16px !important; height: 16px !important; }
+            /* Bottom bar */
+            .footer-bottom { flex-direction: column; text-align: center; gap: 8px; font-size: 11px !important; }
+            .footer-bottom-right {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 10px !important;
+            }
+            .footer-bottom-right span {
+                width: 100% !important;
+                text-align: center !important;
+                margin-bottom: 2px !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                color: rgba(255,255,255,0.8) !important;
+            }
+            .footer-bottom-right img.aff-logo { height: 30px !important; }
+            .footer-bottom-right img.aff-logo:last-of-type { height: 32px !important; }
+            .footer-bottom p { font-size: 11px !important; }
+            .footer-bottom a { font-size: 11px !important; }
+            /* Affiliated logos smaller */
+            .affiliated-logos { gap: 10px !important; }
+            .affiliated-logos img { height: 28px !important; }
+            .nl-title { white-space: normal !important; font-size: 1.6rem !important; }
+            #newsletter form { padding: 20px !important; }
+            #newsletter form div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+            .floating-btns { right: 16px; bottom: 16px; gap: 8px; }
+            .chat-btn { padding: 10px 16px; font-size: 12px; }
+            .back-to-top { width: 42px; height: 42px; font-size: 8px; }
+            .about-list li { font-size: 13px; }
+            .stats-tagline { font-size: 12px; padding: 8px 16px; }
+            /* App section already compacted via 1024px rules */
+            .faq { padding: 40px 0 !important; }
+            .faq-header { margin-bottom: 20px !important; }
+            .faq-header h2 { font-size: 26px !important; }
+            .faq-item { margin-bottom: 8px !important; border-radius: 8px !important; }
+            .faq-question { padding: 12px 14px; font-size: 13px; gap: 10px; }
+            .faq-answer { padding: 0 14px 12px; font-size: 12px; }
+            /* Show only first 3 FAQs on mobile */
+            .faq-extra { display: none; }
+            .faq-view-all { display: block !important; }
+            /* Map section — disable scale, fix overflow */
+            .map-container { animation: none !important; }
+            .map-container > div { transform: scale(1) !important; }
+            /* Brands marquee — tighter gap on mobile */
+            .brands-track { gap: 30px !important; animation-duration: 25s !important; }
+            .brand-logo { height: 50px !important; }
+            .brands-marquee-wrapper::before,
+            .brands-marquee-wrapper::after { width: 30px !important; }
+            /* Event card — side-by-side, images fit properly */
+            .event-list > div { border-radius: 10px !important; }
+            .event-list div[style*="width:200px"],
+            .event-list div[style*="width:180px"],
+            .event-list div[style*="width:150px"] {
+                width: 130px !important;
+                height: 90px !important;
+            }
+            .event-list div[style*="width:200px"],
+            .event-list div[style*="width:180px"],
+            .event-list div[style*="width:150px"] {
+                background: #eef2f7 !important;
+                border-radius: 8px !important;
+                overflow: hidden !important;
+            }
+            .event-list div[style*="width:200px"] img,
+            .event-list div[style*="width:180px"] img,
+            .event-list div[style*="width:150px"] img {
+                object-fit: contain !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+            .event-list h4 { font-size: 12px !important; }
+            .event-list p { font-size: 9px !important; }
+            .event-list div[style*="border-radius:6px"] { font-size: 10px !important; padding: 3px 6px !important; }
+            /* Swipe hint for carousels */
+            .swipe-hint {
+                display: block !important;
+                text-align: center;
+                font-size: 12px;
+                color: var(--gray);
+                margin-top: 8px;
+                opacity: 0.6;
+            }
+            .swipe-hint::before { content: '← '; }
+            .swipe-hint::after { content: ' →'; }
+            /* Ensure no horizontal overflow */
+            body { overflow-x: hidden; }
+        }
+
+        @media (max-width: 640px) {
+            .header-top { display: none; }
+            .hero { padding: 100px 0 10px; }
+            .hero h1 { font-size: 34px !important; font-weight: 800; line-height: 1.4 !important; margin-bottom: 20px !important; }
+            .hero p { font-size: 13px !important; line-height: 1.7 !important; margin-bottom: 20px !important; }
+            .hero-badge { margin-bottom: 20px; }
+            .stat-card { padding: 20px 14px !important; border-radius: 12px; }
+            .stat-icon { width: 46px !important; height: 46px !important; font-size: 22px !important; margin-bottom: 12px !important; }
+            .stat-number { font-size: 20px !important; }
+            .stat-label { font-size: 14px !important; }
+            .event-item { flex-direction: row !important; align-items: center !important; }
+            .event-item img { width: 56px !important; height: 56px !important; }
+            .event-info h4 { font-size: 13px !important; }
+            .event-info p { font-size: 11px !important; }
+            .event-item div[style*="background:var(--secondary)"] { font-size: 10px !important; padding: 4px 8px !important; }
+            /* Event card — compact on smaller phones */
+            .event-list div[style*="width:200px"],
+            .event-list div[style*="width:180px"],
+            .event-list div[style*="width:150px"] { width: 140px !important; }
+            .event-list div[style*="width:200px"] img,
+            .event-list div[style*="width:180px"] img,
+            .event-list div[style*="width:150px"] img { object-fit: contain !important; }
+            .event-list > div > div:last-child { padding: 10px 12px !important; }
+            .event-list h4 { font-size: 13px !important; text-align: left !important; }
+            .event-list p { font-size: 10px !important; line-height: 1.3 !important; margin-bottom: 4px !important; text-align: left !important; }
+            .event-list > div > div:last-child { text-align: left !important; }
+            .event-list div[style*="border-radius:6px"] { font-size: 10px !important; padding: 3px 8px !important; }
+            .event-list { gap: 8px !important; }
+            /* Expect grid — keep 2-col on small phones for less scroll */
+            .expect-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+            /* Brands — even smaller */
+            .brands-track { gap: 15px !important; animation-duration: 25s !important; }
+            .brand-logo { height: 40px !important; }
+            /* Floating buttons — smaller */
+            .chat-btn {
+                padding: 12px !important;
+                border-radius: 50% !important;
+                width: 48px !important;
+                height: 48px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: #25D366 !important;
+            }
+            .chat-btn .chat-text { display: none !important; }
+            .chat-btn svg {
+                width: 24px !important;
+                height: 24px !important;
+                fill: white !important;
+            }
+            .back-to-top { width: 38px !important; height: 38px !important; }
+            /* Steps — smaller phones */
+            .step-card h4 { font-size: 13px !important; }
+            .step-card p { font-size: 11px !important; }
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid { gap: 8px !important; }
+            .stat-card { padding: 18px 12px !important; }
+            .stat-number { font-size: 18px !important; }
+            .stat-label { font-size: 12px !important; }
+            .hero h1 { font-size: 20px; }
+            .hero p { font-size: 11px; }
+            .brand-item { width: 100px; height: 50px; }
+            .section-header h2 { font-size: 22px !important; }
+            .brands .section-header h2 { font-size: 26px !important; }
+            .container { padding: 0 12px !important; }
+            .event-list div[style*="width:150px"] { width: 80px !important; }
+            /* Phone mockup — even smaller on tiny screens */
+            .phone-frame { width: 190px !important; height: 380px !important; }
+            .phone-header { padding: 22px 12px 12px !important; }
+            .phone-logo { width: 44px !important; height: 44px !important; }
+            .phone-header h4 { font-size: 12px !important; }
+            .phone-content { padding: 10px !important; }
+            .phone-search { padding: 8px 10px !important; font-size: 10px !important; margin-bottom: 10px !important; }
+            .phone-menu { gap: 6px !important; }
+            .phone-menu-item { padding: 8px 4px !important; }
+            .phone-menu-icon { font-size: 16px !important; }
+            .phone-menu-item span { font-size: 8px !important; }
+        }
+
+        /* Large screens (1440px+) */
+        @media (min-width: 1440px) {
+            .container { max-width: 1280px; }
+            .hero { padding: 140px 0 90px; }
+            .hero h1 { font-size: 56px; }
+            .hero p { font-size: 19px; }
+            .section-header h2 { font-size: 42px; }
+            .stats-grid { gap: 36px; }
+            .stat-card { padding: 44px 32px; }
+            .stat-number { font-size: 52px; }
+            .exhibitions-grid { gap: 32px; }
+        }
+
+        /* Ultra-wide (1920px+) */
+        @media (min-width: 1920px) {
+            .container { max-width: 1400px; }
+        }
+
+        /* Reduced motion — accessibility + performance */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Floating buttons container — side by side, bottom right */
+        .floating-btns {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 90;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            width: 52px;
+            height: 52px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .back-to-top svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Chat With Us Button */
+        .chat-btn {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(79,70,229,0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .chat-btn {
+            animation: chatFloat 3s ease-in-out infinite;
+        }
+        @keyframes chatFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .chat-btn:hover {
+            background: #4338CA;
+            animation: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 28px rgba(79,70,229,0.5);
+        }
+        .chat-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 640px) {
+            .floating-btns { right: 16px; bottom: 20px; gap: 8px; }
+            .chat-btn { padding: 12px 18px; font-size: 13px; }
+            .back-to-top { width: 44px; height: 44px; }
+        }
+
+        /* Newsletter hover effects */
+        .nl-title {
+            transition: text-shadow 0.4s ease, transform 0.4s ease;
+        }
+        .nl-title:hover {
+            text-shadow: 0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.1);
+            transform: scale(1.03);
+        }
+        #newsletter form {
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease;
+        }
+        #newsletter form:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+        }
+        #newsletter input:focus,
+        #newsletter select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(1,75,152,0.15);
+        }
+        #newsletter button[type="submit"] {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        #newsletter button[type="submit"]::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+        #newsletter button[type="submit"]:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        #newsletter button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(1,75,152,0.4);
+        }
+        #newsletter .section-badge {
+            transition: transform 0.3s ease;
+        }
+        #newsletter .section-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mockup Notice */
+        .mockup-notice {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            text-align: center;
+            padding: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <span>🏠 Malaysia's Premier Home & Living Exhibition</span>
+                <span>📞 010-232 3620 | ✉️ info@homelove.com.my</span>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo">
+                    <img src="logos/homelove/homelove-blue.png" alt="HOMElove Home & Living Expo" style="height:60px;width:auto;">
+                </div>
+                <nav class="nav">
+                    <a href="#">Home</a>
+                    <a href="#">Exhibitions</a>
+                    <a href="#">Home Tips</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Exhibit With Us</a>
+                    <a href="#">About Us</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="#" class="btn btn-primary">Home Checklist</a>
+                </div>
+                <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <button class="mobile-close-btn" onclick="this.parentElement.classList.remove('open')" aria-label="Close menu">✕</button>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">Home</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">Exhibitions</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">Home Tips</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">Contact Us</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">Exhibit With Us</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')">About Us</a>
+        <a href="#" onclick="this.parentElement.classList.remove('open')" style="color:var(--primary);font-weight:700;">Home Checklist</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="main-content">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🏆 Malaysia's #1 Home & Living Expo</div>
+                <h1>Transform Your<br><span>Dream Home</span><br>Into Reality</h1>
+                <p>Discover upcoming HOMElove home expos across Malaysia and explore furniture, home appliances, renovation solutions, home essentials, and exclusive expo deals all in one place.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-secondary">Find Exhibitions →</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <h3>Upcoming Events</h3>
+                        <div class="live-badge">LIVE</div>
+                    </div>
+                    <div class="event-list" style="display:flex;flex-direction:column;gap:10px;">
+                        <!-- Event 1: Image LEFT, text right -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Kuching</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Borneo Convention Centre Kuching (BCCK)<br>Sarawak</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">2 Apr – 5 Apr</div>
+                            </div>
+                        </div>
+                        <!-- Event 2 -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Kuantan</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Sultan Ahmad Shah Int'l Conv. Centre<br>Pahang</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">9 Apr – 12 Apr</div>
+                            </div>
+                        </div>
+                        <!-- Event 3: Longer date -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Penang" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Penang</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Setia SPICE Convention Centre (SSCC)<br>Penang</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">30 Jul – 2 Aug</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- View All link -->
+                    <a href="#" style="display:block;text-align:center;margin-top:14px;font-size:13px;font-weight:700;color:var(--primary);text-decoration:none;">View All Exhibitions →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Scrolling Text Marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span class="marquee-item">Bathroom</span>
+            <span class="marquee-item">Smart Living</span>
+            <span class="marquee-item">Interior Design</span>
+            <span class="marquee-item">Free Entry</span>
+            <span class="marquee-item">Furniture</span>
+            <span class="marquee-item">Home Appliances</span>
+            <span class="marquee-item">Renovation</span>
+            <span class="marquee-item">Kitchen</span>
+            <span class="marquee-item">Bedroom</span>
+            <span class="marquee-item">Mattresses</span>
+            <span class="marquee-item">Home Security</span>
+            <span class="marquee-item">Flooring</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="marquee-item">Bathroom</span>
+            <span class="marquee-item">Smart Living</span>
+            <span class="marquee-item">Interior Design</span>
+            <span class="marquee-item">Free Entry</span>
+            <span class="marquee-item">Furniture</span>
+            <span class="marquee-item">Home Appliances</span>
+            <span class="marquee-item">Renovation</span>
+            <span class="marquee-item">Kitchen</span>
+            <span class="marquee-item">Bedroom</span>
+            <span class="marquee-item">Mattresses</span>
+            <span class="marquee-item">Home Security</span>
+            <span class="marquee-item">Flooring</span>
+        </div>
+    </div>
+
+    <!-- Stats - Modern Design -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-header animate-on-scroll">
+                <h2>Trusted by Millions of Malaysian Homeowners</h2>
+                <p>Over a decade of connecting homeowners with the best home & living brands across 8 locations in Malaysia.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card animate-on-scroll delay-1">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-number"><span class="count-up" data-target="141">0</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">Exhibitions Organized</div>
+                </div>
+                <div class="stat-card animate-on-scroll delay-2">
+                    <div class="stat-icon">🏪</div>
+                    <div class="stat-number"><span class="count-up" data-target="6173" data-format="comma">0</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">Trusted Exhibitors</div>
+                </div>
+                <div class="stat-card animate-on-scroll delay-3">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number"><span class="count-up" data-target="5" data-suffix="M">0</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">Happy Visitors</div>
+                </div>
+                <div class="stat-card animate-on-scroll delay-4">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-number" style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Since <span style="color:var(--orange);">2015</span></div>
+                    <div class="stat-label">Year Founded · Trusted Since</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What to Expect at the Expo -->
+    <section class="expect-section">
+        <div class="container">
+            <div class="section-header" style="text-align:center;">
+                <div class="section-badge animate-on-scroll" style="display:inline-flex;">🏠 Why HOMElove</div>
+                <h2 class="animate-on-scroll">What to Expect at the Expo</h2>
+                <p style="color:var(--gray);font-size:16px;max-width:560px;margin:8px auto 0;" class="animate-on-scroll">Every HOMElove exhibition is packed with value, inspiration, and hands-on expert guidance.</p>
+            </div>
+            <div class="expect-grid">
+                <div class="expect-card animate-on-scroll delay-1">
+                    <div class="expect-icon" style="background:#fff3e0;">🏷️</div>
+                    <h4>Exclusive Expo Deals</h4>
+                    <p>Unlock special pricing only available at the event — from furniture to renovation packages and appliances.</p>
+                </div>
+                <div class="expect-card animate-on-scroll delay-2">
+                    <div class="expect-icon" style="background:#ffebee;">🎟️</div>
+                    <h4>Free Entry for All</h4>
+                    <p>No tickets, no registration. Walk in and explore hundreds of home brands completely at no cost.</p>
+                </div>
+                <div class="expect-card animate-on-scroll delay-3">
+                    <div class="expect-icon" style="background:#e3f2fd;">🏪</div>
+                    <h4>500+ Brand Exhibitors</h4>
+                    <p>A carefully curated mix of local and international home brands all under one roof at each show.</p>
+                </div>
+                <div class="expect-card animate-on-scroll delay-1">
+                    <div class="expect-icon" style="background:#e8f5e9;">💡</div>
+                    <h4>Expert Consultations</h4>
+                    <p>Speak directly with interior designers, renovation contractors, and product specialists on the floor.</p>
+                </div>
+                <div class="expect-card animate-on-scroll delay-2">
+                    <div class="expect-icon" style="background:#fce4ec;">🎁</div>
+                    <h4>Lucky Draws & Prizes</h4>
+                    <p>Win exciting home products and vouchers at our exciting daily lucky draw sessions every day.</p>
+                </div>
+                <div class="expect-card animate-on-scroll delay-3">
+                    <div class="expect-icon" style="background:#e0f7fa;">👨‍👩‍👧‍👦</div>
+                    <h4>Family Friendly Events</h4>
+                    <p>Bring the whole family — kids zone and safe activities and comfortable spaces for everyone to enjoy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Exhibitions -->
+    <section class="section exhibitions">
+        <div class="container">
+            <div class="section-header" style="text-align:center;">
+                <h2 class="animate-on-scroll">Upcoming Home Expo</h2>
+                <p style="color:var(--gray);font-size:15px;max-width:560px;margin:8px auto 0;" class="animate-on-scroll">Discover HOMElove home expos across Malaysia — furniture, renovation, home appliances, and exclusive deals. Free admission for everyone.</p>
+            </div>
+            <div class="exhibitions-grid">
+                <div class="exhibition-card animate-on-scroll delay-1">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Sarawak</span>
+                            <span>4 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Borneo Convention Centre Kuching (BCCK)</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">2-5 Apr 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-card animate-on-scroll delay-2">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Pahang</span>
+                            <span>4 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Sultan Ahmad Shah Int'l Conv. Centre</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">9-12 Apr 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-card animate-on-scroll delay-3">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Penang">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Penang</span>
+                            <span>3 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Setia SPICE Convention Centre (SSCC)</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">1-3 May 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="swipe-hint">Swipe to see more</span>
+            <div class="carousel-dots" style="display:none;justify-content:center;gap:8px;margin-top:12px;">
+                <span style="width:24px;height:4px;border-radius:2px;background:var(--primary);"></span>
+                <span style="width:24px;height:4px;border-radius:2px;background:#d1d5db;"></span>
+                <span style="width:24px;height:4px;border-radius:2px;background:#d1d5db;"></span>
+            </div>
+            <div style="text-align:center;margin-top:36px;" class="animate-on-scroll">
+                <a href="#" style="display:inline-block;padding:14px 36px;background:var(--primary);color:white;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.3s;" onmouseover="this.style.background='var(--primary-light)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(1,75,152,0.3)'" onmouseout="this.style.background='var(--primary)';this.style.transform='';this.style.boxShadow=''">View All Exhibitions →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Section -->
+    <section class="app-section">
+        <div class="container">
+            <div class="app-content">
+                <h2 class="animate-on-scroll">Download the HOMElove App</h2>
+                <p class="animate-on-scroll">Get exclusive deals, event notifications, and manage your exhibition experience all in one place!</p>
+                <div class="app-features">
+                    <div class="app-feature animate-on-scroll delay-1">
+                        <div class="app-feature-icon">🎁</div>
+                        <span>Cash Vouchers & Gift Redemptions</span>
+                    </div>
+                    <div class="app-feature animate-on-scroll delay-2">
+                        <div class="app-feature-icon">📢</div>
+                        <span>Latest Event Promotions</span>
+                    </div>
+                    <div class="app-feature animate-on-scroll delay-3">
+                        <div class="app-feature-icon">🧾</div>
+                        <span>Keep Track of Receipts</span>
+                    </div>
+                    <div class="app-feature animate-on-scroll delay-4">
+                        <div class="app-feature-icon">🏠</div>
+                        <span>Home Ideas & Inspiration</span>
+                    </div>
+                </div>
+                <div class="app-buttons animate-on-scroll">
+                    <a href="#" class="app-button" style="padding:14px 28px;gap:14px;">
+                        <svg style="width:32px;height:32px;flex-shrink:0;" viewBox="0 0 512 512">
+                            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#32BBFF"/>
+                            <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z" fill="#32BBFF"/>
+                            <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z" fill="#32BBFF"/>
+                            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#32BBFF"/>
+                            <path d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z" fill="#2DCDAC"/>
+                            <path d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z" fill="#FFCF00"/>
+                            <path d="M104.6 13L325.3 234.3l60.1-60.1L104.6 13z" fill="#F14F4C"/>
+                        </svg>
+                        <div class="app-button-text">
+                            <small>GET IT ON</small>
+                            <span>Google Play</span>
+                        </div>
+                    </a>
+                    <a href="#" class="app-button" style="padding:14px 28px;gap:14px;">
+                        <svg style="width:32px;height:32px;flex-shrink:0;" viewBox="0 0 384 512" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                        <div class="app-button-text">
+                            <small>Download on the</small>
+                            <span>App Store</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- Mobile phone preview (hidden on desktop, shown on mobile) -->
+            <div class="app-phone-preview">
+                <div class="app-phone-header">
+                    <img src="logos/homelove/homelove-white.png" alt="HOMElove">
+                </div>
+                <div class="app-phone-body">
+                    <div class="app-phone-tiles">
+                        <div class="app-phone-tile">
+                            <div class="app-phone-tile-icon">🎁</div>
+                            <span>Cash Vouchers & Gift Redemptions</span>
+                        </div>
+                        <div class="app-phone-tile">
+                            <div class="app-phone-tile-icon">📢</div>
+                            <span>Latest Event Promotions</span>
+                        </div>
+                        <div class="app-phone-tile">
+                            <div class="app-phone-tile-icon">🧾</div>
+                            <span>Keep Track of Receipts</span>
+                        </div>
+                        <div class="app-phone-tile">
+                            <div class="app-phone-tile-icon">🏠</div>
+                            <span>Home Ideas & Inspiration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-mockup">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="phone-header">
+                            <div class="phone-logo"><img src="https://homelove.com.my/sites/default/files/homelove-logo-2023.png" alt="HOMElove"></div>
+                            <h4>HOMElove</h4>
+                        </div>
+                        <div class="phone-content">
+                            <div class="phone-search">
+                                🔍 Search exhibitions, exhibitors...
+                            </div>
+                            <div class="phone-menu">
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">📅</div>
+                                    <span>Events</span>
+                                </div>
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">🏪</div>
+                                    <span>Exhibitors</span>
+                                </div>
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">🎁</div>
+                                    <span>Rewards</span>
+                                </div>
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">🧾</div>
+                                    <span>Receipts</span>
+                                </div>
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">📍</div>
+                                    <span>Locations</span>
+                                </div>
+                                <div class="phone-menu-item">
+                                    <div class="phone-menu-icon">💡</div>
+                                    <span>Ideas</span>
+                                </div>
+                            </div>
+                            <!-- Mobile-only: 4 app features inside phone -->
+                            <div class="phone-features-mobile" style="display:none;">
+                                <div class="phone-feat">
+                                    <div class="phone-feat-icon">🎁</div>
+                                    <span>Cash Vouchers & Gifts</span>
+                                </div>
+                                <div class="phone-feat">
+                                    <div class="phone-feat-icon">📢</div>
+                                    <span>Event Promotions</span>
+                                </div>
+                                <div class="phone-feat">
+                                    <div class="phone-feat-icon">🧾</div>
+                                    <span>Track Receipts</span>
+                                </div>
+                                <div class="phone-feat">
+                                    <div class="phone-feat-icon">🏠</div>
+                                    <span>Home Ideas & Inspiration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands — Scrolling Marquee -->
+    <section class="brands">
+        <div class="container">
+            <div class="section-header" style="text-align:center;">
+                <h2 class="animate-on-scroll">Brands</h2>
+                <p style="color:var(--gray);font-size:15px;max-width:480px;margin:8px auto 0;" class="animate-on-scroll">Over 6,000 quality brands trust HOMElove to connect them with Malaysian homeowners.</p>
+            </div>
+        </div>
+        <div class="brands-marquee-wrapper">
+                        <div class="brands-track">
+                <img class="brand-logo" src="logos/brands/samsung.png" alt="Samsung" loading="lazy">
+                <img class="brand-logo" src="logos/brands/lg.png" alt="LG" loading="lazy">
+                <img class="brand-logo" src="logos/brands/panasonic.png" alt="Panasonic" loading="lazy">
+                <img class="brand-logo" src="logos/brands/toshiba.png" alt="Toshiba" loading="lazy">
+                <img class="brand-logo" src="logos/brands/hitachi.png" alt="Hitachi" loading="lazy">
+                <img class="brand-logo" src="logos/brands/daikin.png" alt="Daikin" loading="lazy">
+                <img class="brand-logo" src="logos/brands/dyson.png" alt="Dyson" loading="lazy">
+                <img class="brand-logo" src="logos/brands/bosch.png" alt="Bosch" loading="lazy">
+                <img class="brand-logo" src="logos/brands/electrolux.png" alt="Electrolux" loading="lazy">
+                <img class="brand-logo" src="logos/brands/philips.png" alt="Philips" loading="lazy">
+                <img class="brand-logo" src="logos/brands/hisense.png" alt="Hisense" loading="lazy">
+                <img class="brand-logo" src="logos/brands/beko.png" alt="Beko" loading="lazy">
+                <img class="brand-logo" src="logos/brands/haier.png" alt="Haier" loading="lazy">
+                <img class="brand-logo" src="logos/brands/midea.png" alt="Midea" loading="lazy">
+                <img class="brand-logo" src="logos/brands/sharp.png" alt="Sharp" loading="lazy">
+                <img class="brand-logo" src="logos/brands/samsung.png" alt="Samsung" loading="lazy">
+                <img class="brand-logo" src="logos/brands/lg.png" alt="LG" loading="lazy">
+                <img class="brand-logo" src="logos/brands/panasonic.png" alt="Panasonic" loading="lazy">
+                <img class="brand-logo" src="logos/brands/toshiba.png" alt="Toshiba" loading="lazy">
+                <img class="brand-logo" src="logos/brands/hitachi.png" alt="Hitachi" loading="lazy">
+                <img class="brand-logo" src="logos/brands/daikin.png" alt="Daikin" loading="lazy">
+                <img class="brand-logo" src="logos/brands/dyson.png" alt="Dyson" loading="lazy">
+                <img class="brand-logo" src="logos/brands/bosch.png" alt="Bosch" loading="lazy">
+                <img class="brand-logo" src="logos/brands/electrolux.png" alt="Electrolux" loading="lazy">
+                <img class="brand-logo" src="logos/brands/philips.png" alt="Philips" loading="lazy">
+                <img class="brand-logo" src="logos/brands/hisense.png" alt="Hisense" loading="lazy">
+                <img class="brand-logo" src="logos/brands/beko.png" alt="Beko" loading="lazy">
+                <img class="brand-logo" src="logos/brands/haier.png" alt="Haier" loading="lazy">
+                <img class="brand-logo" src="logos/brands/midea.png" alt="Midea" loading="lazy">
+                <img class="brand-logo" src="logos/brands/sharp.png" alt="Sharp" loading="lazy">
+            </div>
+            <div class="brands-track">
+                <img class="brand-logo" src="logos/brands/king-koil.png" alt="King Koil" loading="lazy">
+                <img class="brand-logo" src="logos/brands/dunlopillo.png" alt="Dunlopillo" loading="lazy">
+                <img class="brand-logo" src="logos/brands/getha.png" alt="Getha" loading="lazy">
+                <img class="brand-logo" src="logos/brands/serta.png" alt="Serta" loading="lazy">
+                <img class="brand-logo" src="logos/brands/slumberland.png" alt="Slumberland" loading="lazy">
+                <img class="brand-logo" src="logos/brands/tefal.png" alt="Tefal" loading="lazy">
+                <img class="brand-logo" src="logos/brands/nespresso.png" alt="Nespresso" loading="lazy">
+                <img class="brand-logo" src="logos/brands/kitchenaid.png" alt="KitchenAid" loading="lazy">
+                <img class="brand-logo" src="logos/brands/ogawa.png" alt="Ogawa" loading="lazy">
+                <img class="brand-logo" src="logos/brands/coway.png" alt="Coway" loading="lazy">
+                <img class="brand-logo" src="logos/brands/cuckoo.png" alt="Cuckoo" loading="lazy">
+                <img class="brand-logo" src="logos/brands/rinnai.png" alt="Rinnai" loading="lazy">
+                <img class="brand-logo" src="logos/brands/yale.png" alt="Yale" loading="lazy">
+                <img class="brand-logo" src="logos/brands/karcher.png" alt="Karcher" loading="lazy">
+                <img class="brand-logo" src="logos/brands/fotile.png" alt="Fotile" loading="lazy">
+                <img class="brand-logo" src="logos/brands/king-koil.png" alt="King Koil" loading="lazy">
+                <img class="brand-logo" src="logos/brands/dunlopillo.png" alt="Dunlopillo" loading="lazy">
+                <img class="brand-logo" src="logos/brands/getha.png" alt="Getha" loading="lazy">
+                <img class="brand-logo" src="logos/brands/serta.png" alt="Serta" loading="lazy">
+                <img class="brand-logo" src="logos/brands/slumberland.png" alt="Slumberland" loading="lazy">
+                <img class="brand-logo" src="logos/brands/tefal.png" alt="Tefal" loading="lazy">
+                <img class="brand-logo" src="logos/brands/nespresso.png" alt="Nespresso" loading="lazy">
+                <img class="brand-logo" src="logos/brands/kitchenaid.png" alt="KitchenAid" loading="lazy">
+                <img class="brand-logo" src="logos/brands/ogawa.png" alt="Ogawa" loading="lazy">
+                <img class="brand-logo" src="logos/brands/coway.png" alt="Coway" loading="lazy">
+                <img class="brand-logo" src="logos/brands/cuckoo.png" alt="Cuckoo" loading="lazy">
+                <img class="brand-logo" src="logos/brands/rinnai.png" alt="Rinnai" loading="lazy">
+                <img class="brand-logo" src="logos/brands/yale.png" alt="Yale" loading="lazy">
+                <img class="brand-logo" src="logos/brands/karcher.png" alt="Karcher" loading="lazy">
+                <img class="brand-logo" src="logos/brands/fotile.png" alt="Fotile" loading="lazy">
+            </div>
+    </section>
+
+    <!-- Blog -->
+    <section class="section blog">
+        <div class="container">
+            <div class="section-header" style="text-align:center;margin-bottom:32px;">
+                <h2 class="animate-on-scroll" style="margin-bottom:6px;">Home Tips</h2>
+                <p style="color:var(--gray);font-size:15px;" class="animate-on-scroll">Expert tips and design ideas for every room in your home.</p>
+                <a href="#" style="display:inline-block;margin-top:16px;padding:10px 22px;border:2px solid var(--primary);color:var(--primary);border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;transition:all 0.2s;" onmouseover="this.style.background='var(--primary)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--primary)'">View All Articles →</a>
+            </div>
+            <!-- Magazine layout: 1 big left + 2 small right -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="animate-on-scroll blog-magazine">
+                <!-- Big card left -->
+                <div class="blog-card" style="grid-row:1/3;border-radius:16px;overflow:hidden;">
+                    <div style="height:280px;overflow:hidden;position:relative;">
+                        <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;">
+                        <span style="position:absolute;top:12px;left:12px;background:var(--secondary);color:white;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">Kitchen</span>
+                    </div>
+                    <div class="blog-content" style="padding:20px;">
+                        <h3 style="font-size:1.2rem;margin-bottom:8px;">10 Modern Kitchen Designs That Will Transform Your Cooking Space</h3>
+                        <p style="font-size:0.85rem;color:#888;line-height:1.6;">From single bowl to double bowl, undermount to top-mount — everything you need to know about picking the perfect kitchen sink for your cooking style.</p>
+                        <a href="#" style="display:inline-block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
+                <!-- Top right card -->
+                <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
+                    <div style="overflow:hidden;position:relative;height:180px;">
+                        <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Furniture" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+                        <span style="position:absolute;top:10px;left:10px;background:var(--orange);color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">Furniture</span>
+                    </div>
+                    <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                        <h3 style="font-size:1rem;margin-bottom:6px;">How to Choose the Perfect Sofa for Your Malaysian Living Room</h3>
+                        <p style="font-size:0.78rem;color:#888;line-height:1.5;">Everything you need to consider before making this long-term investment in your home.</p>
+                        <a href="#" style="display:inline-block;margin-top:8px;font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
+                <!-- Bottom right card -->
+                <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
+                    <div style="overflow:hidden;position:relative;height:180px;">
+                        <img src="bathroom.png" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+                        <span style="position:absolute;top:10px;left:10px;background:var(--primary);color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">Bathroom</span>
+                    </div>
+                    <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                        <h3 style="font-size:1rem;margin-bottom:6px;">Modern Bathroom Interior Design: Achieving Luxury on a Budget</h3>
+                        <p style="font-size:0.78rem;color:#888;line-height:1.5;">Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.</p>
+                        <a href="#" style="display:inline-block;margin-top:8px;font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
+            </div>
+            <span class="swipe-hint blog-swipe-hint">Swipe to see more</span>
+            <div class="blog-dots" style="display:none;justify-content:center;gap:8px;margin-top:12px;">
+                <span style="width:24px;height:4px;border-radius:2px;background:var(--primary);"></span>
+                <span style="width:24px;height:4px;border-radius:2px;background:#d1d5db;"></span>
+                <span style="width:24px;height:4px;border-radius:2px;background:#d1d5db;"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section id="newsletter" style="background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);padding:70px 0;">
+        <div class="container" style="max-width:800px;text-align:center;">
+            <h2 class="nl-title" style="color:white;font-size:40px;margin:0 0 8px;font-weight:800;letter-spacing:-0.02em;">Newsletter</h2>
+            <p style="color:rgba(255,255,255,0.7);font-size:1rem;margin-bottom:32px;">Get Latest Deals & Event Updates</p>
+            <form style="background:white;border-radius:16px;padding:32px;text-align:left;" onsubmit="event.preventDefault();alert('Thank you for subscribing!');">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:6px;">Name <span style="color:var(--secondary);">*</span></label>
+                        <input type="text" required placeholder="Your full name" style="width:100%;padding:12px 16px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.9rem;font-family:inherit;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#E5E7EB'">
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:6px;">Phone <span style="color:var(--secondary);">*</span></label>
+                        <input type="tel" required placeholder="+60X-XXX XXXX" style="width:100%;padding:12px 16px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.9rem;font-family:inherit;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#E5E7EB'">
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:6px;">Email <span style="color:var(--secondary);">*</span></label>
+                        <input type="email" required placeholder="your@email.com" style="width:100%;padding:12px 16px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.9rem;font-family:inherit;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#E5E7EB'">
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:6px;">State</label>
+                        <select style="width:100%;padding:12px 16px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.9rem;font-family:inherit;outline:none;background:white;transition:border 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#E5E7EB'">
+                            <option value="">Select state</option>
+                            <option>Selangor</option><option>Kuala Lumpur</option><option>Johor</option>
+                            <option>Penang</option><option>Perak</option><option>Sabah</option>
+                            <option>Sarawak</option><option>Kedah</option><option>Pahang</option>
+                            <option>Terengganu</option><option>Kelantan</option><option>Negeri Sembilan</option>
+                            <option>Melaka</option><option>Perlis</option><option>Putrajaya</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.78rem;color:var(--gray);cursor:pointer;">
+                        <input type="checkbox" required style="margin-top:3px;">
+                        I agree to receive promotional emails and updates from HOMElove. You can unsubscribe at any time.
+                    </label>
+                </div>
+                <button type="submit" style="width:100%;padding:14px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--primary)'">Get Event Updates →</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- What To Expect at the Exhibition -->
+    <section style="background:var(--gray-light);padding:70px 0;">
+        <div class="container">
+            <div style="text-align:center;margin-bottom:40px;">
+                <p style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--secondary);margin-bottom:8px;" class="animate-on-scroll">At The Exhibition</p>
+                <h2 class="animate-on-scroll expect-title" style="font-size:40px;font-weight:800;margin-bottom:10px;color:var(--dark);">What To Expect</h2>
+                <p style="color:var(--gray);font-size:15px;max-width:500px;margin:0 auto;" class="animate-on-scroll">From furniture to smart home tech — everything you need for your dream home, all in one place.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="expect-cards-grid">
+                <div class="animate-on-scroll delay-1" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">🛏️</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Mattresses & Bedding</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Premium mattresses from top brands at exclusive exhibition prices. Test before you buy.</p>
+                </div>
+                <div class="animate-on-scroll delay-2" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">🍳</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Kitchen & Appliances</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Complete kitchen packages — hoods, hobs, ovens, sinks, and modern smart appliances.</p>
+                </div>
+                <div class="animate-on-scroll delay-3" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">🛋️</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Living & Dining</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Sofas, dining tables, TV consoles, and coffee tables in every style and budget range.</p>
+                </div>
+                <div class="animate-on-scroll delay-1" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">💡</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Smart Home Tech</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Automated curtains, smart locks, lighting systems, and air purifiers for the modern home.</p>
+                </div>
+                <div class="animate-on-scroll delay-2" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">🎨</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Interior Design</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Consult with professional interior designers and get custom renovation quotes on-site.</p>
+                </div>
+                <div class="animate-on-scroll delay-3" style="background:linear-gradient(145deg,#ffffff,#f8faff);border-radius:18px;padding:36px 28px;text-align:center;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eef5;box-shadow:0 4px 16px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 14px 36px rgba(1,75,152,0.12)';this.style.borderColor='var(--primary)';this.style.background='linear-gradient(145deg,#ffffff,#f0f5ff)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.05)';this.style.borderColor='#e8eef5';this.style.background='linear-gradient(145deg,#ffffff,#f8faff)'">
+                    <div style="font-size:36px;margin-bottom:16px;">🏷️</div>
+                    <h4 style="font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;">Exclusive Deals</h4>
+                    <p style="font-size:13px;color:var(--gray);line-height:1.6;">Show-only promotions, bundle packages, 0% installment plans, and free delivery offers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+        @media(max-width:768px) { .expect-cards-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media(max-width:480px) { .expect-cards-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; } }
+        @media(max-width:480px) { .expect-cards-grid > div { padding: 20px 16px !important; } }
+        @media(max-width:768px) { .expect-cards-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media(max-width:480px) { .expect-cards-grid h4 { font-size: 14px !important; height: 40px !important; display: flex !important; align-items: center !important; justify-content: center !important; } }
+        @media(max-width:480px) { .expect-cards-grid p { font-size: 11px !important; } }
+        @media(max-width:768px) { .expect-title { font-size: 26px !important; } }
+    </style>
+
+    <!-- 3 Steps Before You Shop -->
+    <section class="steps-section">
+        <div class="container">
+            <div style="text-align:center;">
+                <h2 class="animate-on-scroll" style="color:white;font-size:40px;font-weight:800;margin-bottom:8px;">3 Important Steps Before You Shop the Expo</h2>
+                <p class="animate-on-scroll" style="color:rgba(255,255,255,0.65);font-size:15px;max-width:560px;margin:0 auto;">A little preparation helps you shop smarter, compare better, and avoid missing the deals you actually want.</p>
+            </div>
+            <div class="steps-row">
+                <div class="step-card animate-on-scroll delay-1">
+                    <div class="step-num">1</div>
+                    <h4>Bring Your Floor Plan & Home Checklist</h4>
+                    <p>Bring your floor plan, space measurements, inspiration photos, and home checklist so you can stay focused on what your home really needs and shop more efficiently.</p>
+                </div>
+                <div class="step-card animate-on-scroll delay-2">
+                    <div class="step-num">2</div>
+                    <h4>Use the Floor Plan to Guide Your Visit</h4>
+                    <p>Follow the expo floor plan to navigate by category or brand, save time, and make sure you don't miss the booths, products, or deals on your list.</p>
+                </div>
+                <div class="step-card animate-on-scroll delay-3">
+                    <div class="step-num">3</div>
+                    <h4>Compare Before You Commit</h4>
+                    <p>Check prices, product features, package deals, and freebies across different booths before making your final decision.</p>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:40px;" class="animate-on-scroll">
+                <a href="/checklist" style="display:inline-block;padding:14px 32px;background:var(--orange);color:white;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(224,129,3,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Use Our Home Checklist →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Venues Nationwide — Split Map -->
+    <section id="venues-map" style="background:var(--gray-light);padding:70px 0;color:var(--dark);overflow:hidden;position:relative;">
+        <div class="container" style="position:relative;z-index:1;">
+            <!-- Header -->
+            <div style="text-align:center;margin-bottom:36px;">
+                <div style="display:inline-block;background:rgba(1,75,152,0.1);border:1px solid rgba(1,75,152,0.2);padding:7px 20px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--primary);margin-bottom:20px;">📍 8 Venues Across Malaysia</div>
+                <h2 class="animate-on-scroll" style="color:var(--dark);font-size:40px;font-weight:800;margin-bottom:10px;">Find an Exhibition Near You</h2>
+                <p style="color:var(--gray);font-size:15px;max-width:440px;margin:0 auto;line-height:1.55;" class="animate-on-scroll">World-class home exhibitions in major cities nationwide. Free admission at every venue.</p>
+            </div>
+
+            <!-- Map + Venues side by side -->
+            <div class="map-venues-wrapper">
+            <!-- Map with pins -->
+            <div style="position:relative;max-width:100%;margin:0 auto;" class="map-container">
+                <div style="position:relative;">
+                    <img src="Blank_malaysia_map.png" alt="Malaysia Map" style="width:100%;height:auto;">
+                    <!-- Penang pin -->
+                    <div class="map-pin" style="left:4.5%;top:26%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>PENANG</strong>
+                            <span>Setia SPICE Convention Centre</span>
+                            <span>PICCA Butterworth Arena</span>
+                        </div>
+                    </div>
+                    <!-- Selangor pin -->
+                    <div class="map-pin pin-selangor" style="left:12.6%;top:51.6%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label pin-label-left">
+                            <strong>SELANGOR</strong>
+                            <span>Sunway Pyramid Convention Centre</span>
+                            <span>The Starling Event Hall</span>
+                            <span>IOI Grand Exhibition & Convention Centre</span>
+                        </div>
+                    </div>
+                    <!-- KL pin -->
+                    <div class="map-pin" style="left:13.6%;top:56.8%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>KUALA LUMPUR</strong>
+                            <span>Mid Valley Exhibition Centre</span>
+                            <span>Stadium Bukit Jalil (Car Park B)</span>
+                            <span>World Trade Centre KL (WTCKL)</span>
+                            <span>Pavilion Exhibition Centre (Bukit Jalil)</span>
+                        </div>
+                    </div>
+                    <!-- Kuantan pin -->
+                    <div class="map-pin" style="left:22.6%;top:47.8%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>KUANTAN</strong>
+                            <span>SASICC</span>
+                        </div>
+                    </div>
+                    <!-- Johor pin -->
+                    <div class="map-pin" style="left:26.9%;top:79.6%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>JOHOR</strong>
+                            <span>MVEC Southkey Johor Bahru</span>
+                            <span>Persada Johor</span>
+                        </div>
+                    </div>
+                    <!-- Miri pin -->
+                    <div class="map-pin" style="left:65%;top:38.7%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>MIRI</strong>
+                            <span>Boulevard Shopping Mall</span>
+                        </div>
+                    </div>
+                    <!-- Kuching pin -->
+                    <div class="map-pin" style="left:42.9%;top:80.4%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>KUCHING</strong>
+                            <span>Borneo Convention Centre Kuching</span>
+                        </div>
+                    </div>
+                    <!-- Kota Kinabalu pin -->
+                    <div class="map-pin" style="left:79.1%;top:15.5%;">
+                        <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                        <div class="pin-label">
+                            <strong>KOTA KINABALU</strong>
+                            <span>Sabah International Convention Centre</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Venue grid below map (desktop only, hidden when on-map labels active) -->
+            <div class="venue-grid">
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Penang</div>
+                    <div class="venue-card-body">
+                        <span>Setia SPICE Convention Centre</span>
+                        <span>PICCA Butterworth Arena</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Kuala Lumpur</div>
+                    <div class="venue-card-body">
+                        <span>Mid Valley Exhibition Centre</span>
+                        <span>Stadium Bukit Jalil (Car Park B)</span>
+                        <span>World Trade Centre KL (WTCKL)</span>
+                        <span>Pavilion Exhibition Centre (Bukit Jalil)</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Selangor</div>
+                    <div class="venue-card-body">
+                        <span>Sunway Pyramid Convention Centre</span>
+                        <span>The Starling Event Hall</span>
+                        <span>IOI Grand Exhibition & Convention Centre</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Johor</div>
+                    <div class="venue-card-body">
+                        <span>MVEC Southkey Johor Bahru</span>
+                        <span>Persada Johor</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Kuantan</div>
+                    <div class="venue-card-body">
+                        <span>SASICC</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Kuching</div>
+                    <div class="venue-card-body">
+                        <span>Borneo Convention Centre Kuching</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Miri</div>
+                    <div class="venue-card-body">
+                        <span>Boulevard Shopping Mall</span>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-card-hdr">Kota Kinabalu</div>
+                    <div class="venue-card-body">
+                        <span>Sabah International Convention Centre</span>
+                    </div>
+                </div>
+            </div>
+            </div><!-- end map-venues-wrapper -->
+
+            <!-- Mobile venue list (hidden on desktop) -->
+            <div class="mobile-venue-list" style="display:none;margin-top:16px;">
+                <div class="mobile-venue-grid">
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Penang
+                        </div>
+                        <span>Setia SPICE Convention Centre</span>
+                        <span>PICCA Butterworth Arena</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Kuala Lumpur
+                        </div>
+                        <span>Mid Valley Exhibition Centre</span>
+                        <span>Stadium Bukit Jalil (Car Park B)</span>
+                        <span>World Trade Centre KL (WTCKL)</span>
+                        <span>Pavilion Exhibition Centre (Bukit Jalil)</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Selangor
+                        </div>
+                        <span>Sunway Pyramid Convention Centre</span>
+                        <span>The Starling Event Hall</span>
+                        <span>IOI Grand Exhibition & Convention Centre</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Johor
+                        </div>
+                        <span>MVEC Southkey Johor Bahru</span>
+                        <span>Persada Johor</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Kuantan
+                        </div>
+                        <span>SASICC</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Kuching
+                        </div>
+                        <span>Borneo Convention Centre Kuching</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Miri
+                        </div>
+                        <span>Boulevard Shopping Mall</span>
+                    </div>
+                    <div class="m-venue-card">
+                        <div class="m-venue-badge">
+                            <svg width="12" height="16" viewBox="0 0 24 32" fill="var(--orange)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
+                            Kota Kinabalu
+                        </div>
+                        <span>Sabah International Convention Centre</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+        /* Map pins — location pin style */
+        .map-pin {
+            position: absolute;
+            z-index: 5;
+            transition: transform 0.2s ease;
+        }
+        .map-pin:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .map-pin svg {
+            width: 24px;
+            height: 34px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .pin-label {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            white-space: nowrap;
+        }
+        .pin-label-left {
+            left: auto;
+            right: 24px;
+            text-align: right;
+        }
+        .pin-label strong {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+        /* Hide venue spans on map pins */
+        .pin-label span {
+            display: none;
+        }
+
+        /* Map + Venues layout */
+        .map-venues-wrapper {
+            display: block;
+        }
+        .venue-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .venue-card {
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .venue-card-hdr {
+            background: #014B98;
+            color: white;
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .venue-card-body {
+            padding: 10px 12px;
+        }
+        .venue-card-body span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--dark);
+            line-height: 1.7;
+        }
+        .venue-card-body span::before {
+            content: '';
+            width: 10px;
+            height: 14px;
+            background: var(--primary);
+            flex-shrink: 0;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        @media (max-width: 768px) {
+            #venues-map { padding: 40px 0 30px !important; }
+            #venues-map .container > * { opacity: 1 !important; transform: none !important; animation: none !important; }
+            #venues-map h2 { font-size: 26px !important; }
+            #venues-map p { font-size: 13px !important; }
+            #venues-map .map-container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            #venues-map .map-container > div { padding: 0 !important; }
+            .pin-label span { display: none !important; }
+            .pin-label strong { font-size: 8px; letter-spacing: 0.3px; }
+            .map-pin svg { width: 14px; height: 20px; }
+            .pin-label { left: 16px !important; }
+            .pin-label-left { left: auto !important; right: 16px !important; }
+            .map-venues-wrapper { display: block !important; }
+            .mobile-venue-list { display: block !important; }
+            .venue-grid { display: none !important; }
+            /* Mobile venue cards */
+            .mobile-venue-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .m-venue-card {
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e5e7eb;
+                padding: 0;
+                overflow: hidden;
+            }
+            .m-venue-badge {
+                background: var(--primary);
+                color: white;
+                padding: 6px 10px;
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .m-venue-badge svg { display: none; }
+            .m-venue-card span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 10px;
+                color: var(--dark);
+                line-height: 1.5;
+                padding: 2px 10px;
+            }
+            .m-venue-card span:first-of-type {
+                padding-top: 8px;
+            }
+            .m-venue-card span:last-of-type {
+                padding-bottom: 8px;
+            }
+            .m-venue-card span::before {
+                content: '';
+                width: 8px;
+                height: 11px;
+                background: var(--primary);
+                flex-shrink: 0;
+                -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z'/%3E%3C/svg%3E") no-repeat center;
+                mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z'/%3E%3C/svg%3E") no-repeat center;
+            }
+        }
+
+        /* Map markers — premium animated pins */
+        .map-marker {
+            position: absolute; transform: translate(-50%,-50%);
+            cursor: pointer; z-index: 5;
+            transition: transform 0.2s ease;
+            will-change: transform;
+        }
+        .map-marker:hover, .map-marker.active { transform: translate(-50%,-50%) scale(1.2); z-index: 10; }
+        .marker-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--secondary); border: 2px solid white;
+            position: relative; z-index: 2;
+            box-shadow: 0 2px 6px rgba(203,21,16,0.4);
+            transition: all 0.4s;
+        }
+        .map-marker.orange .marker-dot {
+            background: var(--orange);
+            box-shadow: 0 2px 6px rgba(224,129,3,0.4);
+        }
+        .map-marker:hover .marker-dot, .map-marker.active .marker-dot {
+            background: #e83a2a;
+            box-shadow: 0 2px 10px rgba(232,58,42,0.5);
+            transform: scale(1.25);
+        }
+        /* Double ripple rings */
+        .marker-ripple {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 16px; height: 16px; border-radius: 50%;
+            border: 1px solid var(--secondary); opacity: 0;
+            animation: markerRipple 3.5s ease-in-out infinite;
+        }
+        .marker-ripple::after {
+            content: ''; position: absolute; inset: -4px;
+            border-radius: 50%; border: 1px solid var(--secondary);
+            animation: markerRipple 3.5s ease-in-out infinite 1.2s;
+        }
+        .map-marker.orange .marker-ripple, .map-marker.orange .marker-ripple::after { border-color: var(--orange); }
+        @keyframes markerRipple {
+            0% { width:14px; height:14px; opacity:0; }
+            15% { opacity:0.4; }
+            60% { opacity:0.12; }
+            100% { width:52px; height:52px; opacity:0; }
+        }
+        /* Tooltip with glass effect */
+        .map-marker::after {
+            content: attr(title); position: absolute; bottom: calc(100% + 14px); left: 50%;
+            transform: translateX(-50%) translateY(6px) scale(0.95);
+            background: rgba(8,12,28,0.92); backdrop-filter: blur(12px);
+            color: rgba(255,255,255,0.95); padding: 8px 16px; border-radius: 10px;
+            font-size: 11px; font-weight: 600; white-space: nowrap;
+            opacity: 0; pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.25,0.1,0.25,1); z-index: 10;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+            letter-spacing: 0.02em;
+        }
+        .map-marker:hover::after, .map-marker.active::after {
+            opacity: 1; transform: translateX(-50%) translateY(0) scale(1);
+        }
+        /* Ambient float animation */
+        @keyframes ambientFloat {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(10px,-10px); }
+        }
+
+        /* Venue cards — kept for mobile venue list compatibility */
+        .vc-dot {
+            width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+            box-shadow: 0 0 10px currentColor;
+            transition: all 0.3s;
+        }
+        .vc-content { flex: 1; }
+        .vc-content h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 2px; transition: color 0.3s; }
+        .vc-content p { font-size: 11px; color: var(--gray); transition: color 0.3s; }
+        .vc-arrow { font-size: 18px; color: var(--primary); opacity: 0; transform: translateX(-6px); transition: all 0.4s; }
+
+        /* Map float animation */
+        .map-container { animation: mapFloat 8s ease-in-out infinite; }
+        @keyframes mapFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+        /* Section fade-in on load */
+        #venues-map .container > * {
+            opacity: 0; transform: translateY(20px);
+            animation: venuesFadeIn 0.8s ease forwards;
+        }
+        #venues-map .container > *:nth-child(1) { animation-delay: 0.1s; }
+        #venues-map .container > *:nth-child(2) { animation-delay: 0.3s; }
+        @keyframes venuesFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Background gradient shift */
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media(max-width:768px) {
+            .venues-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .map-container { animation: none; }
+        }
+    </style>
+    <script>
+    (function(){
+        let active = 0;
+        const cards = document.querySelectorAll('.venue-card');
+        const markers = document.querySelectorAll('.map-marker');
+        function setActive(idx) {
+            cards.forEach(c => c.classList.remove('active'));
+            markers.forEach(m => m.classList.remove('active'));
+            if(cards[idx]) cards[idx].classList.add('active');
+            if(markers[idx]) markers[idx].classList.add('active');
+            active = idx;
+        }
+        cards.forEach((c, i) => {
+            c.addEventListener('mouseenter', () => { setActive(i); clearInterval(timer); });
+            c.addEventListener('mouseleave', () => { timer = setInterval(cycle, 3500); });
+        });
+        markers.forEach((m, i) => {
+            m.addEventListener('mouseenter', () => { setActive(i); clearInterval(timer); });
+            m.addEventListener('mouseleave', () => { timer = setInterval(cycle, 3500); });
+        });
+        function cycle() { active = (active + 1) % cards.length; setActive(active); }
+        let timer = setInterval(cycle, 3500);
+        setActive(0);
+    })();
+    </script>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="faq-header">
+                <h2 class="animate-on-scroll">FAQs About Home Expo in Malaysia</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item animate-on-scroll delay-1">
+                    <div class="faq-question">What is a home expo?</div>
+                    <div class="faq-answer">
+                        <p>A home expo is a large-scale exhibition where various exhibitors showcase home-related products and services, from furniture to renovations.</p>
+                    </div>
+                </div>
+                <div class="faq-item animate-on-scroll delay-2">
+                    <div class="faq-question">What is the largest home expo in Malaysia?</div>
+                    <div class="faq-answer">
+                        <p>HOMElove is one of the largest home expos in Malaysia, hosting events across multiple cities with thousands of exhibitors.</p>
+                    </div>
+                </div>
+                <div class="faq-item animate-on-scroll delay-3">
+                    <div class="faq-question">What can I find at a home and living exhibition?</div>
+                    <div class="faq-answer">
+                        <p>You can find furniture, home appliances, renovation services, interior design solutions, mattresses, kitchenware, and much more.</p>
+                    </div>
+                </div>
+                <div class="faq-item faq-extra animate-on-scroll delay-4">
+                    <div class="faq-question">When is the next home expo?</div>
+                    <div class="faq-answer">
+                        <p>Check our exhibitions page for the latest schedule. We host events throughout the year across Penang, KL, Johor, and more.</p>
+                    </div>
+                </div>
+                <div class="faq-item faq-extra animate-on-scroll">
+                    <div class="faq-question">What are the tips to attend a home and living fair?</div>
+                    <div class="faq-answer">
+                        <p>Come early for the best deals, bring measurements of your space, set a budget, and download our app for exclusive vouchers!</p>
+                    </div>
+                </div>
+                <div class="faq-item faq-extra animate-on-scroll">
+                    <div class="faq-question">What makes HOMElove the best home expo in Malaysia?</div>
+                    <div class="faq-answer">
+                        <p>With over 141 exhibitions, 6,173+ exhibitors, and 5 million visitors, HOMElove is the trusted choice since 2015.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-view-all" style="text-align:center;margin-top:20px;">
+                <button onclick="document.querySelectorAll('.faq-extra').forEach(el=>el.style.display='block');this.style.display='none';" style="padding:12px 28px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--primary)'">View All FAQs ↓</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Main Footer Grid — 4 columns matching wireframe -->
+            <div class="footer-grid" style="grid-template-columns:2.2fr 1fr 1fr 1.3fr;">
+                <!-- Column 1: Brand + Description -->
+                <div class="footer-brand">
+                    <div class="logo" style="display:flex;align-items:center;gap:12px;">
+                        <img src="logos/homelove/homelove-white.png" alt="HOMElove" style="height:64px;width:auto;">
+                    </div>
+                    <p style="margin-top:16px;">Malaysia's premier home & living exhibition, bringing together the best exhibitors and homeowners for over a decade. Organised by Empire Asia Events Marketing Sdn. Bhd. (1102402K).</p>
+                </div>
+                <!-- Column 2: Explore -->
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Exhibitions</a></li>
+                        <li><a href="#">Home Tips</a></li>
+                        <li><a href="#">Checklist</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Contact -->
+                <div>
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+60376202672" style="display:inline-flex;align-items:center;gap:8px;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> +603-7620 2672</a></li>
+                        <li><a href="mailto:info@homelove.com.my" style="display:inline-flex;align-items:center;gap:8px;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@homelove.com.my</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Exhibit With Us</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Social & CTA -->
+                <div>
+                    <h4>Follow Us</h4>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook" class="social-fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+                        <a href="#" title="Instagram" class="social-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                        <a href="#" title="TikTok" class="social-tt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13.1a8.28 8.28 0 005.58 2.17V11.8a4.83 4.83 0 01-3.77-1.34V6.69z"/></svg></a>
+                        <a href="#" title="Xiaohongshu" class="social-xhs"><span style="font-size:11px;font-weight:800;letter-spacing:-0.5px;">小红书</span></a>
+                        <a href="#" title="YouTube" class="social-yt"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg></a>
+                    </div>
+                    <a href="#newsletter" style="display:inline-block;margin-top:20px;padding:10px 22px;border:1.5px solid rgba(255,255,255,0.4);border-radius:50px;color:white;font-size:13px;font-weight:600;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Get Event Updates →</a>
+                </div>
+            </div>
+            <!-- Bottom Bar — per client suggestion -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>© 2026 <strong>Empire Asia Events Marketing Sdn. Bhd.</strong> All rights reserved. &nbsp;|&nbsp; <a href="#" style="color:rgba(255,255,255,0.7);text-decoration:none;">Privacy Policy</a> &nbsp;|&nbsp; <a href="#" style="color:rgba(255,255,255,0.7);text-decoration:none;">Terms of Use</a> &nbsp;|&nbsp; <a href="#" style="color:rgba(255,255,255,0.7);text-decoration:none;">Sitemap</a></span>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Affiliated Expos</span>
+                    <img src="logos/affiliated/concept-living.png" alt="Concept Living" class="aff-logo no-invert" style="height:42px;">
+                    <img src="logos/affiliated/perfect-lifestyle.png" alt="Perfect Lifestyle" class="aff-logo" style="height:38px;">
+                    <img src="logos/affiliated/myedu.png" alt="MyEdu" class="aff-logo" style="height:36px;">
+                    <img src="logos/affiliated/family-health-lifestyle.png" alt="Family Health & Lifestyle" class="aff-logo" style="height:49px;">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons — side by side, bottom right -->
+    <div class="floating-btns">
+        <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+            TOP
+        </button>
+        <a href="https://wa.me/60102323620" target="_blank" class="chat-btn" aria-label="Chat with us on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span class="chat-text">CHAT WITH US</span>
+        </a>
+    </div>
+
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Count-up animation for stats
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.querySelectorAll('.count-up').forEach(el => {
+                    const target = parseInt(el.dataset.target);
+                    const suffix = el.dataset.suffix || '';
+                    const useComma = el.dataset.format === 'comma';
+                    const duration = 1800;
+                    const start = performance.now();
+                    function tick(now) {
+                        const p = Math.min((now - start) / duration, 1);
+                        const ease = 1 - Math.pow(1 - p, 3);
+                        const val = Math.round(target * ease);
+                        el.textContent = (useComma ? val.toLocaleString() : val) + suffix;
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+                countObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.3 });
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) countObserver.observe(statsSection);
+
+        // Header scroll effect + Back to Top visibility
+        const btt = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            if (btt) {
+                if (window.scrollY > 400) { btt.classList.add('show'); }
+                else { btt.classList.remove('show'); }
+            }
+        });
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // 3D tilt on stat cards — follows cursor
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.style.transition = 'transform 0.1s ease, background 0.3s, box-shadow 0.3s, border-color 0.3s';
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - 0.5;
+                const y = (e.clientY - r.top) / r.height - 0.5;
+                card.style.transform = 'translateY(-8px) perspective(600px) rotateY(' + (x * 18) + 'deg) rotateX(' + (-y * 18) + 'deg) scale(1.04)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'transform 0.4s ease, background 0.3s, box-shadow 0.3s, border-color 0.3s';
+                card.style.transform = 'translateY(0) perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)';
+            });
+        });
+
+        // 3D tilt on brand cards — follows cursor
+        document.querySelectorAll('.brand-item').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - 0.5;
+                const y = (e.clientY - r.top) / r.height - 0.5;
+                card.style.transform = `translateY(-8px) perspective(600px) rotateY(${x * 20}deg) rotateX(${-y * 20}deg) scale(1.08)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Carousel dots for exhibitions
+        const grid = document.querySelector('.exhibitions-grid');
+        const dots = document.querySelectorAll('.carousel-dots span');
+        if (grid && dots.length) {
+            grid.addEventListener('scroll', () => {
+                const scrollLeft = grid.scrollLeft;
+                const cardWidth = grid.querySelector('.exhibition-card').offsetWidth + 16;
+                const index = Math.round(scrollLeft / cardWidth);
+                dots.forEach((dot, i) => {
+                    dot.style.background = i === index ? 'var(--primary)' : '#d1d5db';
+                });
+            });
+        }
+
+        // Carousel dots for blog
+        const blogGrid = document.querySelector('.blog-magazine');
+        const blogDots = document.querySelectorAll('.blog-dots span');
+        if (blogGrid && blogDots.length) {
+            blogGrid.addEventListener('scroll', () => {
+                const scrollLeft = blogGrid.scrollLeft;
+                const cardWidth = blogGrid.querySelector('.blog-card').offsetWidth + 16;
+                const index = Math.round(scrollLeft / cardWidth);
+                blogDots.forEach((dot, i) => {
+                    dot.style.background = i === index ? 'var(--primary)' : '#d1d5db';
+                });
+            });
+        }
+    </script>
+
+
+</body>
+</html>
