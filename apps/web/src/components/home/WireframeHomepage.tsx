@@ -1339,9 +1339,6 @@ export function WireframeHomepage() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      dangerouslySetInnerHTML={{ __html: HOMEPAGE_HTML }}
-    />
+    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: HOMEPAGE_HTML }} />
   );
 }

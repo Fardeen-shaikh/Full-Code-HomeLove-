@@ -1,97 +1,84 @@
-"use client";
-import { useEffect } from "react";
+'use client'
 
-const HEADER_HTML = `    <a href="#main-content" class="skip-link">Skip to content</a>
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="header-top">
-            <div class="container">
-                <span>🏠 Malaysia's Premier Home & Living Exhibition</span>
-                <span>📞 010-232 3620 | ✉️ info@homelove.com.my</span>
-            </div>
-        </div>
-        <div class="header-main">
-            <div class="container">
-                <div class="logo">
-                    <img src="logos/homelove/homelove-blue.png" alt="HOMElove Home & Living Expo" style="height:60px;width:auto;">
-                </div>
-                <nav class="nav">
-                    <a href="#">Home</a>
-                    <a href="#">Exhibitions</a>
-                    <a href="#">Home Tips</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Exhibit With Us</a>
-                    <a href="#">About Us</a>
-                </nav>
-                <div class="header-actions">
-                    <a href="#" class="btn btn-primary">Home Checklist</a>
-                </div>
-                <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Open menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <button class="mobile-close-btn" onclick="this.parentElement.classList.remove('open')" aria-label="Close menu">✕</button>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">Home</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">Exhibitions</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">Home Tips</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">Contact Us</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">Exhibit With Us</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')">About Us</a>
-        <a href="#" onclick="this.parentElement.classList.remove('open')" style="color:var(--primary);font-weight:700;">Home Checklist</a>
-    </div>
-
-`;
-
-const LAYOUT_JS = `
-// Header scroll effect + Back to Top visibility
-const btt = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (header) {
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    }
-    if (btt) {
-        if (window.scrollY > 400) { btt.classList.add('show'); }
-        else { btt.classList.remove('show'); }
-    }
-});
-
-// FAQ toggle
-document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', () => {
-        const item = question.parentElement;
-        item.classList.toggle('active');
-    });
-});
-
-// Mobile menu
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', () => {
-        document.getElementById('mobileMenu').classList.add('open');
-    });
-}
-`;
+const NAV_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Exhibitions', href: '/exhibitions' },
+  { label: 'Home Tips', href: '/home-tips' },
+  { label: 'Contact Us', href: '/contact-us' },
+  { label: 'Exhibit With Us', href: '/exhibit-with-us' },
+  { label: 'About Us', href: '/about-us' },
+]
 
 export default function Header() {
-  useEffect(() => {
-    try {
-      const fn = new Function(LAYOUT_JS);
-      fn();
-    } catch (e) {
-      console.warn("Layout JS error:", e);
-    }
-  }, []);
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  return <div dangerouslySetInnerHTML={{ __html: HEADER_HTML }} />;
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 100)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
+  return (
+    <>
+      <a href="#main-content" className="skip-link">Skip to content</a>
+
+      <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
+        <div className="header-top">
+          <div className="container">
+            <span>🏠 Malaysia&apos;s Premier Home &amp; Living Exhibition</span>
+            <span>
+              <a href="tel:0102323620">📞 010-232 3620</a> | <a href="mailto:info@homelove.com.my">✉️ info@homelove.com.my</a>
+            </span>
+          </div>
+        </div>
+        <div className="header-main">
+          <div className="container">
+            <div className="logo">
+              <Link href="/">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logos/homelove/homelove-blue.png" alt="HOMElove Home & Living Expo" style={{ height: '60px', width: 'auto' }} />
+              </Link>
+            </div>
+            <nav className="nav">
+              {NAV_LINKS.map((link) => (
+                <Link key={link.href} href={link.href}>{link.label}</Link>
+              ))}
+            </nav>
+            <div className="header-actions">
+              <Link href="/checklist" className="btn btn-primary">Home Checklist</Link>
+            </div>
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <span /><span /><span />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu-overlay${mobileOpen ? ' open' : ''}`} id="mobileMenu">
+        <button className="mobile-close-btn" onClick={() => setMobileOpen(false)} aria-label="Close menu">✕</button>
+        {NAV_LINKS.map((link) => (
+          <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
+            {link.label}
+          </Link>
+        ))}
+        <Link href="/checklist" onClick={() => setMobileOpen(false)} style={{ color: 'var(--primary)', fontWeight: 700 }}>
+          Home Checklist
+        </Link>
+      </div>
+    </>
+  )
 }
