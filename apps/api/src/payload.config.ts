@@ -55,6 +55,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
     },
+    push: true,
   }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
