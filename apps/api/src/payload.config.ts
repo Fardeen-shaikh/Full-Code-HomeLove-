@@ -21,6 +21,7 @@ import { ExhibitorInquiries } from './collections/ExhibitorInquiries'
 import { HiddenPages } from './collections/HiddenPages'
 import { PromotionalPopups } from './collections/PromotionalPopups'
 import { UserSessions } from './collections/UserSessions'
+import { ChatConversations } from './collections/ChatConversations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -50,6 +51,7 @@ export default buildConfig({
     HiddenPages,
     PromotionalPopups,
     UserSessions,
+    ChatConversations,
   ],
   db: postgresAdapter({
     pool: {
