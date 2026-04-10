@@ -83,6 +83,7 @@ export interface Config {
     'hidden-pages': HiddenPage;
     'promotional-popups': PromotionalPopup;
     'user-sessions': UserSession;
+    'chat-conversations': ChatConversation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -106,6 +107,7 @@ export interface Config {
     'hidden-pages': HiddenPagesSelect<false> | HiddenPagesSelect<true>;
     'promotional-popups': PromotionalPopupsSelect<false> | PromotionalPopupsSelect<true>;
     'user-sessions': UserSessionsSelect<false> | UserSessionsSelect<true>;
+    'chat-conversations': ChatConversationsSelect<false> | ChatConversationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -612,6 +614,42 @@ export interface UserSession {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations".
+ */
+export interface ChatConversation {
+  id: number;
+  sessionId: string;
+  /**
+   * Array of {role, content, timestamp}
+   */
+  messages:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Captured visitor name
+   */
+  leadName?: string | null;
+  /**
+   * Captured visitor email
+   */
+  leadEmail?: string | null;
+  /**
+   * Captured visitor phone
+   */
+  leadPhone?: string | null;
+  leadCaptured?: boolean | null;
+  topic?: ('general' | 'exhibition' | 'exhibitor' | 'home-tips' | 'checklist' | 'other') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -697,6 +735,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'user-sessions';
         value: number | UserSession;
+      } | null)
+    | ({
+        relationTo: 'chat-conversations';
+        value: number | ChatConversation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1042,6 +1084,21 @@ export interface UserSessionsSelect<T extends boolean = true> {
   favourites?: T;
   checklistSelections?: T;
   checklistProfile?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations_select".
+ */
+export interface ChatConversationsSelect<T extends boolean = true> {
+  sessionId?: T;
+  messages?: T;
+  leadName?: T;
+  leadEmail?: T;
+  leadPhone?: T;
+  leadCaptured?: T;
+  topic?: T;
   updatedAt?: T;
   createdAt?: T;
 }

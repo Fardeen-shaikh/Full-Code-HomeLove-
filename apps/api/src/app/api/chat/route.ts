@@ -147,7 +147,8 @@ export async function POST(req: NextRequest) {
     ]
 
     // Detect topic
-    let topic = 'general'
+    type Topic = 'general' | 'exhibition' | 'exhibitor' | 'home-tips' | 'checklist' | 'other'
+    let topic: Topic = 'general'
     const fullText = messages.map((m) => m.content).join(' ').toLowerCase()
     if (fullText.includes('exhibit') || fullText.includes('booth') || fullText.includes('brand')) topic = 'exhibitor'
     else if (fullText.includes('exhibition') || fullText.includes('expo') || fullText.includes('event')) topic = 'exhibition'
