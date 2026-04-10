@@ -2,31 +2,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import CategoryMarquee from './CategoryMarquee'
 
-const UPCOMING_EVENTS = [
-  {
-    title: 'HOMElove Kuching',
-    venue: 'Borneo Convention Centre Kuching (BCCK)',
-    state: 'Sarawak',
-    date: '2 Apr – 5 Apr',
-    poster: '/images/events/event-kuching.png',
-  },
-  {
-    title: 'HOMElove Kuantan',
-    venue: "Sultan Ahmad Shah Int'l Conv. Centre",
-    state: 'Pahang',
-    date: '9 Apr – 12 Apr',
-    poster: '/images/events/event-penang.jpeg',
-  },
-  {
-    title: 'HOMElove Penang',
-    venue: 'Setia SPICE Convention Centre (SSCC)',
-    state: 'Penang',
-    date: '30 Jul – 2 Aug',
-    poster: '/images/events/event-penang.jpeg',
-  },
+interface EventData {
+  title: string
+  venue: string
+  state: string
+  date: string
+  poster: string
+  slug: string
+}
+
+const FALLBACK_EVENTS: EventData[] = [
+  { title: 'HOMElove Kuching', venue: 'Borneo Convention Centre Kuching (BCCK)', state: 'Sarawak', date: '2 Apr – 5 Apr', poster: '/images/events/event-kuching.png', slug: '#' },
+  { title: 'HOMElove Kuantan', venue: "Sultan Ahmad Shah Int'l Conv. Centre", state: 'Pahang', date: '9 Apr – 12 Apr', poster: '/images/events/event-penang.jpeg', slug: '#' },
+  { title: 'HOMElove Penang', venue: 'Setia SPICE Convention Centre (SSCC)', state: 'Penang', date: '30 Jul – 2 Aug', poster: '/images/events/event-penang.jpeg', slug: '#' },
 ]
 
-export default function Hero() {
+export default function Hero({ events }: { events?: EventData[] }) {
+  const UPCOMING_EVENTS = events && events.length > 0 ? events : FALLBACK_EVENTS
   return (
     <>
       <section className="relative overflow-hidden" style={{ padding: '130px 0 60px' }}>

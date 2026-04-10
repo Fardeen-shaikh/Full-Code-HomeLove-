@@ -1,32 +1,48 @@
 import Link from 'next/link'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
-const FEATURED = {
+interface BlogData {
+  title: string
+  slug: string
+  category: string
+  excerpt: string
+  image: string
+}
+
+const CATEGORY_COLORS: Record<string, string> = {
+  'home-tips': 'bg-secondary',
+  'trends-ideas': 'bg-orange',
+  'buying-guide': 'bg-primary',
+  'renovation': 'bg-primary',
+  'interior-design': 'bg-orange',
+  'smart-home': 'bg-secondary',
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  'home-tips': 'Home Tips',
+  'trends-ideas': 'Trends & Ideas',
+  'buying-guide': 'Buying Guide',
+  'renovation': 'Renovation',
+  'interior-design': 'Interior Design',
+  'smart-home': 'Smart Home',
+}
+
+const FALLBACK_FEATURED: BlogData = {
   title: '10 Modern Kitchen Designs That Will Transform Your Cooking Space',
-  category: 'Kitchen',
-  categoryColor: 'bg-secondary',
+  slug: '#',
+  category: 'home-tips',
   excerpt: 'From single bowl to double bowl, undermount to top-mount — everything you need to know about picking the perfect kitchen sink for your cooking style.',
   image: '/images/blog/kitchen-design.jpg',
 }
 
-const SIDE_POSTS = [
-  {
-    title: 'How to Choose the Perfect Sofa for Your Malaysian Living Room',
-    category: 'Furniture',
-    categoryColor: 'bg-orange',
-    excerpt: 'Everything you need to consider before making this long-term investment in your home.',
-    image: '/images/blog/sofa-guide.jpeg',
-  },
-  {
-    title: 'Modern Bathroom Interior Design: Achieving Luxury on a Budget',
-    category: 'Bathroom',
-    categoryColor: 'bg-primary',
-    excerpt: 'Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.',
-    image: '/images/blog/bathroom.png',
-  },
+const FALLBACK_SIDE: BlogData[] = [
+  { title: 'How to Choose the Perfect Sofa for Your Malaysian Living Room', slug: '#', category: 'buying-guide', excerpt: 'Everything you need to consider before making this long-term investment.', image: '/images/blog/sofa-guide.jpeg' },
+  { title: 'Modern Bathroom Interior Design: Achieving Luxury on a Budget', slug: '#', category: 'renovation', excerpt: 'Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.', image: '/images/blog/bathroom.png' },
 ]
 
-export default function BlogPreview() {
+export default function BlogPreview({ blogs }: { blogs?: BlogData[] }) {
+  const FEATURED = blogs && blogs.length > 0 ? blogs[0] : FALLBACK_FEATURED
+  const SIDE_POSTS = blogs && blogs.length > 1 ? blogs.slice(1, 3) : FALLBACK_SIDE
   return (
     <section className="py-20 bg-gray-light">
       <div className="max-w-[1200px] mx-auto px-6">
@@ -46,7 +62,7 @@ export default function BlogPreview() {
         <AnimateOnScroll>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Big card — left, spans 2 rows */}
-            <Link href="/home-tips" className="block group lg:row-span-2">
+            <Link href={`/home-tips/${FEATURED.slug}`} className="block group lg:row-span-2">
               <article className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:-translate-y-2.5 hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-400 h-full">
                 <div className="h-[280px] overflow-hidden relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -55,8 +71,8 @@ export default function BlogPreview() {
                     alt={FEATURED.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.08]"
                   />
-                  <span className={`absolute top-3 left-3 ${FEATURED.categoryColor} text-white px-3.5 py-1 rounded-md text-[11px] font-bold uppercase`}>
-                    {FEATURED.category}
+                  <span className={`absolute top-3 left-3 ${CATEGORY_COLORS[FEATURED.category] || 'bg-primary'} text-white px-3.5 py-1 rounded-md text-[11px] font-bold uppercase`}>
+                    {CATEGORY_LABELS[FEATURED.category] || FEATURED.category}
                   </span>
                 </div>
                 <div className="p-5">
@@ -71,7 +87,7 @@ export default function BlogPreview() {
 
             {/* Two horizontal cards — right, stacked */}
             {SIDE_POSTS.map((post) => (
-              <Link key={post.title} href="/home-tips" className="block group">
+              <Link key={post.title} href={`/home-tips/${post.slug}`} className="block group">
                 <article className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:-translate-y-1.5 hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-400 grid grid-cols-1 sm:grid-cols-[300px_1fr] h-full">
                   {/* Image — left */}
                   <div className="h-[180px] overflow-hidden relative">
@@ -81,8 +97,8 @@ export default function BlogPreview() {
                       alt={post.title}
                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.08]"
                     />
-                    <span className={`absolute top-2.5 left-2.5 ${post.categoryColor} text-white px-3 py-1 rounded-[5px] text-[10px] font-bold uppercase`}>
-                      {post.category}
+                    <span className={`absolute top-2.5 left-2.5 ${CATEGORY_COLORS[post.category] || 'bg-primary'} text-white px-3 py-1 rounded-[5px] text-[10px] font-bold uppercase`}>
+                      {CATEGORY_LABELS[post.category] || post.category}
                     </span>
                   </div>
                   {/* Text — right */}

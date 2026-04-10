@@ -2,19 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-interface EventData {
-  title: string; slug: string; venue: string; state: string;
-  date: string; imageUrl: string; days: number;
-}
-interface BlogData {
-  title: string; slug: string; category: string; categoryLabel: string;
-  excerpt: string; imageUrl: string;
-}
-interface HomepageProps {
-  events?: EventData[];
-  blogs?: BlogData[];
-}
-
 const HOMEPAGE_JS = `
     (function(){
         let active = 0;
@@ -41,7 +28,7 @@ const HOMEPAGE_JS = `
     })();
     
 
-        // Scroll animations — with retry for dynamically loaded content
+        // Scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -55,20 +42,9 @@ const HOMEPAGE_JS = `
             });
         }, observerOptions);
 
-        function observeAll() {
-            document.querySelectorAll('.animate-on-scroll').forEach(el => {
-                // If already in viewport, show immediately
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    el.classList.add('visible');
-                }
-                observer.observe(el);
-            });
-        }
-        observeAll();
-        // Re-observe after a short delay to catch dynamically rendered elements
-        setTimeout(observeAll, 100);
-        setTimeout(observeAll, 500);
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
 
         // Count-up animation for stats
         const countObserver = new IntersectionObserver((entries) => {
@@ -149,15 +125,11 @@ const HOMEPAGE_JS = `
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (!href || href === '#' || href.length < 2) return;
                 e.preventDefault();
-                try {
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                } catch(err) {}
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
     
@@ -199,7 +171,7 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
                 <h1>Transform Your<br><span>Dream Home</span><br>Into Reality</h1>
                 <p>Discover upcoming HOMElove home expos across Malaysia and explore furniture, home appliances, renovation solutions, home essentials, and exclusive expo deals all in one place.</p>
                 <div class="hero-buttons">
-                    <a href="/exhibitions" class="btn btn-secondary">Find Exhibitions →</a>
+                    <a href="#" class="btn btn-secondary">Find Exhibitions →</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -209,10 +181,36 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
                         <div class="live-badge">LIVE</div>
                     </div>
                     <div class="event-list" style="display:flex;flex-direction:column;gap:10px;">
-                        %%HERO_EVENTS%%
+                        <!-- Event 1: Image LEFT, text right -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Kuching</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Borneo Convention Centre Kuching (BCCK)<br>Sarawak</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">2 Apr – 5 Apr</div>
+                            </div>
+                        </div>
+                        <!-- Event 2 -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Kuantan</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Sultan Ahmad Shah Int'l Conv. Centre<br>Pahang</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">9 Apr – 12 Apr</div>
+                            </div>
+                        </div>
+                        <!-- Event 3: Longer date -->
+                        <div style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                            <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Penang" style="width:100%;height:100%;object-fit:contain;"></div>
+                            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
+                                <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">HOMElove Penang</h4>
+                                <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">Setia SPICE Convention Centre (SSCC)<br>Penang</p>
+                                <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">30 Jul – 2 Aug</div>
+                            </div>
+                        </div>
                     </div>
                     <!-- View All link -->
-                    <a href="/exhibitions" style="display:block;text-align:center;margin-top:14px;font-size:13px;font-weight:700;color:var(--primary);text-decoration:none;">View All Exhibitions →</a>
+                    <a href="#" style="display:block;text-align:center;margin-top:14px;font-size:13px;font-weight:700;color:var(--primary);text-decoration:none;">View All Exhibitions →</a>
                 </div>
             </div>
         </div>
@@ -333,7 +331,57 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
                 <p style="color:var(--gray);font-size:15px;max-width:560px;margin:8px auto 0;" class="animate-on-scroll">Discover HOMElove home expos across Malaysia — furniture, renovation, home appliances, and exclusive deals. Free admission for everyone.</p>
             </div>
             <div class="exhibitions-grid">
-                %%EXHIBITION_CARDS%%
+                <div class="exhibition-card animate-on-scroll delay-1">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png" alt="HOMElove Kuching">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Sarawak</span>
+                            <span>4 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Borneo Convention Centre Kuching (BCCK)</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">2-5 Apr 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-card animate-on-scroll delay-2">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Kuantan">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Pahang</span>
+                            <span>4 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Sultan Ahmad Shah Int'l Conv. Centre</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">9-12 Apr 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-card animate-on-scroll delay-3">
+                    <div class="exhibition-image">
+                        <img src="https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg" alt="HOMElove Penang">
+                    </div>
+                    <div class="exhibition-content">
+                        <div class="exhibition-meta">
+                            <span>Penang</span>
+                            <span>3 Days</span>
+                        </div>
+                        <h3>HOMElove Home Expo</h3>
+                        <p>Setia SPICE Convention Centre (SSCC)</p>
+                        <div class="exhibition-footer">
+                            <span class="exhibition-date">1-3 May 2026</span>
+                            <a href="#" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <span class="swipe-hint">Swipe to see more</span>
             <div class="carousel-dots" style="display:none;justify-content:center;gap:8px;margin-top:12px;">
@@ -342,7 +390,7 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
                 <span style="width:24px;height:4px;border-radius:2px;background:#d1d5db;"></span>
             </div>
             <div style="text-align:center;margin-top:36px;" class="animate-on-scroll">
-                <a href="/exhibitions" style="display:inline-block;padding:14px 36px;background:var(--primary);color:white;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.3s;" onmouseover="this.style.background='var(--primary-light)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(1,75,152,0.3)'" onmouseout="this.style.background='var(--primary)';this.style.transform='';this.style.boxShadow=''">View All Exhibitions →</a>
+                <a href="#" style="display:inline-block;padding:14px 36px;background:var(--primary);color:white;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.3s;" onmouseover="this.style.background='var(--primary-light)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(1,75,152,0.3)'" onmouseout="this.style.background='var(--primary)';this.style.transform='';this.style.boxShadow=''">View All Exhibitions →</a>
             </div>
         </div>
     </section>
@@ -566,11 +614,46 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
             <div class="section-header" style="text-align:center;margin-bottom:32px;">
                 <h2 class="animate-on-scroll" style="margin-bottom:6px;">Home Tips</h2>
                 <p style="color:var(--gray);font-size:15px;" class="animate-on-scroll">Expert tips and design ideas for every room in your home.</p>
-                <a href="/home-tips" style="display:inline-block;margin-top:16px;padding:10px 22px;border:2px solid var(--primary);color:var(--primary);border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;transition:all 0.2s;" onmouseover="this.style.background='var(--primary)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--primary)'">View All Articles →</a>
+                <a href="#" style="display:inline-block;margin-top:16px;padding:10px 22px;border:2px solid var(--primary);color:var(--primary);border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;transition:all 0.2s;" onmouseover="this.style.background='var(--primary)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--primary)'">View All Articles →</a>
             </div>
             <!-- Magazine layout: 1 big left + 2 small right -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="animate-on-scroll blog-magazine">
-                %%BLOG_CARDS%%
+                <!-- Big card left -->
+                <div class="blog-card" style="grid-row:1/3;border-radius:16px;overflow:hidden;">
+                    <div style="height:280px;overflow:hidden;position:relative;">
+                        <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;">
+                        <span style="position:absolute;top:12px;left:12px;background:var(--secondary);color:white;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">Kitchen</span>
+                    </div>
+                    <div class="blog-content" style="padding:20px;">
+                        <h3 style="font-size:1.2rem;margin-bottom:8px;">10 Modern Kitchen Designs That Will Transform Your Cooking Space</h3>
+                        <p style="font-size:0.85rem;color:#888;line-height:1.6;">From single bowl to double bowl, undermount to top-mount — everything you need to know about picking the perfect kitchen sink for your cooking style.</p>
+                        <a href="#" style="display:inline-block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
+                <!-- Top right card -->
+                <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
+                    <div style="overflow:hidden;position:relative;height:180px;">
+                        <img src="https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg" alt="Furniture" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+                        <span style="position:absolute;top:10px;left:10px;background:var(--orange);color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">Furniture</span>
+                    </div>
+                    <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                        <h3 style="font-size:1rem;margin-bottom:6px;">How to Choose the Perfect Sofa for Your Malaysian Living Room</h3>
+                        <p style="font-size:0.78rem;color:#888;line-height:1.5;">Everything you need to consider before making this long-term investment in your home.</p>
+                        <a href="#" style="display:inline-block;margin-top:8px;font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
+                <!-- Bottom right card -->
+                <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
+                    <div style="overflow:hidden;position:relative;height:180px;">
+                        <img src="bathroom.png" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+                        <span style="position:absolute;top:10px;left:10px;background:var(--primary);color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">Bathroom</span>
+                    </div>
+                    <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
+                        <h3 style="font-size:1rem;margin-bottom:6px;">Modern Bathroom Interior Design: Achieving Luxury on a Budget</h3>
+                        <p style="font-size:0.78rem;color:#888;line-height:1.5;">Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.</p>
+                        <a href="#" style="display:inline-block;margin-top:8px;font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</a>
+                    </div>
+                </div>
             </div>
             <span class="swipe-hint blog-swipe-hint">Swipe to see more</span>
             <div class="blog-dots" style="display:none;justify-content:center;gap:8px;margin-top:12px;">
@@ -1241,112 +1324,8 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
 
 `;
 
-// Default fallback data
-const DEFAULT_HERO_EVENTS = [
-  { title: 'HOMElove Kuching', venue: 'Borneo Convention Centre Kuching (BCCK)', state: 'Sarawak', date: '2 Apr – 5 Apr', imageUrl: 'https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png', slug: '#', days: 4 },
-  { title: 'HOMElove Kuantan', venue: "Sultan Ahmad Shah Int'l Conv. Centre", state: 'Pahang', date: '9 Apr – 12 Apr', imageUrl: 'https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg', slug: '#', days: 4 },
-  { title: 'HOMElove Penang', venue: 'Setia SPICE Convention Centre (SSCC)', state: 'Penang', date: '30 Jul – 2 Aug', imageUrl: 'https://homelove.com.my/sites/default/files/paragraph/text-with-background/Q1_SASICC_Event-responde_1920x1005.jpg_0.jpeg', slug: '#', days: 3 },
-]
-
-const DEFAULT_BLOGS = [
-  { title: '10 Modern Kitchen Designs That Will Transform Your Cooking Space', slug: '#', category: 'home-tips', categoryLabel: 'Kitchen', excerpt: 'From single bowl to double bowl, undermount to top-mount — everything you need to know about picking the perfect kitchen sink.', imageUrl: 'https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2025-02/1.jpg' },
-  { title: 'How to Choose the Perfect Sofa for Your Malaysian Living Room', slug: '#', category: 'buying-guide', categoryLabel: 'Furniture', excerpt: 'Everything you need to consider before making this long-term investment in your home.', imageUrl: 'https://www.homelove.com.my/sites/default/files/styles/slide_type_a/public/node/trend-idea/image/2022-02/sofa%2012.jpeg' },
-  { title: 'Modern Bathroom Interior Design: Achieving Luxury on a Budget', slug: '#', category: 'renovation', categoryLabel: 'Bathroom', excerpt: 'Explore the defining bathroom trends — from freestanding tubs to minimalist fixtures.', imageUrl: 'bathroom.png' },
-]
-
-const CATEGORY_COLORS: Record<string, string> = {
-  'home-tips': 'var(--secondary)', 'trends-ideas': 'var(--orange)', 'buying-guide': 'var(--orange)',
-  'renovation': 'var(--primary)', 'interior-design': 'var(--orange)', 'smart-home': 'var(--secondary)',
-}
-
-function buildHeroEvents(events: EventData[]): string {
-  return events.map(e => `
-    <a href="/exhibitions/${e.slug}" style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;text-decoration:none;color:inherit;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${e.imageUrl}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;"></div>
-      <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
-        <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">${e.title}</h4>
-        <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">${e.venue}<br>${e.state}</p>
-        <div style="background:var(--secondary);color:white;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;width:fit-content;">${e.date}</div>
-      </div>
-    </a>
-  `).join('')
-}
-
-function buildExhibitionCards(events: EventData[]): string {
-  return events.map((e, i) => `
-    <div class="exhibition-card animate-on-scroll delay-${i + 1}">
-      <div class="exhibition-image">
-        <img src="${e.imageUrl}" alt="${e.title}">
-      </div>
-      <div class="exhibition-content">
-        <div class="exhibition-meta">
-          <span>${e.state}</span>
-          <span>${e.days} Days</span>
-        </div>
-        <h3>${e.title}</h3>
-        <p>${e.venue}</p>
-        <div class="exhibition-footer">
-          <span class="exhibition-date">${e.date}</span>
-          <a href="/exhibitions/${e.slug}" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;">Learn More</a>
-        </div>
-      </div>
-    </div>
-  `).join('')
-}
-
-function buildBlogCards(blogs: BlogData[]): string {
-  if (blogs.length === 0) return ''
-  const featured = blogs[0]
-  const side = blogs.slice(1, 3)
-
-  let html = `
-    <div class="blog-card" style="grid-row:1/3;border-radius:16px;overflow:hidden;">
-      <a href="/home-tips/${featured.slug}" style="text-decoration:none;color:inherit;">
-        <div style="height:280px;overflow:hidden;position:relative;">
-          <img src="${featured.imageUrl}" alt="${featured.categoryLabel}" style="width:100%;height:100%;object-fit:cover;">
-          <span style="position:absolute;top:12px;left:12px;background:${CATEGORY_COLORS[featured.category] || 'var(--secondary)'};color:white;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">${featured.categoryLabel}</span>
-        </div>
-        <div class="blog-content" style="padding:20px;">
-          <h3 style="font-size:1.2rem;margin-bottom:8px;">${featured.title}</h3>
-          <p style="font-size:0.85rem;color:#888;line-height:1.6;">${featured.excerpt}</p>
-          <span style="display:inline-block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</span>
-        </div>
-      </a>
-    </div>
-  `
-
-  side.forEach(post => {
-    html += `
-      <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
-        <a href="/home-tips/${post.slug}" style="display:contents;text-decoration:none;color:inherit;">
-          <div style="overflow:hidden;position:relative;height:180px;">
-            <img src="${post.imageUrl}" alt="${post.categoryLabel}" style="width:100%;height:100%;object-fit:cover;object-position:center;">
-            <span style="position:absolute;top:10px;left:10px;background:${CATEGORY_COLORS[post.category] || 'var(--primary)'};color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">${post.categoryLabel}</span>
-          </div>
-          <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
-            <h3 style="font-size:1rem;margin-bottom:6px;">${post.title}</h3>
-            <p style="font-size:0.78rem;color:#888;line-height:1.5;">${post.excerpt}</p>
-            <span style="display:inline-block;margin-top:8px;font-size:0.78rem;font-weight:700;color:var(--primary);text-decoration:none;">Read More →</span>
-          </div>
-        </a>
-      </div>
-    `
-  })
-
-  return html
-}
-
-export function WireframeHomepage({ events, blogs }: HomepageProps) {
+export function WireframeHomepage() {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const heroEvents = events && events.length > 0 ? events : DEFAULT_HERO_EVENTS
-  const blogData = blogs && blogs.length > 0 ? blogs : DEFAULT_BLOGS
-
-  // Replace placeholders with dynamic content
-  const finalHTML = HOMEPAGE_HTML
-    .replace('%%HERO_EVENTS%%', buildHeroEvents(heroEvents))
-    .replace('%%EXHIBITION_CARDS%%', buildExhibitionCards(heroEvents))
-    .replace('%%BLOG_CARDS%%', buildBlogCards(blogData))
 
   useEffect(() => {
     if (containerRef.current) {
@@ -1360,6 +1339,6 @@ export function WireframeHomepage({ events, blogs }: HomepageProps) {
   }, []);
 
   return (
-    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: finalHTML }} />
+    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: HOMEPAGE_HTML }} />
   );
 }

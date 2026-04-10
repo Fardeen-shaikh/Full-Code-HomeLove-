@@ -2,31 +2,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
-const EVENTS = [
-  {
-    title: 'HOMElove Home Expo',
-    state: 'Sarawak',
-    venue: 'Borneo Convention Centre Kuching',
-    date: '2 – 5 Aug 2026',
-    image: '/images/events/event-kuching.png',
-  },
-  {
-    title: 'HOMElove Home Expo',
-    state: 'Kuantan',
-    venue: 'Megamall Kuantan Exhibition Centre',
-    date: '9 – 12 Sep 2026',
-    image: '/images/events/event-penang.jpeg',
-  },
-  {
-    title: 'HOMElove Home Expo',
-    state: 'Penang',
-    venue: 'SPICE Convention Centre',
-    date: '11 – 14 Oct 2026',
-    image: '/images/hero/hero-bg.jpg',
-  },
+interface EventData {
+  title: string
+  state: string
+  venue: string
+  date: string
+  image: string
+  slug: string
+}
+
+const FALLBACK_EVENTS: EventData[] = [
+  { title: 'HOMElove Home Expo', state: 'Sarawak', venue: 'Borneo Convention Centre Kuching', date: '2 – 5 Aug 2026', image: '/images/events/event-kuching.png', slug: '#' },
+  { title: 'HOMElove Home Expo', state: 'Kuantan', venue: 'Megamall Kuantan Exhibition Centre', date: '9 – 12 Sep 2026', image: '/images/events/event-penang.jpeg', slug: '#' },
+  { title: 'HOMElove Home Expo', state: 'Penang', venue: 'SPICE Convention Centre', date: '11 – 14 Oct 2026', image: '/images/hero/hero-bg.jpg', slug: '#' },
 ]
 
-export default function Exhibitions() {
+export default function Exhibitions({ events }: { events?: EventData[] }) {
+  const EVENTS = events && events.length > 0 ? events : FALLBACK_EVENTS
   return (
     <section id="exhibitions" className="py-20">
       <div className="max-w-7xl mx-auto px-4">
@@ -62,7 +54,7 @@ export default function Exhibitions() {
                     <span className="bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full">
                       {event.date}
                     </span>
-                    <Link href="/exhibitions" className="text-primary text-sm font-semibold hover:underline">
+                    <Link href={`/exhibitions/${event.slug}`} className="text-primary text-sm font-semibold hover:underline">
                       Learn More →
                     </Link>
                   </div>
