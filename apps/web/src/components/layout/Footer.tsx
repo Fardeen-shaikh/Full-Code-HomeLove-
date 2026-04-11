@@ -14,10 +14,10 @@ const CONTACT_LINKS = [
 ]
 
 const AFFILIATED = [
-  { name: 'Concept Living', logo: '/logos/affiliated/concept-living.png', height: 42, noInvert: true },
-  { name: 'Perfect Lifestyle', logo: '/logos/affiliated/perfect-lifestyle.png', height: 38 },
-  { name: 'MyEdu', logo: '/logos/affiliated/myedu.png', height: 36 },
-  { name: 'Family Health & Lifestyle', logo: '/logos/affiliated/family-health-lifestyle.png', height: 49 },
+  { name: 'Concept Living', logo: '/logos/affiliated/concept-living.webp', height: 42, noInvert: true },
+  { name: 'Perfect Lifestyle', logo: '/logos/affiliated/perfect-lifestyle.webp', height: 38 },
+  { name: 'MyEdu', logo: '/logos/affiliated/myedu.webp', height: 36 },
+  { name: 'Family Health & Lifestyle', logo: '/logos/affiliated/family-health-lifestyle.webp', height: 49 },
 ]
 
 export default function Footer() {
@@ -30,7 +30,7 @@ export default function Footer() {
             <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Link href="/">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logos/homelove/homelove-white.png" alt="HOMElove" style={{ height: '64px', width: 'auto' }} />
+                <img src="/logos/homelove/homelove-white.webp" alt="HOMElove" width={170} height={64} loading="lazy" decoding="async" />
               </Link>
             </div>
             <p style={{ marginTop: '16px' }}>

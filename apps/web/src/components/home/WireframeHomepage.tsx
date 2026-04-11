@@ -399,7 +399,7 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
             <!-- Mobile phone preview (hidden on desktop, shown on mobile) -->
             <div class="app-phone-preview">
                 <div class="app-phone-header">
-                    <img src="logos/homelove/homelove-white.png" alt="HOMElove">
+                    <img src="logos/homelove/homelove-white.webp" alt="HOMElove" loading="lazy" decoding="async" width="120" height="40">
                 </div>
                 <div class="app-phone-body">
                     <div class="app-phone-tiles">
@@ -426,7 +426,7 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
                 <div class="phone-frame">
                     <div class="phone-screen">
                         <div class="phone-header">
-                            <div class="phone-logo"><img src="https://homelove.com.my/sites/default/files/homelove-logo-2023.png" alt="HOMElove"></div>
+                            <div class="phone-logo"><img src="logos/homelove/homelove-blue.webp" alt="HOMElove" loading="lazy" decoding="async" width="80" height="28"></div>
                             <h4>HOMElove</h4>
                         </div>
                         <div class="phone-content">
@@ -495,68 +495,68 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
         </div>
         <div class="brands-marquee-wrapper">
                         <div class="brands-track">
-                <img class="brand-logo" src="logos/brands/samsung.png" alt="Samsung" loading="lazy">
-                <img class="brand-logo" src="logos/brands/lg.png" alt="LG" loading="lazy">
-                <img class="brand-logo" src="logos/brands/panasonic.png" alt="Panasonic" loading="lazy">
-                <img class="brand-logo" src="logos/brands/toshiba.png" alt="Toshiba" loading="lazy">
-                <img class="brand-logo" src="logos/brands/hitachi.png" alt="Hitachi" loading="lazy">
-                <img class="brand-logo" src="logos/brands/daikin.png" alt="Daikin" loading="lazy">
-                <img class="brand-logo" src="logos/brands/dyson.png" alt="Dyson" loading="lazy">
-                <img class="brand-logo" src="logos/brands/bosch.png" alt="Bosch" loading="lazy">
-                <img class="brand-logo" src="logos/brands/electrolux.png" alt="Electrolux" loading="lazy">
-                <img class="brand-logo" src="logos/brands/philips.png" alt="Philips" loading="lazy">
-                <img class="brand-logo" src="logos/brands/hisense.png" alt="Hisense" loading="lazy">
-                <img class="brand-logo" src="logos/brands/beko.png" alt="Beko" loading="lazy">
-                <img class="brand-logo" src="logos/brands/haier.png" alt="Haier" loading="lazy">
-                <img class="brand-logo" src="logos/brands/midea.png" alt="Midea" loading="lazy">
-                <img class="brand-logo" src="logos/brands/sharp.png" alt="Sharp" loading="lazy">
-                <img class="brand-logo" src="logos/brands/samsung.png" alt="Samsung" loading="lazy">
-                <img class="brand-logo" src="logos/brands/lg.png" alt="LG" loading="lazy">
-                <img class="brand-logo" src="logos/brands/panasonic.png" alt="Panasonic" loading="lazy">
-                <img class="brand-logo" src="logos/brands/toshiba.png" alt="Toshiba" loading="lazy">
-                <img class="brand-logo" src="logos/brands/hitachi.png" alt="Hitachi" loading="lazy">
-                <img class="brand-logo" src="logos/brands/daikin.png" alt="Daikin" loading="lazy">
-                <img class="brand-logo" src="logos/brands/dyson.png" alt="Dyson" loading="lazy">
-                <img class="brand-logo" src="logos/brands/bosch.png" alt="Bosch" loading="lazy">
-                <img class="brand-logo" src="logos/brands/electrolux.png" alt="Electrolux" loading="lazy">
-                <img class="brand-logo" src="logos/brands/philips.png" alt="Philips" loading="lazy">
-                <img class="brand-logo" src="logos/brands/hisense.png" alt="Hisense" loading="lazy">
-                <img class="brand-logo" src="logos/brands/beko.png" alt="Beko" loading="lazy">
-                <img class="brand-logo" src="logos/brands/haier.png" alt="Haier" loading="lazy">
-                <img class="brand-logo" src="logos/brands/midea.png" alt="Midea" loading="lazy">
-                <img class="brand-logo" src="logos/brands/sharp.png" alt="Sharp" loading="lazy">
+                <img class="brand-logo" src="logos/brands/samsung.webp" alt="Samsung" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/lg.webp" alt="LG" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/panasonic.webp" alt="Panasonic" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/toshiba.webp" alt="Toshiba" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/hitachi.webp" alt="Hitachi" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/daikin.webp" alt="Daikin" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/dyson.webp" alt="Dyson" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/bosch.webp" alt="Bosch" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/electrolux.webp" alt="Electrolux" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/philips.webp" alt="Philips" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/hisense.webp" alt="Hisense" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/beko.webp" alt="Beko" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/haier.webp" alt="Haier" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/midea.webp" alt="Midea" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/sharp.webp" alt="Sharp" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/samsung.webp" alt="Samsung" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/lg.webp" alt="LG" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/panasonic.webp" alt="Panasonic" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/toshiba.webp" alt="Toshiba" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/hitachi.webp" alt="Hitachi" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/daikin.webp" alt="Daikin" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/dyson.webp" alt="Dyson" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/bosch.webp" alt="Bosch" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/electrolux.webp" alt="Electrolux" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/philips.webp" alt="Philips" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/hisense.webp" alt="Hisense" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/beko.webp" alt="Beko" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/haier.webp" alt="Haier" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/midea.webp" alt="Midea" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/sharp.webp" alt="Sharp" loading="lazy" decoding="async" width="120" height="60">
             </div>
             <div class="brands-track">
-                <img class="brand-logo" src="logos/brands/king-koil.png" alt="King Koil" loading="lazy">
-                <img class="brand-logo" src="logos/brands/dunlopillo.png" alt="Dunlopillo" loading="lazy">
-                <img class="brand-logo" src="logos/brands/getha.png" alt="Getha" loading="lazy">
-                <img class="brand-logo" src="logos/brands/serta.png" alt="Serta" loading="lazy">
-                <img class="brand-logo" src="logos/brands/slumberland.png" alt="Slumberland" loading="lazy">
-                <img class="brand-logo" src="logos/brands/tefal.png" alt="Tefal" loading="lazy">
-                <img class="brand-logo" src="logos/brands/nespresso.png" alt="Nespresso" loading="lazy">
-                <img class="brand-logo" src="logos/brands/kitchenaid.png" alt="KitchenAid" loading="lazy">
-                <img class="brand-logo" src="logos/brands/ogawa.png" alt="Ogawa" loading="lazy">
-                <img class="brand-logo" src="logos/brands/coway.png" alt="Coway" loading="lazy">
-                <img class="brand-logo" src="logos/brands/cuckoo.png" alt="Cuckoo" loading="lazy">
-                <img class="brand-logo" src="logos/brands/rinnai.png" alt="Rinnai" loading="lazy">
-                <img class="brand-logo" src="logos/brands/yale.png" alt="Yale" loading="lazy">
-                <img class="brand-logo" src="logos/brands/karcher.png" alt="Karcher" loading="lazy">
-                <img class="brand-logo" src="logos/brands/fotile.png" alt="Fotile" loading="lazy">
-                <img class="brand-logo" src="logos/brands/king-koil.png" alt="King Koil" loading="lazy">
-                <img class="brand-logo" src="logos/brands/dunlopillo.png" alt="Dunlopillo" loading="lazy">
-                <img class="brand-logo" src="logos/brands/getha.png" alt="Getha" loading="lazy">
-                <img class="brand-logo" src="logos/brands/serta.png" alt="Serta" loading="lazy">
-                <img class="brand-logo" src="logos/brands/slumberland.png" alt="Slumberland" loading="lazy">
-                <img class="brand-logo" src="logos/brands/tefal.png" alt="Tefal" loading="lazy">
-                <img class="brand-logo" src="logos/brands/nespresso.png" alt="Nespresso" loading="lazy">
-                <img class="brand-logo" src="logos/brands/kitchenaid.png" alt="KitchenAid" loading="lazy">
-                <img class="brand-logo" src="logos/brands/ogawa.png" alt="Ogawa" loading="lazy">
-                <img class="brand-logo" src="logos/brands/coway.png" alt="Coway" loading="lazy">
-                <img class="brand-logo" src="logos/brands/cuckoo.png" alt="Cuckoo" loading="lazy">
-                <img class="brand-logo" src="logos/brands/rinnai.png" alt="Rinnai" loading="lazy">
-                <img class="brand-logo" src="logos/brands/yale.png" alt="Yale" loading="lazy">
-                <img class="brand-logo" src="logos/brands/karcher.png" alt="Karcher" loading="lazy">
-                <img class="brand-logo" src="logos/brands/fotile.png" alt="Fotile" loading="lazy">
+                <img class="brand-logo" src="logos/brands/king-koil.webp" alt="King Koil" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/dunlopillo.webp" alt="Dunlopillo" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/getha.webp" alt="Getha" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/serta.webp" alt="Serta" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/slumberland.webp" alt="Slumberland" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/tefal.webp" alt="Tefal" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/nespresso.webp" alt="Nespresso" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/kitchenaid.webp" alt="KitchenAid" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/ogawa.webp" alt="Ogawa" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/coway.webp" alt="Coway" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/cuckoo.webp" alt="Cuckoo" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/rinnai.webp" alt="Rinnai" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/yale.webp" alt="Yale" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/karcher.webp" alt="Karcher" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/fotile.webp" alt="Fotile" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/king-koil.webp" alt="King Koil" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/dunlopillo.webp" alt="Dunlopillo" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/getha.webp" alt="Getha" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/serta.webp" alt="Serta" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/slumberland.webp" alt="Slumberland" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/tefal.webp" alt="Tefal" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/nespresso.webp" alt="Nespresso" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/kitchenaid.webp" alt="KitchenAid" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/ogawa.webp" alt="Ogawa" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/coway.webp" alt="Coway" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/cuckoo.webp" alt="Cuckoo" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/rinnai.webp" alt="Rinnai" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/yale.webp" alt="Yale" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/karcher.webp" alt="Karcher" loading="lazy" decoding="async" width="120" height="60">
+                <img class="brand-logo" src="logos/brands/fotile.webp" alt="Fotile" loading="lazy" decoding="async" width="120" height="60">
             </div>
     </section>
 
@@ -722,7 +722,7 @@ const HOMEPAGE_HTML = `    <!-- Hero -->
             <!-- Map with pins -->
             <div style="position:relative;max-width:100%;margin:0 auto;" class="map-container">
                 <div style="position:relative;">
-                    <img src="Blank_malaysia_map.png" alt="Malaysia Map" style="width:100%;height:auto;">
+                    <img src="Blank_malaysia_map.png" alt="Malaysia Map" style="width:100%;height:auto;" loading="lazy" decoding="async" width="1100" height="600">
                     <!-- Penang pin -->
                     <div class="map-pin" style="left:4.5%;top:26%;">
                         <svg width="20" height="28" viewBox="0 0 24 32" fill="var(--primary)"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0zm0 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/></svg>
@@ -1262,7 +1262,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 function buildHeroEvents(events: EventData[]): string {
   return events.map(e => `
     <a href="/exhibitions/${e.slug}" style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;text-decoration:none;color:inherit;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${e.imageUrl}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${e.imageUrl}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" width="200" height="120" fetchpriority="high"></div>
       <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
         <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">${e.title}</h4>
         <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">${e.venue}<br>${e.state}</p>
@@ -1276,7 +1276,7 @@ function buildExhibitionCards(events: EventData[]): string {
   return events.map((e, i) => `
     <div class="exhibition-card animate-on-scroll delay-${i + 1}">
       <div class="exhibition-image">
-        <img src="${e.imageUrl}" alt="${e.title}">
+        <img src="${e.imageUrl}" alt="${e.title}" loading="lazy" decoding="async" width="400" height="250">
       </div>
       <div class="exhibition-content">
         <div class="exhibition-meta">
@@ -1303,7 +1303,7 @@ function buildBlogCards(blogs: BlogData[]): string {
     <div class="blog-card" style="grid-row:1/3;border-radius:16px;overflow:hidden;">
       <a href="/home-tips/${featured.slug}" style="text-decoration:none;color:inherit;">
         <div style="height:280px;overflow:hidden;position:relative;">
-          <img src="${featured.imageUrl}" alt="${featured.categoryLabel}" style="width:100%;height:100%;object-fit:cover;">
+          <img src="${featured.imageUrl}" alt="${featured.categoryLabel}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="600" height="280">
           <span style="position:absolute;top:12px;left:12px;background:${CATEGORY_COLORS[featured.category] || 'var(--secondary)'};color:white;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">${featured.categoryLabel}</span>
         </div>
         <div class="blog-content" style="padding:20px;">
@@ -1320,7 +1320,7 @@ function buildBlogCards(blogs: BlogData[]): string {
       <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
         <a href="/home-tips/${post.slug}" style="display:contents;text-decoration:none;color:inherit;">
           <div style="overflow:hidden;position:relative;height:180px;">
-            <img src="${post.imageUrl}" alt="${post.categoryLabel}" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+            <img src="${post.imageUrl}" alt="${post.categoryLabel}" style="width:100%;height:100%;object-fit:cover;object-position:center;" loading="lazy" decoding="async" width="300" height="180">
             <span style="position:absolute;top:10px;left:10px;background:${CATEGORY_COLORS[post.category] || 'var(--primary)'};color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">${post.categoryLabel}</span>
           </div>
           <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">

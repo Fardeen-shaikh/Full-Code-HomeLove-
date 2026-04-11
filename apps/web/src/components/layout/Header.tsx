@@ -45,7 +45,7 @@ export default function Header() {
             <div className="logo">
               <Link href="/">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logos/homelove/homelove-blue.png" alt="HOMElove Home & Living Expo" style={{ height: '60px', width: 'auto' }} />
+                <img src="/logos/homelove/homelove-blue.webp" alt="HOMElove Home & Living Expo" width={160} height={60} fetchPriority="high" />
               </Link>
             </div>
             <nav className="nav">
