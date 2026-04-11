@@ -1913,68 +1913,152 @@
     margin-top: 4px;
 }
 
-/* Scratch card area */
-.deal-scratch-area {
+/* ===== Mystery Box ===== */
+.mystery-box {
+    width: 100%;
+    min-height: 260px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(145deg, #014B98 0%, #0a2a5c 100%);
     position: relative;
-    margin-top: 10px;
-    border-radius: 10px;
     overflow: hidden;
-    height: 64px;
-    user-select: none;
-    touch-action: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: boxWobble 3s ease-in-out infinite;
 }
-
-.scratch-hidden-price {
+.mystery-box:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 36px rgba(1,75,152,0.35);
+    animation: none;
+}
+.mystery-box-glow {
     position: absolute;
     inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+}
+.mystery-box-icon {
+    font-size: 56px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    animation: boxPulse 2s ease-in-out infinite;
+}
+.mystery-box-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.mystery-box-hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+}
+@keyframes boxWobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+}
+@keyframes boxPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ===== Revealed Card ===== */
+.deal-card.revealed {
+    border-color: var(--primary);
+    background: white;
+    animation: dealRevealAnim 0.5s ease forwards;
+}
+@keyframes dealRevealAnim {
+    0% { opacity: 0; transform: scale(0.8) rotateY(90deg); }
+    50% { transform: scale(1.05) rotateY(0deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+}
+.deal-revealed-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+.deal-revealed-top {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.deal-revealed-image {
+    width: 100%;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #e8f4fd 0%, #dbeafe 100%);
-    z-index: 0;
+    margin-bottom: 8px;
 }
-
-.scratch-hidden-price span {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: 2px;
-    opacity: 0.5;
+.deal-revealed-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
 }
-
-.scratch-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    cursor: grabbing;
-    touch-action: none;
-}
-
-/* Revealed state */
-.deal-revealed {
-    animation: dealRevealAnim 0.5s ease forwards;
-}
-
-@keyframes dealRevealAnim {
-    0% { opacity: 0; transform: scale(0.9); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-.deal-wa-sent {
-    display: flex;
+.deal-wa-btn {
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #25D366;
+    background: #25D366;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 50px;
+    text-decoration: none;
     margin-top: 8px;
+    transition: all 0.2s;
+}
+.deal-wa-btn:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37,211,102,0.3);
 }
 
-.deal-card.revealed {
-    border-color: var(--primary);
-    background: rgba(1, 75, 152, 0.02);
+/* ===== Progress bar ===== */
+.deals-progress {
+    margin-top: 16px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.deals-progress-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    display: block;
+    margin-bottom: 8px;
+}
+.deals-progress-bar {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.deals-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+.deals-all-revealed {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 10px;
+    animation: dealRevealAnim 0.5s ease forwards;
 }
 
 /* Deal form popup */
