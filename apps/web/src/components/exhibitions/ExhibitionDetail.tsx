@@ -7,6 +7,11 @@ import type { Exhibition, CrazyDeal, DiscountCoupon, FeaturedBrand } from '@/lib
 import { submitSubscriber, mediaUrl, createSession, getSession, updateSession } from '@/lib/api'
 import './exhibitions.css'
 
+function optimizedImg(src: string, width: number, quality = 75): string {
+  if (!src || src.startsWith('data:')) return src
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`
+}
+
 function formatDateRange(start: string, end: string) {
   const s = new Date(start)
   const e = new Date(end)
@@ -404,7 +409,7 @@ export default function ExhibitionDetail({
   function shareDealOnWhatsApp(deal: CrazyDeal) {
     const imageUrl = mediaUrl(deal.image)
     const fullImageUrl = imageUrl?.startsWith('http') ? imageUrl : `${window.location.origin}${imageUrl}`
-    const text = `Hi! I'm interested in this Crazy Deal from *${exhibition.title}*.\n\nDeal: ${fullImageUrl}\n\nPlease share more details!`
+    const text = `Hi! I'd like to enquire about this deal from *${exhibition.title}*.\n\n${fullImageUrl}\n\nPlease share more details!`
     window.open(`https://wa.me/60102323620?text=${encodeURIComponent(text)}`, '_blank')
   }
 
@@ -519,41 +524,112 @@ export default function ExhibitionDetail({
         </section>
       )}
 
-      {/* ===== VIDEO + INFO CARDS ===== */}
-      <section className="ed-video-section" id="details">
+      {/* ===== EVENT HIGHLIGHTS ===== */}
+      <section className="ed-highlights" id="details">
         <div className="container">
-          <div className="ed-video-grid">
-            <div className="ed-video">
-              {exhibition.verticalVideo ? (
-                <video src={mediaUrl(exhibition.verticalVideo)} controls playsInline poster={bannerUrl} />
-              ) : (
-                <div className="ed-video-placeholder">
-                  <Image src={bannerUrl} alt={exhibition.title} width={600} height={400} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                  <div className="ed-video-overlay"><span>Video coming soon</span></div>
-                </div>
-              )}
+          {/* Stats strip */}
+          <div className="ed-stats-strip">
+            <div className="ed-stat-item">
+              <span className="ed-stat-icon">🎟️</span>
+              <div>
+                <div className="ed-stat-value">Free</div>
+                <div className="ed-stat-label">Admission</div>
+              </div>
             </div>
-            <div className="ed-info-cards">
-              <div className="ed-info-card highlight">
-                <h3>Free Admission</h3>
-                <p>Open to all visitors. Bring your family and explore home solutions under one roof.</p>
-              </div>
-              {exhibition.brandCount && (
-                <div className="ed-info-card">
-                  <div className="ed-info-stat">{exhibition.brandCount}+</div>
-                  <p>Participating Brands</p>
+            {exhibition.brandCount && (
+              <div className="ed-stat-item">
+                <span className="ed-stat-icon">🏪</span>
+                <div>
+                  <div className="ed-stat-value">{exhibition.brandCount}+</div>
+                  <div className="ed-stat-label">Brands</div>
                 </div>
-              )}
-              <div className="ed-info-card">
-                <div className="ed-info-stat">{Math.ceil((new Date(exhibition.endDate).getTime() - new Date(exhibition.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}</div>
-                <p>Days of Deals &amp; Offers</p>
               </div>
-              {tncSlug && (
-                <Link href={`/p/${tncSlug}`} className="ed-info-card ed-tnc-card">
-                  <h3>Terms &amp; Conditions</h3>
-                  <p>View full TNC for this event →</p>
-                </Link>
-              )}
+            )}
+            <div className="ed-stat-item">
+              <span className="ed-stat-icon">📅</span>
+              <div>
+                <div className="ed-stat-value">{Math.ceil((new Date(exhibition.endDate).getTime() - new Date(exhibition.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}</div>
+                <div className="ed-stat-label">Days</div>
+              </div>
+            </div>
+            <div className="ed-stat-item">
+              <span className="ed-stat-icon">📍</span>
+              <div>
+                <div className="ed-stat-value">{exhibition.state}</div>
+                <div className="ed-stat-label">{exhibition.venue}</div>
+              </div>
+            </div>
+            {tncSlug && (
+              <Link href={`/p/${tncSlug}`} className="ed-stat-item ed-stat-link">
+                <span className="ed-stat-icon">📋</span>
+                <div>
+                  <div className="ed-stat-value">T&amp;C</div>
+                  <div className="ed-stat-label">View Terms →</div>
+                </div>
+              </Link>
+            )}
+          </div>
+
+          {/* Video + Highlights */}
+          <div className="ed-video-highlights">
+            {/* Left: Video in phone mockup */}
+            <div className="ed-phone-mockup">
+              <div className="ed-phone-notch" />
+              <div className="ed-phone-screen">
+                {exhibition.verticalVideo ? (
+                  <video src={mediaUrl(exhibition.verticalVideo)} controls playsInline poster={bannerUrl} />
+                ) : (
+                  <div className="ed-phone-banner">
+                    <Image src={bannerUrl} alt={exhibition.title} width={350} height={600} quality={75} loading="lazy" sizes="350px" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                    <div className="ed-phone-play">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="ed-phone-bar" />
+            </div>
+
+            {/* Right: What to Expect + Subscribe */}
+            <div className="ed-highlights-right">
+              <h3>What to Expect</h3>
+              <div className="ed-expect-list">
+                <div className="ed-expect-item">
+                  <span className="ed-expect-icon">🎟️</span>
+                  <div><strong>Free Entry for All</strong><p>No tickets needed — walk in with your family</p></div>
+                </div>
+                <div className="ed-expect-item">
+                  <span className="ed-expect-icon">🏷️</span>
+                  <div><strong>Exclusive Expo Deals</strong><p>Prices you won&apos;t find anywhere else</p></div>
+                </div>
+                <div className="ed-expect-item">
+                  <span className="ed-expect-icon">🎁</span>
+                  <div><strong>Lucky Draws &amp; Prizes</strong><p>Stand a chance to win exciting prizes</p></div>
+                </div>
+                <div className="ed-expect-item">
+                  <span className="ed-expect-icon">💡</span>
+                  <div><strong>Expert Consultations</strong><p>Get advice from home &amp; living experts</p></div>
+                </div>
+              </div>
+
+              {/* Compact subscribe */}
+              <div className="ed-inline-subscribe">
+                <h4>Get Event Updates</h4>
+                {subStatus === 'sent' ? (
+                  <p className="sub-success-inline">You&apos;re subscribed! We&apos;ll keep you updated.</p>
+                ) : (
+                  <form onSubmit={handleSubscribe} className="ed-inline-form">
+                    <div className="ed-inline-fields">
+                      <input type="text" placeholder="Name" value={subForm.name} onChange={(e) => setSubForm({ ...subForm, name: e.target.value })} required />
+                      <input type="tel" placeholder="Phone" value={subForm.phone} onChange={(e) => setSubForm({ ...subForm, phone: e.target.value })} required />
+                      <input type="email" placeholder="Email" value={subForm.email} onChange={(e) => setSubForm({ ...subForm, email: e.target.value })} required />
+                    </div>
+                    <button type="submit" className="btn btn-primary ed-inline-btn" disabled={subStatus === 'sending'}>
+                      {subStatus === 'sending' ? 'Subscribing...' : 'Subscribe →'}
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -580,12 +656,18 @@ export default function ExhibitionDetail({
         <section className="ed-program" id="program">
           <div className="container">
             <h2 className="section-title">Program Schedule</h2>
-            <div className="ed-program-grid">
+            <p className="section-subtitle">Activities and highlights throughout the expo</p>
+            <div className="ed-timeline">
               {exhibition.programSchedule.map((item, i) => (
-                <div key={i} className="ed-program-card">
-                  <div className="ed-program-time">{item.time}</div>
-                  <h4>{item.title}</h4>
-                  {item.description && <p>{item.description}</p>}
+                <div key={i} className="ed-timeline-item">
+                  <div className="ed-timeline-dot">
+                    <div className="ed-timeline-dot-inner" />
+                  </div>
+                  <div className="ed-timeline-content">
+                    <div className="ed-timeline-time">{item.time}</div>
+                    <h4>{item.title}</h4>
+                    {item.description && <p>{item.description}</p>}
+                  </div>
                 </div>
               ))}
             </div>
@@ -621,7 +703,7 @@ export default function ExhibitionDetail({
                       {mediaUrl(deal.image) && (
                         <div className="deal-revealed-image">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={mediaUrl(deal.image)} alt={deal.title} />
+                          <img src={optimizedImg(mediaUrl(deal.image), 384)} alt={deal.title} />
                         </div>
                       )}
                       <div className="deal-revealed-actions">
@@ -631,7 +713,7 @@ export default function ExhibitionDetail({
                           onClick={(e) => { e.stopPropagation(); shareDealOnWhatsApp(deal) }}
                         >
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                          WhatsApp
+                          Enquire
                         </button>
                         <button
                           type="button"
@@ -705,7 +787,7 @@ export default function ExhibitionDetail({
                       {mediaUrl(popupDeal.image) && (
                         <div className="mystery-popup-image">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={mediaUrl(popupDeal.image)} alt={popupDeal.title} />
+                          <img src={optimizedImg(mediaUrl(popupDeal.image), 750)} alt={popupDeal.title} />
                         </div>
                       )}
                       <div className="mystery-popup-actions">
@@ -715,7 +797,7 @@ export default function ExhibitionDetail({
                           onClick={() => shareDealOnWhatsApp(popupDeal)}
                         >
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                          Share on WhatsApp
+                          Enquire on WhatsApp
                         </button>
                         <button type="button" className={`mystery-popup-fav${favourites.has(popupDeal.id) ? ' active' : ''}`} onClick={() => toggleFavourite(popupDeal.id)}>
                           <svg width="18" height="18" viewBox="0 0 24 24" fill={favourites.has(popupDeal.id) ? 'var(--secondary)' : 'none'} stroke={favourites.has(popupDeal.id) ? 'var(--secondary)' : '#999'} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
