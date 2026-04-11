@@ -3,7 +3,6 @@ import './globals.css'
 import '../components/home/wireframe.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import FloatingButtons from '@/components/ui/FloatingButtons'
 import ChatWidget from '@/components/chat/ChatWidget'
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
-        <FloatingButtons />
         <ChatWidget />
       </body>
     </html>
