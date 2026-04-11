@@ -70,9 +70,12 @@ export default function ChatWidget() {
         }),
       })
 
+      if (!res.ok) throw new Error(`Server error ${res.status}`)
       const data = await res.json()
       if (data.reply) {
         setMessages([...newMessages, { role: 'assistant', content: data.reply }])
+      } else {
+        throw new Error('No reply in response')
       }
     } catch {
       setMessages([...newMessages, {

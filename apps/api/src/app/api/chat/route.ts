@@ -139,75 +139,75 @@ export async function POST(req: NextRequest) {
       if (emailMatch) leadData.email = emailMatch[0]
     }
 
-    // Save conversation to DB
-    const payload = await getPayload({ config: configPromise })
-    const allMessages = [
-      ...messages,
-      { role: 'assistant', content: reply.replace(/\[LEAD:[^\]]*\]/g, '').trim(), timestamp: new Date().toISOString() },
-    ]
-
-    // Detect topic
-    type Topic = 'general' | 'exhibition' | 'exhibitor' | 'home-tips' | 'checklist' | 'other'
-    let topic: Topic = 'general'
-    const fullText = messages.map((m) => m.content).join(' ').toLowerCase()
-    if (fullText.includes('exhibit') || fullText.includes('booth') || fullText.includes('brand')) topic = 'exhibitor'
-    else if (fullText.includes('exhibition') || fullText.includes('expo') || fullText.includes('event')) topic = 'exhibition'
-    else if (fullText.includes('tip') || fullText.includes('blog') || fullText.includes('article')) topic = 'home-tips'
-    else if (fullText.includes('checklist') || fullText.includes('shopping list')) topic = 'checklist'
-
-    // Find existing conversation or create new
-    const existing = await payload.find({
-      collection: 'chat-conversations',
-      where: { sessionId: { equals: sessionId } },
-      limit: 1,
-    })
-
-    if (existing.docs.length > 0) {
-      await payload.update({
-        collection: 'chat-conversations',
-        id: existing.docs[0].id,
-        data: {
-          messages: allMessages,
-          topic,
-          ...(leadData?.name ? { leadName: leadData.name, leadCaptured: true } : {}),
-          ...(leadData?.email ? { leadEmail: leadData.email, leadCaptured: true } : {}),
-          ...(leadData?.phone ? { leadPhone: leadData.phone, leadCaptured: true } : {}),
-        },
-      })
-    } else {
-      await payload.create({
-        collection: 'chat-conversations',
-        data: {
-          sessionId,
-          messages: allMessages,
-          topic,
-          ...(leadData?.name ? { leadName: leadData.name, leadCaptured: true } : {}),
-          ...(leadData?.email ? { leadEmail: leadData.email, leadCaptured: true } : {}),
-          ...(leadData?.phone ? { leadPhone: leadData.phone, leadCaptured: true } : {}),
-        },
-      })
-    }
-
-    // Also save as subscriber if lead captured
-    if (leadData?.phone || leadData?.email) {
-      try {
-        await payload.create({
-          collection: 'subscribers',
-          data: {
-            name: leadData.name || 'Chat Visitor',
-            phone: leadData.phone || '',
-            email: leadData.email || 'noemail@chat.homelove.com.my',
-            state: 'Kuala Lumpur',
-            source: 'contact',
-          },
-        })
-      } catch {
-        // Ignore duplicate subscriber errors
-      }
-    }
-
     // Clean the reply (remove LEAD tags before sending to user)
     const cleanReply = reply.replace(/\[LEAD:[^\]]*\]/g, '').trim()
+
+    // Save conversation to DB (non-blocking — don't let DB errors kill the chat response)
+    try {
+      const payload = await getPayload({ config: configPromise })
+      const allMessages = [
+        ...messages,
+        { role: 'assistant', content: cleanReply, timestamp: new Date().toISOString() },
+      ]
+
+      // Detect topic
+      type Topic = 'general' | 'exhibition' | 'exhibitor' | 'home-tips' | 'checklist' | 'other'
+      let topic: Topic = 'general'
+      const fullText = messages.map((m) => m.content).join(' ').toLowerCase()
+      if (fullText.includes('exhibit') || fullText.includes('booth') || fullText.includes('brand')) topic = 'exhibitor'
+      else if (fullText.includes('exhibition') || fullText.includes('expo') || fullText.includes('event')) topic = 'exhibition'
+      else if (fullText.includes('tip') || fullText.includes('blog') || fullText.includes('article')) topic = 'home-tips'
+      else if (fullText.includes('checklist') || fullText.includes('shopping list')) topic = 'checklist'
+
+      // Validate lead email format before saving
+      const validEmail = leadData?.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadData.email)
+
+      // Build lead fields safely
+      const leadFields: Record<string, unknown> = {}
+      if (leadData?.name) { leadFields.leadName = leadData.name; leadFields.leadCaptured = true }
+      if (validEmail) { leadFields.leadEmail = leadData!.email; leadFields.leadCaptured = true }
+      if (leadData?.phone) { leadFields.leadPhone = leadData.phone; leadFields.leadCaptured = true }
+
+      // Find existing conversation or create new
+      const existing = await payload.find({
+        collection: 'chat-conversations',
+        where: { sessionId: { equals: sessionId } },
+        limit: 1,
+      })
+
+      if (existing.docs.length > 0) {
+        await payload.update({
+          collection: 'chat-conversations',
+          id: existing.docs[0].id,
+          data: { messages: allMessages, topic, ...leadFields },
+        })
+      } else {
+        await payload.create({
+          collection: 'chat-conversations',
+          data: { sessionId, messages: allMessages, topic, ...leadFields },
+        })
+      }
+
+      // Also save as subscriber if lead captured (with valid required fields)
+      if (leadData?.phone && validEmail) {
+        try {
+          await payload.create({
+            collection: 'subscribers',
+            data: {
+              name: leadData.name || 'Chat Visitor',
+              phone: leadData.phone,
+              email: leadData.email!,
+              state: 'Kuala Lumpur',
+              source: 'contact',
+            },
+          })
+        } catch {
+          // Ignore duplicate subscriber errors
+        }
+      }
+    } catch (dbError) {
+      console.error('Chat DB save error (non-fatal):', dbError)
+    }
 
     return NextResponse.json({ reply: cleanReply }, { headers: CORS_HEADERS })
   } catch (error) {
