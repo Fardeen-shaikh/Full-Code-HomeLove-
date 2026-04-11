@@ -202,9 +202,10 @@ export default function ExhibitPage() {
           <div className="exhibit-hero-grid">
             {/* Left: Content */}
             <div className="exhibit-hero-content">
-              <h1>Exhibit With Us<br /><span>at Malaysia&apos;s Home Expo</span></h1>
+              <h1>Exhibit With Us at<br /><span>HOMElove Home Expo</span></h1>
+              <div className="exhibit-hero-subtitle">Grow Your Brand at Malaysia&apos;s Home Expo</div>
               <p className="exhibit-hero-text">
-                Showcase your brand to <strong>thousands of home shoppers</strong>{' '}who are ready to discover, compare &amp; buy.
+                Showcase your products and services to homeowners, renovators, newlyweds, and families actively looking for home solutions. Join HOMElove Home Expo and connect with high-intent visitors ready to discover, compare, and buy.
               </p>
 
               {/* Why badges inline */}
@@ -297,7 +298,7 @@ export default function ExhibitPage() {
           <div className="section-header">
             <h2>Why Exhibit With <span className="text-primary">HOMElove</span>?</h2>
             <p>
-              Connect with visitors actively exploring furniture, appliances, renovation solutions, and more. Build visibility, generate leads, and drive sales at Malaysia&apos;s leading home expo.
+              HOMElove Home Expo connects your brand with visitors actively exploring furniture, home appliances, renovation solutions, kitchen products, home essentials, smart living products, and more. It is a valuable platform to build visibility, generate leads, drive sales, and create meaningful face-to-face engagement with your target audience.
             </p>
           </div>
           <div className="benefits-grid">
@@ -353,8 +354,8 @@ export default function ExhibitPage() {
       <section className="steps-section" id="how-exhibit">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <h2 style={{ color: 'white', fontSize: '40px', fontWeight: 800, marginBottom: '8px' }}>How to Exhibit at HOMElove</h2>
-            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>Submit your inquiry and our team will guide you through the process based on your business category and exhibition needs.</p>
+            <h2 style={{ color: 'white', fontSize: '40px', fontWeight: 800, marginBottom: '8px' }}>How to Exhibit at HOMElove Home Expo</h2>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', maxWidth: '620px', margin: '0 auto', lineHeight: 1.7 }}>Looking to exhibit at a home expo in Malaysia? Submit your inquiry and our team will guide you through the process based on your business category and exhibition needs. HOMElove gives brands the opportunity to showcase products, connect with high-intent home buyers, and join a leading home and living expo.</p>
           </div>
           <div className="steps-row" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             {STEPS.map((step) => (
