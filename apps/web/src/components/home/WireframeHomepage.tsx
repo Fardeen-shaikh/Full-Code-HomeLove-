@@ -15,6 +15,11 @@ interface HomepageProps {
   blogs?: BlogData[];
 }
 
+function optimizedImg(src: string, width: number, quality = 75): string {
+  if (!src || src.startsWith('data:')) return src
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`
+}
+
 const HOMEPAGE_JS = `
     (function(){
         let active = 0;
@@ -1262,7 +1267,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 function buildHeroEvents(events: EventData[]): string {
   return events.map(e => `
     <a href="/exhibitions/${e.slug}" style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;text-decoration:none;color:inherit;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${e.imageUrl}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" width="200" height="120" fetchpriority="high"></div>
+      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${optimizedImg(e.imageUrl, 384)}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" width="200" height="120" fetchpriority="high"></div>
       <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
         <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">${e.title}</h4>
         <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">${e.venue}<br>${e.state}</p>
@@ -1276,7 +1281,7 @@ function buildExhibitionCards(events: EventData[]): string {
   return events.map((e, i) => `
     <div class="exhibition-card animate-on-scroll delay-${i + 1}">
       <div class="exhibition-image">
-        <img src="${e.imageUrl}" alt="${e.title}" loading="lazy" decoding="async" width="400" height="250">
+        <img src="${optimizedImg(e.imageUrl, 640)}" alt="${e.title}" loading="lazy" decoding="async" width="400" height="250">
       </div>
       <div class="exhibition-content">
         <div class="exhibition-meta">
@@ -1303,7 +1308,7 @@ function buildBlogCards(blogs: BlogData[]): string {
     <div class="blog-card" style="grid-row:1/3;border-radius:16px;overflow:hidden;">
       <a href="/home-tips/${featured.slug}" style="text-decoration:none;color:inherit;">
         <div style="height:280px;overflow:hidden;position:relative;">
-          <img src="${featured.imageUrl}" alt="${featured.categoryLabel}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="600" height="280">
+          <img src="${optimizedImg(featured.imageUrl, 750)}" alt="${featured.categoryLabel}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="600" height="280">
           <span style="position:absolute;top:12px;left:12px;background:${CATEGORY_COLORS[featured.category] || 'var(--secondary)'};color:white;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">${featured.categoryLabel}</span>
         </div>
         <div class="blog-content" style="padding:20px;">
@@ -1320,7 +1325,7 @@ function buildBlogCards(blogs: BlogData[]): string {
       <div class="blog-card" style="display:grid;grid-template-columns:300px 1fr;border-radius:16px;overflow:hidden;">
         <a href="/home-tips/${post.slug}" style="display:contents;text-decoration:none;color:inherit;">
           <div style="overflow:hidden;position:relative;height:180px;">
-            <img src="${post.imageUrl}" alt="${post.categoryLabel}" style="width:100%;height:100%;object-fit:cover;object-position:center;" loading="lazy" decoding="async" width="300" height="180">
+            <img src="${optimizedImg(post.imageUrl, 384)}" alt="${post.categoryLabel}" style="width:100%;height:100%;object-fit:cover;object-position:center;" loading="lazy" decoding="async" width="300" height="180">
             <span style="position:absolute;top:10px;left:10px;background:${CATEGORY_COLORS[post.category] || 'var(--primary)'};color:white;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;">${post.categoryLabel}</span>
           </div>
           <div class="blog-content" style="padding:16px;display:flex;flex-direction:column;justify-content:center;">
