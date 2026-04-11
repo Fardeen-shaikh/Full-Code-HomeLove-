@@ -37,5 +37,21 @@ export default async function Page({
   }))
   const relatedPosts = related.docs.filter((p) => p.id !== post.id).slice(0, 3)
 
-  return <BlogArticle post={post} relatedPosts={relatedPosts} />
+  // Fetch all posts to find prev/next
+  const allPosts = await getBlogPosts({ limit: 100 }).catch(() => ({ docs: [] }))
+  const sortedPosts = allPosts.docs.sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  )
+  const currentIndex = sortedPosts.findIndex((p) => p.id === post.id)
+  const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
+  const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null
+
+  return (
+    <BlogArticle
+      post={post}
+      relatedPosts={relatedPosts}
+      prevPost={prevPost ? { title: prevPost.title, slug: prevPost.slug } : null}
+      nextPost={nextPost ? { title: nextPost.title, slug: nextPost.slug } : null}
+    />
+  )
 }

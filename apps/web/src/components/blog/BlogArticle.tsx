@@ -107,9 +107,13 @@ function renderNodes(nodes: unknown[]): string {
 export default function BlogArticle({
   post,
   relatedPosts,
+  prevPost,
+  nextPost,
 }: {
   post: BlogPost
   relatedPosts: BlogPost[]
+  prevPost?: { title: string; slug: string } | null
+  nextPost?: { title: string; slug: string } | null
 }) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const shareTitle = post.title
@@ -235,6 +239,34 @@ export default function BlogArticle({
           </div>
         </div>
       </section>
+
+      {/* Prev / Next Navigation */}
+      {(prevPost || nextPost) && (
+        <section className="article-prev-next">
+          <div className="container">
+            <div className="prev-next-grid">
+              {prevPost ? (
+                <Link href={`/home-tips/${prevPost.slug}`} className="prev-next-card prev">
+                  <span className="prev-next-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    Previous Article
+                  </span>
+                  <span className="prev-next-title">{prevPost.title}</span>
+                </Link>
+              ) : <div />}
+              {nextPost ? (
+                <Link href={`/home-tips/${nextPost.slug}`} className="prev-next-card next">
+                  <span className="prev-next-label">
+                    Next Article
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                  </span>
+                  <span className="prev-next-title">{nextPost.title}</span>
+                </Link>
+              ) : <div />}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Next Event Promo */}
       <section className="article-event-promo">
