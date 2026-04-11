@@ -86,18 +86,16 @@ export default function ExhibitionListing({
       {/* Hero — Featured Next Event or Generic */}
       <section className="exh-hero">
         <div className="exh-hero-overlay" />
-        {featured && mediaUrl(featured.bannerImage) && (
-          <Image
-            src={mediaUrl(featured.bannerImage)!}
-            alt=""
-            className="exh-hero-bg"
-            fill
-            sizes="100vw"
-            priority
-            quality={60}
-            style={{ objectFit: 'cover' }}
-          />
-        )}
+        <Image
+          src="/images/backgrounds/hero-bg.webp"
+          alt=""
+          className="exh-hero-bg"
+          fill
+          sizes="100vw"
+          priority
+          quality={75}
+          style={{ objectFit: 'cover' }}
+        />
         <div className="container">
           <div className="exh-hero-content">
             <div className="exh-hero-badge">
@@ -217,16 +215,22 @@ export default function ExhibitionListing({
                             loading="lazy"
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           />
+                        </div>
+                        <div className="exh-card-status-bar">
                           {isLive(exh.startDate, exh.endDate) ? (
-                            <div className="exh-card-live">
+                            <div className="exh-status-live">
                               <span className="live-dot" />LIVE NOW
                             </div>
                           ) : (
-                            <div className="exh-card-badge">
-                              <span className="days-badge">{daysUntil(exh.startDate)}</span>
-                              <span className="days-label">days to go</span>
+                            <div className="exh-status-countdown">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                              {daysUntil(exh.startDate)} days to go
                             </div>
                           )}
+                          <span className="exh-status-state">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                            {exh.state}
+                          </span>
                         </div>
                         <div className="exh-card-body">
                           <div className="exh-card-date-strip">

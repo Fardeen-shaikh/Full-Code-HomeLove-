@@ -2,7 +2,7 @@
 
 /* ===== LISTING HERO ===== */
 .exh-hero {
-    background: linear-gradient(135deg, rgba(1, 75, 152, 0.94) 0%, rgba(10, 40, 100, 0.96) 100%);
+    background: linear-gradient(135deg, rgba(1, 40, 80, 0.97) 0%, rgba(5, 25, 60, 0.98) 100%);
     color: white;
     padding: 160px 0 60px;
     position: relative;
@@ -15,7 +15,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.15;
+    opacity: 0.2;
     z-index: 0;
 }
 
@@ -334,16 +334,41 @@
     transform: scale(1.05);
 }
 
-.exh-card-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--secondary);
+/* Status bar between image and body */
+.exh-card-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: var(--primary);
     color: white;
-    border-radius: 10px;
-    padding: 6px 12px;
-    text-align: center;
-    line-height: 1;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.exh-status-live {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ff6b6b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.exh-status-countdown {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.9;
+}
+
+.exh-status-state {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.8;
+    font-weight: 500;
 }
 
 .days-badge {
@@ -372,16 +397,7 @@
 }
 
 .exh-card-live {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--secondary);
-    color: white;
-    border-radius: 50px;
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
+    display: none; /* replaced by status bar */
     align-items: center;
     gap: 6px;
 }
