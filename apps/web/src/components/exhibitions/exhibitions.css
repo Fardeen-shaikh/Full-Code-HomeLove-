@@ -549,6 +549,21 @@
     border-radius: 16px;
     overflow: hidden;
 }
+.exh-card-skeleton .skeleton-image {
+    aspect-ratio: 16 / 9;
+    background: #e8ecf0;
+}
+.exh-card-skeleton .skeleton-content {
+    padding: 16px;
+}
+.exh-card-skeleton .skeleton-line {
+    height: 12px;
+    background: #e8ecf0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.exh-card-skeleton .skeleton-line.wide { width: 80%; }
+.exh-card-skeleton .skeleton-line.short { width: 40%; }
 
 .exh-empty {
     text-align: center;

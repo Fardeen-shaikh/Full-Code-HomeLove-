@@ -39,7 +39,7 @@
 /* ===== HERO ===== */
 .about-hero {
     background: linear-gradient(135deg, rgba(1, 75, 152, 0.93) 0%, rgba(10, 40, 100, 0.95) 100%),
-        url('https://homelove.com.my/sites/default/files/node/page/image/2021-10/Website_Slide-Banner_About-us-1.png');
+        url('/images/backgrounds/about-hero.webp');
     background-size: cover;
     background-position: center;
     color: white;

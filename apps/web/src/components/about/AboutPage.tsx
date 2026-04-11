@@ -189,7 +189,7 @@ export default function AboutPage() {
             <div className="journey-grid">
               <ScrollReveal className="journey-image slide-left">
                 <Image
-                  src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg"
+                  src="/images/backgrounds/hero-bg.webp"
                   alt="HOMElove Expo"
                   width={600}
                   height={400}

@@ -6,7 +6,7 @@
 /* ===== 1. HERO — SPLIT LAYOUT ===== */
 .exhibit-hero {
     background: linear-gradient(135deg, rgba(1, 75, 152, 0.94) 0%, rgba(10, 40, 100, 0.96) 100%),
-        url('https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg');
+        url('/images/backgrounds/hero-bg.webp');
     background-size: cover;
     background-position: center;
     color: white;

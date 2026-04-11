@@ -120,8 +120,8 @@ const VENUES = [
 const EVENT_PHOTOS = [
   { src: '/images/events/event-kuching.png', alt: 'HOMElove Expo Kuching' },
   { src: '/images/events/event-penang.jpeg', alt: 'HOMElove Expo Penang' },
-  { src: 'https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg', alt: 'HOMElove Expo crowd' },
-  { src: 'https://homelove.com.my/sites/default/files/paragraph/text-with-background/HL_BCCK_Q2_LandingPage-%26-MainPage_R1-02_1_1.png', alt: 'HOMElove Expo booth' },
+  { src: '/images/backgrounds/hero-bg.webp', alt: 'HOMElove Expo crowd' },
+  { src: '/images/events/event-kuching.png', alt: 'HOMElove Expo booth' },
 ]
 
 const TRUST_BRANDS = [
