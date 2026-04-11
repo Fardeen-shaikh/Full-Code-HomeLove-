@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { submitExhibitorInquiry } from '@/lib/api'
 import './exhibit.css'
 
@@ -342,8 +343,7 @@ export default function ExhibitPage() {
         <div className="brands-marquee">
           <div className="brands-track">
             {[...TRUST_BRANDS, ...TRUST_BRANDS].map((brand, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={`${brand}-${i}`} src={`/logos/brands/${brand}.png`} alt={brand} loading="lazy" />
+              <Image key={`${brand}-${i}`} src={`/logos/brands/${brand}.png`} alt={brand} width={120} height={60} quality={75} loading="lazy" style={{ width: 'auto', height: '40px' }} />
             ))}
           </div>
         </div>
@@ -379,9 +379,8 @@ export default function ExhibitPage() {
           </div>
           <div className="photos-grid">
             {EVENT_PHOTOS.map((photo) => (
-              // eslint-disable-next-line @next/next/no-img-element
               <div key={photo.alt} className="photo-item">
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
+                <Image src={photo.src} alt={photo.alt} width={400} height={300} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
               </div>
             ))}
           </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { BlogPost } from '@/lib/api'
 import { mediaUrl } from '@/lib/api'
 import './blog.css'
@@ -127,11 +128,15 @@ export default function BlogListing({
                 {posts.map((post) => (
                   <Link href={`/home-tips/${post.slug}`} key={post.id} className="blog-card">
                     <div className="blog-card-image">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={mediaUrl(post.featuredImage) || '/images/blog/kitchen-design.jpg'}
                         alt={post.featuredImage?.alt || post.title}
+                        width={400}
+                        height={250}
+                        quality={75}
                         loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                       />
                       <span className="blog-card-category">{categoryLabel(post.category)}</span>
                     </div>

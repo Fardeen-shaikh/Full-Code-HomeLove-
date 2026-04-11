@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import type { BlogPost } from '@/lib/api'
 import { mediaUrl } from '@/lib/api'
 import './blog.css'
@@ -118,11 +119,15 @@ export default function BlogArticle({
       {/* Hero */}
       <section className="article-hero">
         <div className="article-hero-overlay" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={mediaUrl(post.featuredImage) || '/images/blog/kitchen-design.jpg'}
           alt={post.featuredImage?.alt || post.title}
           className="article-hero-bg"
+          fill
+          sizes="100vw"
+          quality={75}
+          priority
+          style={{ objectFit: 'cover' }}
         />
         <div className="container">
           <div className="article-hero-content">
@@ -206,11 +211,15 @@ export default function BlogArticle({
                     {relatedPosts.map((rp) => (
                       <Link href={`/home-tips/${rp.slug}`} key={rp.id} className="sidebar-post">
                         <div className="sidebar-post-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                          <Image
                             src={mediaUrl(rp.featuredImage) || '/images/blog/kitchen-design.jpg'}
                             alt={rp.featuredImage?.alt || rp.title}
+                            width={80}
+                            height={60}
+                            quality={75}
                             loading="lazy"
+                            sizes="80px"
+                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                           />
                         </div>
                         <div className="sidebar-post-info">

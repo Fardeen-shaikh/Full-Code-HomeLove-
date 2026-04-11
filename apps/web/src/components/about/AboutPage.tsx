@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import './about.css'
 
 const STATS = [
@@ -187,11 +188,15 @@ export default function AboutPage() {
             </div>
             <div className="journey-grid">
               <ScrollReveal className="journey-image slide-left">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://homelove.com.my/sites/default/files/inline-images/Homelove%20-%20Homepage%20Image%2001.jpg"
                   alt="HOMElove Expo"
+                  width={600}
+                  height={400}
+                  quality={75}
                   loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
               </ScrollReveal>
               <div className="journey-content">
@@ -320,8 +325,7 @@ export default function AboutPage() {
             </div>
             <div className="locations-map">
               <div className="map-container">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/map/Blank_malaysia_map.png" alt="HOMElove locations across Malaysia" />
+                <Image src="/images/map/Blank_malaysia_map.png" alt="HOMElove locations across Malaysia" width={600} height={400} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ width: '100%', height: 'auto' }} />
                 {MAP_PINS.map((pin) => (
                   <div
                     key={pin.city}
@@ -347,8 +351,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="org-card">
             <div className="org-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logos/homelove/homelove-blue.png" alt="HOMElove" />
+              <Image src="/logos/homelove/homelove-blue.png" alt="HOMElove" width={180} height={60} quality={75} loading="lazy" style={{ width: '100%', height: 'auto' }} />
             </div>
             <div className="org-content">
               <h3>Organised by</h3>

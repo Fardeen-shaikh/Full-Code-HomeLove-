@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Exhibition, CrazyDeal, DiscountCoupon, FeaturedBrand } from '@/lib/api'
 import { submitSubscriber, mediaUrl, createSession, getSession, updateSession } from '@/lib/api'
 import './exhibitions.css'
@@ -476,8 +477,7 @@ export default function ExhibitionDetail({
             </div>
 
             <div className="ed-hero-banner">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={bannerUrl} alt={exhibition.bannerImage?.alt || exhibition.title} />
+              <Image src={bannerUrl} alt={exhibition.bannerImage?.alt || exhibition.title} width={1200} height={500} quality={75} priority sizes="100vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
           </div>
         </div>
@@ -519,8 +519,7 @@ export default function ExhibitionDetail({
                 <video src={mediaUrl(exhibition.verticalVideo)} controls playsInline poster={bannerUrl} />
               ) : (
                 <div className="ed-video-placeholder">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={bannerUrl} alt={exhibition.title} />
+                  <Image src={bannerUrl} alt={exhibition.title} width={600} height={400} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                   <div className="ed-video-overlay"><span>Video coming soon</span></div>
                 </div>
               )}
@@ -559,8 +558,7 @@ export default function ExhibitionDetail({
             <div className="exh-brands-grid">
               {brands.map((brand) => (
                 <div key={brand.id} className="exh-brand-item">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={mediaUrl(brand.logo)} alt={brand.name} loading="lazy" />
+                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={120} height={60} quality={75} loading="lazy" style={{ width: 'auto', height: '40px' }} />
                 </div>
               ))}
             </div>
@@ -715,8 +713,7 @@ export default function ExhibitionDetail({
               {coupons.map((coupon) => (
                 <div key={coupon.id} className="coupon-card">
                   {coupon.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={mediaUrl(coupon.image)} alt={coupon.title} loading="lazy" className="coupon-image" />
+                    <Image src={mediaUrl(coupon.image)} alt={coupon.title} width={300} height={200} quality={75} loading="lazy" className="coupon-image" sizes="(max-width: 768px) 100vw, 300px" style={{ width: '100%', height: 'auto' }} />
                   )}
                   <div className="coupon-body">
                     <h4>{coupon.title}</h4>
@@ -766,8 +763,7 @@ export default function ExhibitionDetail({
               </div>
               {exhibition.contest.image && (
                 <div className="contest-banner-image">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={mediaUrl(exhibition.contest.image)} alt={exhibition.contest.title || 'Contest'} />
+                  <Image src={mediaUrl(exhibition.contest.image)} alt={exhibition.contest.title || 'Contest'} width={800} height={400} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 800px" style={{ width: '100%', height: 'auto' }} />
                 </div>
               )}
             </div>
@@ -874,8 +870,7 @@ export default function ExhibitionDetail({
               {crazyDeals.filter((d) => favourites.has(d.id)).map((deal) => (
                 <div key={deal.id} className="fav-drawer-item">
                   <div className="fav-drawer-img">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={mediaUrl(deal.image)} alt={deal.title} />
+                    <Image src={mediaUrl(deal.image)} alt={deal.title} width={80} height={80} quality={75} loading="lazy" sizes="80px" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                   </div>
                   <div className="fav-drawer-info">
                     <h4>{deal.title}</h4>
