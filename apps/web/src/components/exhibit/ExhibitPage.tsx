@@ -353,19 +353,19 @@ export default function ExhibitPage() {
       <section className="steps-section" id="how-exhibit">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <h2 className="animate-on-scroll" style={{ color: 'white', fontSize: '40px', fontWeight: 800, marginBottom: '8px' }}>How to Exhibit at HOMElove</h2>
-            <p className="animate-on-scroll" style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>Submit your inquiry and our team will guide you through the process based on your business category and exhibition needs.</p>
+            <h2 style={{ color: 'white', fontSize: '40px', fontWeight: 800, marginBottom: '8px' }}>How to Exhibit at HOMElove</h2>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>Submit your inquiry and our team will guide you through the process based on your business category and exhibition needs.</p>
           </div>
           <div className="steps-row" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             {STEPS.map((step) => (
-              <div key={step.number} className="step-card animate-on-scroll">
+              <div key={step.number} className="step-card">
                 <div className="step-num">{step.number}</div>
                 <h4>{step.title}</h4>
                 <p>{step.description}</p>
               </div>
             ))}
           </div>
-          <div className="animate-on-scroll" style={{ textAlign: 'center', marginTop: '40px' }}>
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
             <a href="#exhibit-form" style={{ display: 'inline-block', padding: '14px 32px', background: 'var(--orange)', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '15px', fontWeight: 700 }}>Submit Your Inquiry →</a>
           </div>
         </div>
