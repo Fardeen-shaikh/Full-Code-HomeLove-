@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Exhibition } from '@/lib/api'
 import { mediaUrl } from '@/lib/api'
 import './exhibitions.css'
@@ -85,12 +86,16 @@ export default function ExhibitionListing({
       {/* Hero — Featured Next Event or Generic */}
       <section className="exh-hero">
         <div className="exh-hero-overlay" />
-        {featured && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={mediaUrl(featured.bannerImage)}
+        {featured && mediaUrl(featured.bannerImage) && (
+          <Image
+            src={mediaUrl(featured.bannerImage)!}
             alt=""
             className="exh-hero-bg"
+            fill
+            sizes="100vw"
+            priority
+            quality={60}
+            style={{ objectFit: 'cover' }}
           />
         )}
         <div className="container">
@@ -202,11 +207,15 @@ export default function ExhibitionListing({
                     {upcoming.map((exh) => (
                       <Link href={`/exhibitions/${exh.slug}`} key={exh.id} className="exh-card upcoming">
                         <div className="exh-card-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                          <Image
                             src={mediaUrl(exh.bannerImage) || '/images/events/event-kuching.png'}
                             alt={exh.bannerImage?.alt || exh.title}
+                            width={640}
+                            height={360}
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            quality={75}
                             loading="lazy"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           />
                           {isLive(exh.startDate, exh.endDate) ? (
                             <div className="exh-card-live">
@@ -262,11 +271,15 @@ export default function ExhibitionListing({
                     {past.map((exh) => (
                       <Link href={`/exhibitions/${exh.slug}`} key={exh.id} className="exh-card past">
                         <div className="exh-card-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                          <Image
                             src={mediaUrl(exh.bannerImage) || '/images/events/event-kuching.png'}
                             alt={exh.bannerImage?.alt || exh.title}
+                            width={640}
+                            height={360}
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            quality={75}
                             loading="lazy"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           />
                           <div className="exh-card-past-badge">Completed</div>
                         </div>
