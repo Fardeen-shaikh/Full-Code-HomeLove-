@@ -1267,7 +1267,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 function buildHeroEvents(events: EventData[]): string {
   return events.map(e => `
     <a href="/exhibitions/${e.slug}" style="display:flex;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.25s ease,box-shadow 0.25s ease;border:1px solid #eee;background:white;text-decoration:none;color:inherit;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${optimizedImg(e.imageUrl, 384)}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" width="200" height="120" fetchpriority="high"></div>
+      <div style="width:200px;flex-shrink:0;background:#f0f4f8;display:flex;align-items:center;justify-content:center;"><img src="${optimizedImg(e.imageUrl, 256)}" alt="${e.title}" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" width="200" height="120" fetchpriority="high"></div>
       <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;">
         <h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:2px;">${e.title}</h4>
         <p style="font-size:11px;color:#888;line-height:1.3;margin-bottom:5px;">${e.venue}<br>${e.state}</p>
