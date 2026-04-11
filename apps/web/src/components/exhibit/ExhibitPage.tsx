@@ -203,7 +203,7 @@ export default function ExhibitPage() {
             <div className="exhibit-hero-content">
               <h1>Exhibit With Us<br /><span>at Malaysia&apos;s Home Expo</span></h1>
               <p className="exhibit-hero-text">
-                Showcase your brand to <strong>thousands of home shoppers</strong> who are ready to discover, compare &amp; buy.
+                Showcase your brand to <strong>thousands of home shoppers</strong>{' '}who are ready to discover, compare &amp; buy.
               </p>
 
               {/* Why badges inline */}
