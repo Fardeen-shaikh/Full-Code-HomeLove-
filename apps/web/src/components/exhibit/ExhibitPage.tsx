@@ -349,24 +349,24 @@ export default function ExhibitPage() {
         </div>
       </section>
 
-      {/* 4. How to Exhibit */}
-      <section className="exhibit-how" id="how-exhibit">
+      {/* 4. How to Exhibit — uses homepage wireframe step styles */}
+      <section className="steps-section" id="how-exhibit">
         <div className="container">
-          <div className="section-header">
-            <h2>How to Exhibit at HOMElove</h2>
-            <p>
-              Submit your inquiry and our team will guide you through the process.
-            </p>
+          <div style={{ textAlign: 'center' }}>
+            <h2 className="animate-on-scroll" style={{ color: 'white', fontSize: '40px', fontWeight: 800, marginBottom: '8px' }}>How to Exhibit at HOMElove</h2>
+            <p className="animate-on-scroll" style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>Submit your inquiry and our team will guide you through the process based on your business category and exhibition needs.</p>
           </div>
-          <div className="steps-grid">
-            {STEPS.map((step, i) => (
-              <div key={step.number} className="step-card">
-                <div className="step-number">{step.number}</div>
-                {i < STEPS.length - 1 && <div className="step-line" />}
-                <h3>{step.title}</h3>
+          <div className="steps-row" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            {STEPS.map((step) => (
+              <div key={step.number} className="step-card animate-on-scroll">
+                <div className="step-num">{step.number}</div>
+                <h4>{step.title}</h4>
                 <p>{step.description}</p>
               </div>
             ))}
+          </div>
+          <div className="animate-on-scroll" style={{ textAlign: 'center', marginTop: '40px' }}>
+            <a href="#exhibit-form" style={{ display: 'inline-block', padding: '14px 32px', background: 'var(--orange)', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '15px', fontWeight: 700 }}>Submit Your Inquiry →</a>
           </div>
         </div>
       </section>
