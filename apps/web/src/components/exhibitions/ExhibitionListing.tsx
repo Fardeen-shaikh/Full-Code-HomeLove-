@@ -46,7 +46,12 @@ function daysUntil(date: string) {
 
 function isLive(start: string, end: string) {
   const now = Date.now()
-  return new Date(start).getTime() <= now && new Date(end).getTime() >= now
+  // Treat end date as end of day (23:59:59)
+  const endOfDay = new Date(end)
+  endOfDay.setHours(23, 59, 59, 999)
+  const startOfDay = new Date(start)
+  startOfDay.setHours(0, 0, 0, 0)
+  return startOfDay.getTime() <= now && endOfDay.getTime() >= now
 }
 
 export default function ExhibitionListing({
