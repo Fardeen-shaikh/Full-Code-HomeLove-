@@ -648,12 +648,24 @@
     align-items: center;
     gap: 8px;
     background: var(--secondary);
+    color: white;
     padding: 8px 20px;
     border-radius: 50px;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
     margin-bottom: 16px;
-    animation: pulse 2s infinite;
+    box-shadow: 0 4px 16px rgba(203,21,16,0.35);
+}
+.ed-live-badge .live-dot {
+    background: white;
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+    animation: liveDotPulse 1.5s infinite;
+}
+@keyframes liveDotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
 }
 
 .ed-past-badge {
