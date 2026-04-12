@@ -522,34 +522,45 @@
 
 /* Bottom CTA */
 .exh-bottom-cta {
-    padding: 70px 0;
-    background: var(--secondary);
-    color: white;
+    padding: 60px 0 80px;
+    background: white;
     text-align: center;
 }
 
+.exh-bottom-cta .container {
+    max-width: 700px;
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 50px 40px;
+}
+
 .exh-bottom-cta h2 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
+    color: var(--dark);
     margin-bottom: 10px;
 }
 
 .exh-bottom-cta p {
-    font-size: 16px;
-    opacity: 0.9;
+    font-size: 15px;
+    color: var(--gray);
     margin-bottom: 28px;
 }
 
 .exh-bottom-cta .btn {
-    background: white;
-    color: var(--secondary);
+    background: var(--primary);
+    color: white;
     font-weight: 700;
+    padding: 14px 32px;
+    font-size: 15px;
 }
 
 .exh-bottom-cta .btn:hover {
     background: var(--dark);
     color: white;
     transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
 /* ===== LOADING / EMPTY ===== */
@@ -595,8 +606,8 @@
 
 /* ===== HERO — SPLIT: Info left, Banner right ===== */
 .ed-hero {
-    background: var(--primary);
-    color: white;
+    background: white;
+    color: var(--dark);
     padding: 150px 0 60px;
     position: relative;
     overflow: hidden;
@@ -647,13 +658,13 @@
 
 .ed-past-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.15);
+    background: var(--gray-light);
+    color: var(--gray);
     padding: 6px 18px;
     border-radius: 50px;
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 16px;
-    opacity: 0.8;
 }
 
 .ed-hero h1 {
@@ -661,6 +672,7 @@
     font-weight: 800;
     line-height: 1.12;
     margin-bottom: 20px;
+    color: var(--dark);
 }
 
 .ed-hero-meta {
@@ -675,11 +687,11 @@
     align-items: center;
     gap: 10px;
     font-size: 14px;
-    opacity: 0.9;
+    color: var(--gray);
 }
 
 .ed-meta-item svg {
-    opacity: 0.7;
+    color: var(--primary);
     flex-shrink: 0;
 }
 
@@ -983,6 +995,54 @@
     color: var(--gray);
     line-height: 1.4;
     margin: 0;
+}
+
+/* Map */
+.ed-map-wrap {
+    margin-bottom: 24px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+.ed-map-wrap iframe {
+    display: block;
+    border-radius: 14px 14px 0 0 !important;
+}
+.ed-map-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: white;
+    gap: 12px;
+}
+.ed-map-info strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+}
+.ed-map-info span {
+    font-size: 12px;
+    color: var(--gray);
+}
+.ed-map-dir-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+.ed-map-dir-btn:hover {
+    background: var(--dark);
+    transform: translateY(-1px);
 }
 
 /* Inline subscribe */
@@ -2863,7 +2923,11 @@
     }
 
     .exh-bottom-cta {
-        padding: 50px 0;
+        padding: 40px 0 60px;
+    }
+    .exh-bottom-cta .container {
+        padding: 36px 24px;
+        margin: 0 16px;
     }
 
     .date-block {

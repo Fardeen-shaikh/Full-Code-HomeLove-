@@ -590,25 +590,33 @@ export default function ExhibitionDetail({
               <div className="ed-phone-bar" />
             </div>
 
-            {/* Right: What to Expect + Subscribe */}
+            {/* Right: Map + Subscribe */}
             <div className="ed-highlights-right">
-              <h3>What to Expect</h3>
-              <div className="ed-expect-list">
-                <div className="ed-expect-item">
-                  <span className="ed-expect-icon">🎟️</span>
-                  <div><strong>Free Entry for All</strong><p>No tickets needed — walk in with your family</p></div>
-                </div>
-                <div className="ed-expect-item">
-                  <span className="ed-expect-icon">🏷️</span>
-                  <div><strong>Exclusive Expo Deals</strong><p>Prices you won&apos;t find anywhere else</p></div>
-                </div>
-                <div className="ed-expect-item">
-                  <span className="ed-expect-icon">🎁</span>
-                  <div><strong>Lucky Draws &amp; Prizes</strong><p>Stand a chance to win exciting prizes</p></div>
-                </div>
-                <div className="ed-expect-item">
-                  <span className="ed-expect-icon">💡</span>
-                  <div><strong>Expert Consultations</strong><p>Get advice from home &amp; living experts</p></div>
+              <h3>Location &amp; Directions</h3>
+              <div className="ed-map-wrap">
+                <iframe
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&output=embed`}
+                  width="100%"
+                  height="260"
+                  style={{ border: 0, borderRadius: '14px' }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={`Map of ${exhibition.venue}`}
+                />
+                <div className="ed-map-info">
+                  <div>
+                    <strong>{exhibition.venue}</strong>
+                    <span>{exhibition.state}, Malaysia</span>
+                  </div>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ed-map-dir-btn"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
+                    Get Directions
+                  </a>
                 </div>
               </div>
 
