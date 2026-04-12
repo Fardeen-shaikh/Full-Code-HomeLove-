@@ -124,9 +124,19 @@ const EVENT_PHOTOS = [
   { src: '/images/events/event-kuching.png', alt: 'HOMElove Expo booth' },
 ]
 
-const TRUST_BRANDS = [
-  'samsung', 'lg', 'panasonic', 'midea', 'sharp', 'cuckoo',
-  'serta', 'yale', 'philips', 'daikin',
+const BRANDS_TRACK_1 = [
+  { name: 'Samsung', slug: 'samsung' }, { name: 'LG', slug: 'lg' }, { name: 'Panasonic', slug: 'panasonic' },
+  { name: 'Toshiba', slug: 'toshiba' }, { name: 'Hitachi', slug: 'hitachi' }, { name: 'Daikin', slug: 'daikin' },
+  { name: 'Dyson', slug: 'dyson' }, { name: 'Bosch', slug: 'bosch' }, { name: 'Electrolux', slug: 'electrolux' },
+  { name: 'Philips', slug: 'philips' }, { name: 'Hisense', slug: 'hisense' }, { name: 'Beko', slug: 'beko' },
+  { name: 'Haier', slug: 'haier' }, { name: 'Midea', slug: 'midea' }, { name: 'Sharp', slug: 'sharp' },
+]
+const BRANDS_TRACK_2 = [
+  { name: 'King Koil', slug: 'king-koil' }, { name: 'Dunlopillo', slug: 'dunlopillo' }, { name: 'Getha', slug: 'getha' },
+  { name: 'Serta', slug: 'serta' }, { name: 'Slumberland', slug: 'slumberland' }, { name: 'Tefal', slug: 'tefal' },
+  { name: 'Nespresso', slug: 'nespresso' }, { name: 'KitchenAid', slug: 'kitchenaid' }, { name: 'Ogawa', slug: 'ogawa' },
+  { name: 'Coway', slug: 'coway' }, { name: 'Cuckoo', slug: 'cuckoo' }, { name: 'Rinnai', slug: 'rinnai' },
+  { name: 'Yale', slug: 'yale' }, { name: 'Karcher', slug: 'karcher' }, { name: 'Fotile', slug: 'fotile' },
 ]
 
 const TRUST_STATS = [
@@ -336,15 +346,27 @@ export default function ExhibitPage() {
         </div>
       </section>
 
-      {/* Trusted Brands Marquee */}
-      <section className="exhibit-brands">
+      {/* Brands — same marquee as homepage */}
+      <section className="brands">
         <div className="container">
-          <p className="brands-label">Trusted by Leading Brands</p>
+          <div className="section-header" style={{ textAlign: 'center' }}>
+            <h2>Brands</h2>
+            <p style={{ color: 'var(--gray)', fontSize: '15px', maxWidth: '480px', margin: '8px auto 0' }}>
+              Over 6,000 quality brands trust HOMElove to connect them with Malaysian homeowners.
+            </p>
+          </div>
         </div>
-        <div className="brands-marquee">
+        <div className="brands-marquee-wrapper">
           <div className="brands-track">
-            {[...TRUST_BRANDS, ...TRUST_BRANDS].map((brand, i) => (
-              <Image key={`${brand}-${i}`} src={`/logos/brands/${brand}.png`} alt={brand} width={120} height={60} quality={75} loading="lazy" style={{ width: 'auto', height: '40px' }} />
+            {[...BRANDS_TRACK_1, ...BRANDS_TRACK_1].map((brand, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={`t1-${brand.slug}-${i}`} className="brand-logo" src={`/logos/brands/${brand.slug}.webp`} alt={brand.name} loading="lazy" decoding="async" width={120} height={60} />
+            ))}
+          </div>
+          <div className="brands-track">
+            {[...BRANDS_TRACK_2, ...BRANDS_TRACK_2].map((brand, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={`t2-${brand.slug}-${i}`} className="brand-logo" src={`/logos/brands/${brand.slug}.webp`} alt={brand.name} loading="lazy" decoding="async" width={120} height={60} />
             ))}
           </div>
         </div>
