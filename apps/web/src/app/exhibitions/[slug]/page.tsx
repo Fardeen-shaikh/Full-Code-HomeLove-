@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getExhibitionBySlug, getCrazyDeals, getDiscountCoupons, getFeaturedBrands } from '@/lib/api'
+import { getExhibitionBySlug, getCrazyDeals, getDiscountCoupons, getExhibitionBrands } from '@/lib/api'
 import ExhibitionDetail from '@/components/exhibitions/ExhibitionDetail'
 import { notFound } from 'next/navigation'
 
@@ -33,10 +33,15 @@ export default async function Page({
 
   if (!exhibition) notFound()
 
+  // Extract brand IDs from the exhibition's participatingBrands relationship
+  const brandIds = (exhibition.participatingBrands || []).map((b) =>
+    typeof b === 'object' && b !== null ? b.id : b
+  ).filter(Boolean)
+
   const [crazyDeals, coupons, brands] = await Promise.all([
     getCrazyDeals(exhibition.id).catch(() => ({ docs: [] })),
     getDiscountCoupons(exhibition.id).catch(() => ({ docs: [] })),
-    getFeaturedBrands(exhibition.id).catch(() => ({ docs: [] })),
+    getExhibitionBrands(brandIds).catch(() => ({ docs: [] })),
   ])
 
   return (

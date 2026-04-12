@@ -272,6 +272,10 @@ export interface Exhibition {
   verticalVideo?: (number | null) | Media;
   floorplanImage?: (number | null) | Media;
   brandCount?: number | null;
+  /**
+   * Select brands from the master list that are participating in this exhibition
+   */
+  participatingBrands?: (number | FeaturedBrand)[] | null;
   isUpcoming?: boolean | null;
   countdownEnabled?: boolean | null;
   /**
@@ -315,10 +319,24 @@ export interface Exhibition {
     description?: string | null;
     hiddenPage?: (number | null) | HiddenPage;
   };
+  /**
+   * Timeline of activities and their timings
+   */
   programSchedule?:
     | {
         time: string;
         title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Featured programs with images (Discount Coupon, Lucky Draw, etc.)
+   */
+  programs?:
+    | {
+        title: string;
+        image: number | Media;
         description?: string | null;
         id?: string | null;
       }[]
@@ -335,6 +353,24 @@ export interface Exhibition {
     metaDescription?: string | null;
     ogImage?: (number | null) | Media;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Master list of brands. Link them to exhibitions via the Exhibition page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featured-brands".
+ */
+export interface FeaturedBrand {
+  id: number;
+  name: string;
+  logo: number | Media;
+  /**
+   * Optional brand website URL
+   */
+  website?: string | null;
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -439,19 +475,6 @@ export interface BlogPost {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "featured-brands".
- */
-export interface FeaturedBrand {
-  id: number;
-  name: string;
-  logo: number | Media;
-  exhibition?: (number | null) | Exhibition;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -859,6 +882,7 @@ export interface ExhibitionsSelect<T extends boolean = true> {
   verticalVideo?: T;
   floorplanImage?: T;
   brandCount?: T;
+  participatingBrands?: T;
   isUpcoming?: T;
   countdownEnabled?: T;
   mapLink?: T;
@@ -885,6 +909,14 @@ export interface ExhibitionsSelect<T extends boolean = true> {
     | {
         time?: T;
         title?: T;
+        description?: T;
+        id?: T;
+      };
+  programs?:
+    | T
+    | {
+        title?: T;
+        image?: T;
         description?: T;
         id?: T;
       };
@@ -966,7 +998,7 @@ export interface BlogPostsSelect<T extends boolean = true> {
 export interface FeaturedBrandsSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
-  exhibition?: T;
+  website?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;

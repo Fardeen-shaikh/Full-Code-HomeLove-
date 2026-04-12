@@ -42,6 +42,13 @@ export const Exhibitions: CollectionConfig = {
     { name: 'verticalVideo', type: 'upload', relationTo: 'media' },
     { name: 'floorplanImage', type: 'upload', relationTo: 'media' },
     { name: 'brandCount', type: 'number' },
+    {
+      name: 'participatingBrands',
+      type: 'relationship',
+      relationTo: 'featured-brands',
+      hasMany: true,
+      admin: { description: 'Select brands from the master list that are participating in this exhibition' },
+    },
     { name: 'isUpcoming', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },
     { name: 'countdownEnabled', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },
     { name: 'mapLink', type: 'text', admin: { description: 'Google Maps link to venue' } },
@@ -72,9 +79,20 @@ export const Exhibitions: CollectionConfig = {
     {
       name: 'programSchedule',
       type: 'array',
+      admin: { description: 'Timeline of activities and their timings' },
       fields: [
         { name: 'time', type: 'text', required: true },
         { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
+      ],
+    },
+    {
+      name: 'programs',
+      type: 'array',
+      admin: { description: 'Featured programs with images (Discount Coupon, Lucky Draw, etc.)' },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
         { name: 'description', type: 'textarea' },
       ],
     },

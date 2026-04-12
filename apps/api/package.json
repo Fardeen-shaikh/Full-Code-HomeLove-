@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p ${PORT:-3001}",
+    "start": "payload migrate && next start -p ${PORT:-3001}",
     "lint": "eslint .",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
+    "migrate": "payload migrate",
+    "migrate:create": "payload migrate:create",
+    "migrate:status": "payload migrate:status",
     "clean": "rm -rf .next dist"
   },
   "dependencies": {

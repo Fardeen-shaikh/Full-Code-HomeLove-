@@ -205,7 +205,7 @@ function ShareAndWin({ title, description, eventTitle, shareWinSlug }: { title: 
         <div className="sw-card">
           <div className="sw-header">
             <div className="sw-trophy">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 010-5H6" /><path d="M18 9h1.5a2.5 2.5 0 000-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22" /><path d="M18 2H6v7a6 6 0 0012 0V2z" />
               </svg>
             </div>
@@ -215,64 +215,42 @@ function ShareAndWin({ title, description, eventTitle, shareWinSlug }: { title: 
 
           {shared ? (
             <div className="sw-success">
-              <div className="sw-success-icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
-              <h3>Awesome! We&apos;ve recorded your share.</h3>
-              <p>You&apos;re now in the running to win! Winners will be announced at the expo. Good luck!</p>
-              <div className="sw-share-again">
-                <button type="button" className="btn btn-primary" onClick={() => setShared(false)} style={{ borderRadius: '50px' }}>
-                  Share on Another Platform
-                </button>
-              </div>
+              <h3>Thanks for sharing! Winners announced at the expo.</h3>
+              <button type="button" className="btn btn-primary" onClick={() => setShared(false)} style={{ borderRadius: '50px' }}>
+                Share Again
+              </button>
             </div>
           ) : (
             <>
               <div className="sw-steps">
-                <div className="sw-step">
-                  <div className="sw-step-num">1</div>
-                  <span>Share on social media</span>
-                </div>
+                <div className="sw-step"><div className="sw-step-num">1</div><span>Share</span></div>
                 <div className="sw-step-arrow">→</div>
-                <div className="sw-step">
-                  <div className="sw-step-num">2</div>
-                  <span>Tag @HOMEloveExhibition</span>
-                </div>
+                <div className="sw-step"><div className="sw-step-num">2</div><span>Tag @HOMEloveExhibition</span></div>
                 <div className="sw-step-arrow">→</div>
-                <div className="sw-step">
-                  <div className="sw-step-num">3</div>
-                  <span>Win home prizes!</span>
-                </div>
+                <div className="sw-step"><div className="sw-step-num">3</div><span>Win</span></div>
               </div>
 
               <div className="sw-platforms">
-                <button type="button" className="sw-platform sw-fb" onClick={() => handleShare('facebook')}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
-                  Facebook
+                <button type="button" className="sw-platform sw-fb" onClick={() => handleShare('facebook')} aria-label="Facebook">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
                 </button>
-                <button type="button" className="sw-platform sw-ig" onClick={() => handleShare('instagram')}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
-                  Instagram
+                <button type="button" className="sw-platform sw-ig" onClick={() => handleShare('instagram')} aria-label="Instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
                 </button>
-                <button type="button" className="sw-platform sw-tt" onClick={() => handleShare('tiktok')}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13.1a8.28 8.28 0 005.58 2.17V11.8a4.83 4.83 0 01-3.77-1.34V6.69z" /></svg>
-                  TikTok
+                <button type="button" className="sw-platform sw-tt" onClick={() => handleShare('tiktok')} aria-label="TikTok">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13.1a8.28 8.28 0 005.58 2.17V11.8a4.83 4.83 0 01-3.77-1.34V6.69z" /></svg>
                 </button>
-                <button type="button" className="sw-platform sw-wa" onClick={() => handleShare('whatsapp')}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                  WhatsApp
+                <button type="button" className="sw-platform sw-wa" onClick={() => handleShare('whatsapp')} aria-label="WhatsApp">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
                 </button>
-                <button type="button" className="sw-platform sw-x" onClick={() => handleShare('twitter')}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                  X
+                <button type="button" className="sw-platform sw-x" onClick={() => handleShare('twitter')} aria-label="X">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                 </button>
               </div>
 
               {shareWinSlug && (
                 <div className="sw-details-link">
-                  <Link href={`/p/${shareWinSlug}`}>View full contest rules & details →</Link>
+                  <Link href={`/p/${shareWinSlug}`}>View full rules →</Link>
                 </div>
               )}
             </>
@@ -597,7 +575,7 @@ export default function ExhibitionDetail({
                 <iframe
                   src={`https://www.google.com/maps?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&output=embed`}
                   width="100%"
-                  height="260"
+                  height="220"
                   style={{ border: 0, borderRadius: '14px' }}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -608,15 +586,21 @@ export default function ExhibitionDetail({
                     <strong>{exhibition.venue}</strong>
                     <span>{exhibition.state}, Malaysia</span>
                   </div>
+                </div>
+                <div className="ed-map-actions">
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ed-map-dir-btn"
+                    className="ed-map-action-btn primary"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                     Get Directions
                   </a>
+                  <Link href={tncSlug ? `/p/${tncSlug}` : '/terms-conditions'} className="ed-map-action-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                    View T&amp;C
+                  </Link>
                 </div>
               </div>
 
@@ -643,15 +627,18 @@ export default function ExhibitionDetail({
         </div>
       </section>
 
-      {/* ===== BRANDS ===== */}
+      {/* ===== BRANDS — Marquee carousel ===== */}
       {brands.length > 0 && (
         <section className="exh-brands" id="brands">
           <div className="container">
             <h2 className="section-title">Participating Brands</h2>
-            <div className="exh-brands-grid">
-              {brands.map((brand) => (
-                <div key={brand.id} className="exh-brand-item">
-                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={120} height={60} quality={75} loading="lazy" style={{ width: 'auto', height: '40px' }} />
+            <p className="section-subtitle">{brands.length}+ trusted brands exhibiting at {exhibition.title}</p>
+          </div>
+          <div className="exh-brands-marquee">
+            <div className="exh-brands-track">
+              {[...brands, ...brands].map((brand, i) => (
+                <div key={`${brand.id}-${i}`} className="exh-brand-logo-wrap">
+                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={160} height={80} quality={75} loading="lazy" style={{ width: 'auto', height: '50px', objectFit: 'contain' }} />
                 </div>
               ))}
             </div>
@@ -659,29 +646,39 @@ export default function ExhibitionDetail({
         </section>
       )}
 
-      {/* ===== PROGRAM ===== */}
-      {exhibition.programSchedule && exhibition.programSchedule.length > 0 && (
-        <section className="ed-program" id="program">
+      {/* ===== PROGRAMS (icon cards) ===== */}
+      {exhibition.programs && exhibition.programs.length > 0 && (
+        <section className="ed-programs" id="programs">
           <div className="container">
-            <h2 className="section-title">Program Schedule</h2>
-            <p className="section-subtitle">Activities and highlights throughout the expo</p>
-            <div className="ed-timeline">
-              {exhibition.programSchedule.map((item, i) => (
-                <div key={i} className="ed-timeline-item">
-                  <div className="ed-timeline-dot">
-                    <div className="ed-timeline-dot-inner" />
+            <h2 className="section-title">Program</h2>
+            <p className="section-subtitle">Exciting activities and rewards waiting for you at the expo</p>
+            <div className="ed-programs-grid">
+              {exhibition.programs.map((prog, i) => {
+                const getIconSvg = (title: string) => {
+                  const t = title.toLowerCase()
+                  if (t.includes('discount') || t.includes('coupon')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                  if (t.includes('loyalty') || t.includes('gift')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+                  if (t.includes('purchase')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                  if (t.includes('register')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  if (t.includes('tag') || t.includes('share')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  if (t.includes('welcome')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                  if (t.includes('lucky') || t.includes('draw')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                  if (t.includes('contest')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6"/><path d="M18 9h1.5a2.5 2.5 0 000-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg>
+                  return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                }
+                return (
+                  <div key={i} className="ed-program-card">
+                    <div className="ed-program-icon">{getIconSvg(prog.title)}</div>
+                    <h4>{prog.title}</h4>
+                    {prog.description && <p>{prog.description}</p>}
                   </div>
-                  <div className="ed-timeline-content">
-                    <div className="ed-timeline-time">{item.time}</div>
-                    <h4>{item.title}</h4>
-                    {item.description && <p>{item.description}</p>}
-                  </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </section>
       )}
+
 
       {/* ===== CRAZY DEALS — Mystery Box reveal ===== */}
       {previewDeals.length > 0 && (

@@ -85,6 +85,7 @@ export interface Exhibition {
   verticalVideo?: MediaItem
   floorplanImage?: MediaItem
   brandCount?: number
+  participatingBrands?: (string | number | FeaturedBrand)[]
   isUpcoming: boolean
   countdownEnabled: boolean
   mapLink?: string
@@ -103,6 +104,7 @@ export interface Exhibition {
     hiddenPage?: { id: string; slug: string } | string | null
   }
   programSchedule?: { time: string; title: string; description?: string }[]
+  programs?: { title: string; image: MediaItem; description?: string }[]
   faq?: { question: string; answer: string }[]
   seo?: SEO
   createdAt: string
@@ -229,17 +231,32 @@ export interface FeaturedBrand {
   id: string
   name: string
   logo: MediaItem
-  exhibition?: Exhibition | string
+  website?: string
   order: number
 }
 
-export async function getFeaturedBrands(exhibitionId?: string) {
+// Get all brands (master list) — used on homepage
+export async function getFeaturedBrands() {
   return fetchAPI<PaginatedResponse<FeaturedBrand>>('featured-brands', {
     params: {
       sort: 'order',
       limit: 100,
       depth: 1,
-      ...(exhibitionId ? { 'where[exhibition][equals]': exhibitionId } : {}),
+    },
+  })
+}
+
+// Get brands for a specific exhibition (filtered by participatingBrands IDs)
+export async function getExhibitionBrands(brandIds: (string | number)[]): Promise<PaginatedResponse<FeaturedBrand>> {
+  if (!brandIds || brandIds.length === 0) {
+    return { docs: [], totalDocs: 0, totalPages: 0, page: 1, hasNextPage: false, hasPrevPage: false }
+  }
+  return fetchAPI<PaginatedResponse<FeaturedBrand>>('featured-brands', {
+    params: {
+      sort: 'order',
+      limit: 100,
+      depth: 1,
+      'where[id][in]': brandIds.join(','),
     },
   })
 }

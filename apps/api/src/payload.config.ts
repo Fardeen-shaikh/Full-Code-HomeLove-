@@ -57,7 +57,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
     },
-    push: true,
+    // Use migrations in production, push mode in dev
+    push: process.env.NODE_ENV !== 'production',
   }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
