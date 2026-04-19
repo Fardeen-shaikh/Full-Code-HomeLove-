@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -15,6 +16,10 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100)
@@ -50,7 +55,13 @@ export default function Header() {
             </div>
             <nav className="nav">
               {NAV_LINKS.map((link) => (
-                <Link key={link.href} href={link.href}>{link.label}</Link>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={isActive(link.href) ? 'active' : undefined}
+                >
+                  {link.label}
+                </Link>
               ))}
             </nav>
             <div className="header-actions">
@@ -71,7 +82,12 @@ export default function Header() {
       <div className={`mobile-menu-overlay${mobileOpen ? ' open' : ''}`} id="mobileMenu">
         <button className="mobile-close-btn" onClick={() => setMobileOpen(false)} aria-label="Close menu">✕</button>
         {NAV_LINKS.map((link) => (
-          <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={() => setMobileOpen(false)}
+            className={isActive(link.href) ? 'active' : undefined}
+          >
             {link.label}
           </Link>
         ))}

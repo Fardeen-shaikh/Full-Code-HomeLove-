@@ -109,6 +109,12 @@
             text-decoration: none; padding: 14px 0; border-bottom: 1px solid #f0f0f0;
         }
         .mobile-menu-overlay a:hover { color: var(--primary); }
+        .mobile-menu-overlay a.active {
+            color: var(--primary);
+            padding-left: 12px;
+            border-left: 3px solid var(--primary);
+            background: rgba(1, 75, 152, 0.08);
+        }
         .mobile-close-btn {
             position: absolute; top: 20px; right: 20px; background: none;
             border: none; font-size: 1.6rem; cursor: pointer; color: var(--dark); padding: 8px;
@@ -241,6 +247,21 @@
 
         .nav a:hover {
             color: var(--primary);
+        }
+
+        @media (min-width: 1024px) {
+            .nav a.active {
+                background: var(--primary);
+                color: #fff;
+                padding: 8px 16px;
+                border-radius: 9999px;
+            }
+            .nav a.active::after {
+                display: none;
+            }
+            .nav a.active:hover {
+                color: #fff;
+            }
         }
 
         .header-actions {
