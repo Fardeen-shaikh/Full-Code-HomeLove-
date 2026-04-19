@@ -454,12 +454,15 @@ export default function ExhibitionDetail({
                 <button type="button" className="btn btn-secondary ed-btn" onClick={() => setShowSubForm(!showSubForm)}>
                   Get Event Updates
                 </button>
-                {exhibition.mapLink && (
-                  <a href={exhibition.mapLink} target="_blank" rel="noopener noreferrer" className="btn ed-btn ed-btn-outline">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                    Get Directions
-                  </a>
-                )}
+                <a
+                  href={exhibition.mapLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${exhibition.venue}, ${exhibition.state}, Malaysia`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn ed-btn ed-btn-outline"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                  Get Directions
+                </a>
                 {tncSlug && (
                   <Link href={`/p/${tncSlug}`} className="btn ed-btn ed-btn-outline">
                     Terms &amp; Conditions
@@ -548,27 +551,50 @@ export default function ExhibitionDetail({
             )}
           </div>
 
-          {/* Video + Highlights */}
-          <div className="ed-video-highlights">
-            {/* Left: Video in phone mockup */}
-            <div className="ed-phone-mockup">
-              <div className="ed-phone-notch" />
-              <div className="ed-phone-screen">
-                {exhibition.verticalVideo ? (
-                  <video src={mediaUrl(exhibition.verticalVideo)} controls playsInline poster={bannerUrl} />
-                ) : (
-                  <div className="ed-phone-banner">
-                    <Image src={bannerUrl} alt={exhibition.title} width={350} height={600} quality={75} loading="lazy" sizes="350px" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                    <div className="ed-phone-play">
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+          {/* Programs — horizontal scroll of square image cards */}
+          {exhibition.programs && exhibition.programs.length > 0 && (
+            <div className="ed-programs-section" id="programs">
+              <div className="ed-programs-header">
+                <h2>Program</h2>
+                <p>Exciting activities and rewards waiting for you at the expo</p>
+              </div>
+              <div className="ed-programs-scroll">
+                {exhibition.programs.map((prog, i) => (
+                  <div key={i} className="ed-program-sq-card">
+                    <div className="ed-program-sq-img">
+                      {mediaUrl(prog.image) && (
+                        <Image
+                          src={mediaUrl(prog.image)}
+                          alt={prog.title}
+                          width={420}
+                          height={420}
+                          quality={78}
+                          loading="lazy"
+                          sizes="(max-width: 640px) 78vw, 320px"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      )}
+                    </div>
+                    <div className="ed-program-sq-body">
+                      <h4>{prog.title}</h4>
+                      {prog.description && <p>{prog.description}</p>}
                     </div>
                   </div>
-                )}
+                ))}
               </div>
-              <div className="ed-phone-bar" />
+              {tncSlug && (
+                <div className="ed-programs-tnc">
+                  <Link href={`/p/${tncSlug}`} className="btn btn-primary ed-programs-tnc-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                    View Terms &amp; Conditions
+                  </Link>
+                </div>
+              )}
             </div>
+          )}
 
-            {/* Right: Map + Subscribe */}
+          {/* Highlights — Map + Subscribe */}
+          <div className="ed-video-highlights ed-highlights-only">
             <div className="ed-highlights-right">
               <h3>Location &amp; Directions</h3>
               <div className="ed-map-wrap">
@@ -641,39 +667,6 @@ export default function ExhibitionDetail({
                   <Image src={mediaUrl(brand.logo)} alt={brand.name} width={160} height={80} quality={75} loading="lazy" style={{ width: 'auto', height: '50px', objectFit: 'contain' }} />
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ===== PROGRAMS (icon cards) ===== */}
-      {exhibition.programs && exhibition.programs.length > 0 && (
-        <section className="ed-programs" id="programs">
-          <div className="container">
-            <h2 className="section-title">Program</h2>
-            <p className="section-subtitle">Exciting activities and rewards waiting for you at the expo</p>
-            <div className="ed-programs-grid">
-              {exhibition.programs.map((prog, i) => {
-                const getIconSvg = (title: string) => {
-                  const t = title.toLowerCase()
-                  if (t.includes('discount') || t.includes('coupon')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                  if (t.includes('loyalty') || t.includes('gift')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-                  if (t.includes('purchase')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-                  if (t.includes('register')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  if (t.includes('tag') || t.includes('share')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                  if (t.includes('welcome')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                  if (t.includes('lucky') || t.includes('draw')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                  if (t.includes('contest')) return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6"/><path d="M18 9h1.5a2.5 2.5 0 000-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg>
-                  return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                }
-                return (
-                  <div key={i} className="ed-program-card">
-                    <div className="ed-program-icon">{getIconSvg(prog.title)}</div>
-                    <h4>{prog.title}</h4>
-                    {prog.description && <p>{prog.description}</p>}
-                  </div>
-                )
-              })}
             </div>
           </div>
         </section>
