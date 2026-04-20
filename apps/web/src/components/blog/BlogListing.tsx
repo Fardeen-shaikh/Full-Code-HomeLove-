@@ -26,17 +26,33 @@ export default function BlogListing({
 }) {
   const searchParams = use(searchParamsPromise)
   const [posts, setPosts] = useState<BlogPost[]>([])
+  const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [totalDocs, setTotalDocs] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const currentCategory = searchParams.category || ''
-  const currentPage = parseInt(searchParams.page || '1', 10)
+  const q = searchQuery.trim().toLowerCase()
+  const isSearching = q.length > 0
+  const PAGE_SIZE = 6
+
+  const visiblePosts = isSearching
+    ? posts.filter(
+        (p) => p.title?.toLowerCase().includes(q) || p.excerpt?.toLowerCase().includes(q),
+      )
+    : posts
+
+  const matchCount = visiblePosts.length
+  const hasMore = page < totalPages
 
   useEffect(() => {
     setLoading(true)
+    setPage(1)
     const url = new URL(`${API_URL}/api/blog-posts`)
-    url.searchParams.set('limit', '9')
-    url.searchParams.set('page', String(currentPage))
+    url.searchParams.set('limit', String(PAGE_SIZE))
+    url.searchParams.set('page', '1')
     url.searchParams.set('sort', '-publishedAt')
     url.searchParams.set('depth', '1')
     if (currentCategory) {
@@ -48,10 +64,35 @@ export default function BlogListing({
       .then((data) => {
         setPosts(data.docs || [])
         setTotalPages(data.totalPages || 1)
+        setTotalDocs(data.totalDocs || 0)
       })
       .catch(() => setPosts([]))
       .finally(() => setLoading(false))
-  }, [currentCategory, currentPage])
+  }, [currentCategory])
+
+  async function loadMore() {
+    if (loadingMore || !hasMore) return
+    setLoadingMore(true)
+    const nextPage = page + 1
+    const url = new URL(`${API_URL}/api/blog-posts`)
+    url.searchParams.set('limit', String(PAGE_SIZE))
+    url.searchParams.set('page', String(nextPage))
+    url.searchParams.set('sort', '-publishedAt')
+    url.searchParams.set('depth', '1')
+    if (currentCategory) {
+      url.searchParams.set('where[category][equals]', currentCategory)
+    }
+    try {
+      const res = await fetch(url.toString())
+      const data = await res.json()
+      setPosts((prev) => [...prev, ...(data.docs || [])])
+      setPage(nextPage)
+    } catch {
+      // Silent fail — user can retry
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
   function formatDate(dateStr: string) {
     return new Date(dateStr).toLocaleDateString('en-MY', {
@@ -75,6 +116,40 @@ export default function BlogListing({
             <h1>Home Tips</h1>
             <p>Ideas, guides, and inspiration for your home</p>
           </div>
+        </div>
+      </section>
+
+      {/* Search Bar — desktop only */}
+      <section className="blog-search">
+        <div className="container">
+          <div className="blog-search-wrap">
+            <svg className="blog-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+            <input
+              type="search"
+              placeholder="Search articles by keyword..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="blog-search-input"
+              aria-label="Search articles"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="blog-search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+          </div>
+          {isSearching && (
+            <p className="blog-search-status">
+              {matchCount > 0
+                ? `${matchCount} result${matchCount === 1 ? '' : 's'} for "${searchQuery}"`
+                : `No results for "${searchQuery}"`}
+            </p>
+          )}
         </div>
       </section>
 
@@ -111,22 +186,39 @@ export default function BlogListing({
                 </div>
               ))}
             </div>
-          ) : posts.length === 0 ? (
+          ) : visiblePosts.length === 0 ? (
             <div className="blog-empty">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--gray)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-              <h3>No articles yet</h3>
-              <p>Check back soon for home tips, trends, and ideas.</p>
+              <h3>{isSearching ? 'No matching articles' : 'No articles yet'}</h3>
+              <p>
+                {isSearching
+                  ? `We couldn't find any articles matching "${searchQuery}". Try a different keyword or browse by category.`
+                  : 'Check back soon for home tips, trends, and ideas.'}
+              </p>
+              {isSearching && (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setSearchQuery('')}
+                  style={{ marginTop: '16px' }}
+                >
+                  Clear search
+                </button>
+              )}
             </div>
           ) : (
             <>
               <div className="blog-grid">
-                {posts.map((post) => (
-                  <Link href={`/home-tips/${post.slug}`} key={post.id} className="blog-card">
+                {visiblePosts.map((post, i) => (
+                  <Link
+                    href={`/home-tips/${post.slug}`}
+                    key={post.id}
+                    className="blog-card blog-card-reveal"
+                    style={{ animationDelay: `${(i % PAGE_SIZE) * 70}ms` }}
+                  >
                     <div className="blog-card-image">
                       <Image
                         src={mediaUrl(post.featuredImage) || '/images/blog/kitchen-design.jpg'}
@@ -138,7 +230,6 @@ export default function BlogListing({
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                       />
-                      <span className="blog-card-category">{categoryLabel(post.category)}</span>
                     </div>
                     <div className="blog-card-body">
                       <h3>{post.title}</h3>
@@ -152,29 +243,36 @@ export default function BlogListing({
                 ))}
               </div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="blog-pagination">
-                  {currentPage > 1 && (
-                    <Link
-                      href={`/home-tips?${currentCategory ? `category=${currentCategory}&` : ''}page=${currentPage - 1}`}
-                      className="pagination-btn"
-                    >
-                      ← Previous
-                    </Link>
-                  )}
-                  <span className="pagination-info">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  {currentPage < totalPages && (
-                    <Link
-                      href={`/home-tips?${currentCategory ? `category=${currentCategory}&` : ''}page=${currentPage + 1}`}
-                      className="pagination-btn"
-                    >
-                      Next →
-                    </Link>
-                  )}
+              {/* Load More */}
+              {!isSearching && hasMore && (
+                <div className="blog-load-more-wrap">
+                  <button
+                    type="button"
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className="blog-load-more-btn"
+                  >
+                    {loadingMore ? (
+                      <>
+                        <span className="blog-load-spinner" />
+                        Loading...
+                      </>
+                    ) : (
+                      <>
+                        Load More Articles
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                  <p className="blog-load-more-count">
+                    Showing {posts.length} of {totalDocs} articles
+                  </p>
                 </div>
+              )}
+              {!isSearching && !hasMore && posts.length > PAGE_SIZE && (
+                <p className="blog-load-more-done">You&apos;ve reached the end — {totalDocs} articles</p>
               )}
             </>
           )}

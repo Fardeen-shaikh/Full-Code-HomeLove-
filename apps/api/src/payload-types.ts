@@ -268,6 +268,10 @@ export interface Exhibition {
     | 'Sarawak'
     | 'Selangor'
     | 'Terengganu';
+  /**
+   * City or town where the exhibition is held, e.g. Kuching, Penang, Johor Bahru. Falls back to state if empty.
+   */
+  city?: string | null;
   bannerImage: number | Media;
   verticalVideo?: (number | null) | Media;
   floorplanImage?: (number | null) | Media;
@@ -553,6 +557,7 @@ export interface ContactInquiry {
   email: string;
   phone: string;
   message?: string | null;
+  captchaToken?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -878,6 +883,7 @@ export interface ExhibitionsSelect<T extends boolean = true> {
   endDate?: T;
   venue?: T;
   state?: T;
+  city?: T;
   bannerImage?: T;
   verticalVideo?: T;
   floorplanImage?: T;
@@ -1056,6 +1062,7 @@ export interface ContactInquiriesSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   message?: T;
+  captchaToken?: T;
   updatedAt?: T;
   createdAt?: T;
 }

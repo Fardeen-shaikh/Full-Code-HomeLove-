@@ -171,96 +171,6 @@ function ScratchCard({ onComplete }: { onComplete: () => void }) {
   )
 }
 
-function ShareAndWin({ title, description, eventTitle, shareWinSlug }: { title: string; description: string; eventTitle: string; shareWinSlug: string | null }) {
-  const [shared, setShared] = useState(false)
-  const shareText = `I'm at ${eventTitle} — Malaysia's Premier Home & Living Exhibition! Amazing deals on home products. #HOMElove #HomeExpo`
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-
-  function handleShare(platform: string) {
-    let url = ''
-    switch (platform) {
-      case 'facebook':
-        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`
-        break
-      case 'instagram':
-        // Instagram doesn't support web share — show instructions
-        break
-      case 'tiktok':
-        url = `https://www.tiktok.com/`
-        break
-      case 'twitter':
-        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
-        break
-      case 'whatsapp':
-        url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`
-        break
-    }
-    if (url) window.open(url, '_blank', 'width=600,height=500')
-    setShared(true)
-  }
-
-  return (
-    <section className="ed-share-win" id="share-win">
-      <div className="container">
-        <div className="sw-card">
-          <div className="sw-header">
-            <div className="sw-trophy">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9H4.5a2.5 2.5 0 010-5H6" /><path d="M18 9h1.5a2.5 2.5 0 000-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22" /><path d="M18 2H6v7a6 6 0 0012 0V2z" />
-              </svg>
-            </div>
-            <h2>{title}</h2>
-            <p>{description}</p>
-          </div>
-
-          {shared ? (
-            <div className="sw-success">
-              <h3>Thanks for sharing! Winners announced at the expo.</h3>
-              <button type="button" className="btn btn-primary" onClick={() => setShared(false)} style={{ borderRadius: '50px' }}>
-                Share Again
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="sw-steps">
-                <div className="sw-step"><div className="sw-step-num">1</div><span>Share</span></div>
-                <div className="sw-step-arrow">→</div>
-                <div className="sw-step"><div className="sw-step-num">2</div><span>Tag @HOMEloveExhibition</span></div>
-                <div className="sw-step-arrow">→</div>
-                <div className="sw-step"><div className="sw-step-num">3</div><span>Win</span></div>
-              </div>
-
-              <div className="sw-platforms">
-                <button type="button" className="sw-platform sw-fb" onClick={() => handleShare('facebook')} aria-label="Facebook">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
-                </button>
-                <button type="button" className="sw-platform sw-ig" onClick={() => handleShare('instagram')} aria-label="Instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
-                </button>
-                <button type="button" className="sw-platform sw-tt" onClick={() => handleShare('tiktok')} aria-label="TikTok">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13.1a8.28 8.28 0 005.58 2.17V11.8a4.83 4.83 0 01-3.77-1.34V6.69z" /></svg>
-                </button>
-                <button type="button" className="sw-platform sw-wa" onClick={() => handleShare('whatsapp')} aria-label="WhatsApp">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                </button>
-                <button type="button" className="sw-platform sw-x" onClick={() => handleShare('twitter')} aria-label="X">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                </button>
-              </div>
-
-              {shareWinSlug && (
-                <div className="sw-details-link">
-                  <Link href={`/p/${shareWinSlug}`}>View full rules →</Link>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export default function ExhibitionDetail({
   exhibition,
   crazyDeals,
@@ -298,8 +208,7 @@ export default function ExhibitionDetail({
 
   // Deal reveal
   const [revealedDeals, setRevealedDeals] = useState<Set<string>>(new Set())
-  const [revealPopupDeal, setRevealPopupDeal] = useState<string | null>(null)
-  const [revealPhase, setRevealPhase] = useState<'opening' | 'revealed'>('opening')
+  const [revealingAll, setRevealingAll] = useState(false)
   const [dealFormId, setDealFormId] = useState<string | null>(null)
   const [dealForm, setDealForm] = useState({ name: '', phone: '', email: '' })
   const [dealFormStatus, setDealFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
@@ -392,9 +301,40 @@ export default function ExhibitionDetail({
   }
 
   const previewDeals = crazyDeals.slice(0, 8)
+
+  function revealAllDeals() {
+    if (revealingAll) return
+    const unrevealed = previewDeals.filter((d) => !revealedDeals.has(d.id))
+    if (unrevealed.length === 0) return
+    setRevealingAll(true)
+
+    // Preload & decode all deal images BEFORE triggering the reveal animation.
+    // This prevents the flip from stuttering while the browser decodes images.
+    const preloads = unrevealed.map((deal) => {
+      const src = mediaUrl(deal.image)
+      if (!src) return Promise.resolve()
+      return new Promise<void>((resolve) => {
+        const img = new window.Image()
+        img.onload = () => resolve()
+        img.onerror = () => resolve()
+        img.src = optimizedImg(src, 384)
+      })
+    })
+
+    Promise.all(preloads).then(() => {
+      // All images decoded — now trigger reveal in a single render.
+      // CSS animation-delay handles the staggered wave on the GPU.
+      setRevealedDeals((prev) => {
+        const next = new Set(prev)
+        unrevealed.forEach((d) => next.add(d.id))
+        return next
+      })
+      const totalMs = unrevealed.length * 70 + 700
+      setTimeout(() => setRevealingAll(false), totalMs)
+    })
+  }
   const bannerUrl = mediaUrl(exhibition.bannerImage) || '/images/events/event-kuching.png'
   const tncSlug = typeof exhibition.tncPage === 'object' && exhibition.tncPage ? exhibition.tncPage.slug : null
-  const shareWinSlug = typeof exhibition.shareAndWin?.hiddenPage === 'object' && exhibition.shareAndWin?.hiddenPage ? exhibition.shareAndWin.hiddenPage.slug : null
 
   return (
     <>
@@ -551,9 +491,14 @@ export default function ExhibitionDetail({
             )}
           </div>
 
-          {/* Programs — horizontal scroll of square image cards */}
-          {exhibition.programs && exhibition.programs.length > 0 && (
-            <div className="ed-programs-section" id="programs">
+        </div>
+      </section>
+
+      {/* ===== PROGRAM ===== */}
+      {exhibition.programs && exhibition.programs.length > 0 && (
+        <section className="exh-program" id="programs">
+          <div className="container">
+            <div className="ed-programs-section">
               <div className="ed-programs-header">
                 <h2>Program</h2>
                 <p>Exciting activities and rewards waiting for you at the expo</p>
@@ -590,293 +535,6 @@ export default function ExhibitionDetail({
                   </Link>
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Highlights — Map + Subscribe */}
-          <div className="ed-video-highlights ed-highlights-only">
-            <div className="ed-highlights-right">
-              <h3>Location &amp; Directions</h3>
-              <div className="ed-map-wrap">
-                <iframe
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&output=embed`}
-                  width="100%"
-                  height="220"
-                  style={{ border: 0, borderRadius: '14px' }}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={`Map of ${exhibition.venue}`}
-                />
-                <div className="ed-map-info">
-                  <div>
-                    <strong>{exhibition.venue}</strong>
-                    <span>{exhibition.state}, Malaysia</span>
-                  </div>
-                </div>
-                <div className="ed-map-actions">
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ed-map-action-btn primary"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
-                    Get Directions
-                  </a>
-                  <Link href={tncSlug ? `/p/${tncSlug}` : '/terms-conditions'} className="ed-map-action-btn">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
-                    View T&amp;C
-                  </Link>
-                </div>
-              </div>
-
-              {/* Compact subscribe */}
-              <div className="ed-inline-subscribe">
-                <h4>Get Event Updates</h4>
-                {subStatus === 'sent' ? (
-                  <p className="sub-success-inline">You&apos;re subscribed! We&apos;ll keep you updated.</p>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="ed-inline-form">
-                    <div className="ed-inline-fields">
-                      <input type="text" placeholder="Name" value={subForm.name} onChange={(e) => setSubForm({ ...subForm, name: e.target.value })} required />
-                      <input type="tel" placeholder="Phone" value={subForm.phone} onChange={(e) => setSubForm({ ...subForm, phone: e.target.value })} required />
-                      <input type="email" placeholder="Email" value={subForm.email} onChange={(e) => setSubForm({ ...subForm, email: e.target.value })} required />
-                    </div>
-                    <button type="submit" className="btn btn-primary ed-inline-btn" disabled={subStatus === 'sending'}>
-                      {subStatus === 'sending' ? 'Subscribing...' : 'Subscribe →'}
-                    </button>
-                  </form>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== BRANDS — Marquee carousel ===== */}
-      {brands.length > 0 && (
-        <section className="exh-brands" id="brands">
-          <div className="container">
-            <h2 className="section-title">Participating Brands</h2>
-            <p className="section-subtitle">{brands.length}+ trusted brands exhibiting at {exhibition.title}</p>
-          </div>
-          <div className="exh-brands-marquee">
-            <div className="exh-brands-track">
-              {[...brands, ...brands].map((brand, i) => (
-                <div key={`${brand.id}-${i}`} className="exh-brand-logo-wrap">
-                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={160} height={80} quality={75} loading="lazy" style={{ width: 'auto', height: '50px', objectFit: 'contain' }} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-
-      {/* ===== CRAZY DEALS — Mystery Box reveal ===== */}
-      {previewDeals.length > 0 && (
-        <section className="exh-deals" id="crazy-deals">
-          <div className="container">
-            <div className="ed-deals-header">
-              <h2 className="section-title">Crazy Deals</h2>
-              <p>Tap a mystery box to reveal exclusive expo-only deals!</p>
-              <div className="deals-progress">
-                <span className="deals-progress-text">
-                  🎁 {revealedDeals.size} of {previewDeals.length} deals revealed
-                </span>
-                <div className="deals-progress-bar">
-                  <div className="deals-progress-fill" style={{ width: `${(revealedDeals.size / previewDeals.length) * 100}%` }} />
-                </div>
-                {revealedDeals.size === previewDeals.length && (
-                  <div className="deals-all-revealed">All deals unlocked! Visit the expo to grab them! 🎉</div>
-                )}
-              </div>
-            </div>
-            <div className="deals-grid">
-              {previewDeals.map((deal) => (
-                <div key={deal.id} className={`deal-card${revealedDeals.has(deal.id) ? ' revealed' : ''}`}>
-                  {revealedDeals.has(deal.id) ? (
-                    /* ===== REVEALED STATE — image only ===== */
-                    <div className="deal-revealed-card" onClick={() => { setRevealPhase('revealed'); setRevealPopupDeal(deal.id) }}>
-                      {mediaUrl(deal.image) && (
-                        <div className="deal-revealed-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={optimizedImg(mediaUrl(deal.image), 384)} alt={deal.title} />
-                        </div>
-                      )}
-                      <div className="deal-revealed-actions">
-                        <button
-                          type="button"
-                          className="deal-wa-btn-sm"
-                          onClick={(e) => { e.stopPropagation(); shareDealOnWhatsApp(deal) }}
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                          Enquire
-                        </button>
-                        <button
-                          type="button"
-                          className={`deal-fav-btn-sm${favourites.has(deal.id) ? ' active' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); toggleFavourite(deal.id) }}
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill={favourites.has(deal.id) ? 'var(--secondary)' : 'none'} stroke={favourites.has(deal.id) ? 'var(--secondary)' : '#999'} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    /* ===== MYSTERY BOX STATE ===== */
-                    <button
-                      type="button"
-                      className="mystery-box"
-                      onClick={() => {
-                        setRevealPhase('opening')
-                        setRevealPopupDeal(deal.id)
-                        setTimeout(() => {
-                          setRevealPhase('revealed')
-                          setRevealedDeals((prev) => new Set(prev).add(deal.id))
-                        }, 1500)
-                      }}
-                    >
-                      <div className="mystery-box-glow" />
-                      <div className="mystery-box-icon">🎁</div>
-                      <div className="mystery-box-label">Tap to Reveal</div>
-                      <div className="mystery-box-hint">Mystery Deal</div>
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            {crazyDeals.length > 8 && (
-              <div className="deals-cta">
-                <Link href={`/p/crazy-deals-${exhibition.slug}`} className="btn btn-primary">
-                  Browse All {crazyDeals.length} Deals →
-                </Link>
-              </div>
-            )}
-
-            {/* Favourites summary */}
-            {favourites.size > 0 && (
-              <button type="button" className="fav-summary" onClick={() => setShowFavDrawer(true)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--secondary)" stroke="var(--secondary)" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
-                <span>{favourites.size} item{favourites.size > 1 ? 's' : ''} saved — View My List →</span>
-              </button>
-            )}
-          </div>
-
-          {/* Mystery Box Reveal Popup */}
-          {revealPopupDeal && (() => {
-            const popupDeal = crazyDeals.find((d) => d.id === revealPopupDeal)
-            if (!popupDeal) return null
-            return (
-              <div className="mystery-popup-overlay" onClick={(e) => { if (e.target === e.currentTarget && revealPhase === 'revealed') setRevealPopupDeal(null) }}>
-                <div className={`mystery-popup ${revealPhase}`}>
-                  {revealPhase === 'opening' ? (
-                    <div className="mystery-popup-opening">
-                      <div className="mystery-opening-box">
-                        <div className="mystery-lid">🎁</div>
-                        <div className="mystery-sparkles">
-                          <span>✨</span><span>⭐</span><span>✨</span><span>💫</span><span>⭐</span>
-                        </div>
-                      </div>
-                      <p className="mystery-opening-text">Opening your mystery deal...</p>
-                    </div>
-                  ) : (
-                    <div className="mystery-popup-revealed">
-                      <button className="mystery-popup-close" onClick={() => setRevealPopupDeal(null)} type="button">✕</button>
-                      {mediaUrl(popupDeal.image) && (
-                        <div className="mystery-popup-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={optimizedImg(mediaUrl(popupDeal.image), 750)} alt={popupDeal.title} />
-                        </div>
-                      )}
-                      <div className="mystery-popup-actions">
-                        <button
-                          type="button"
-                          className="deal-wa-btn"
-                          onClick={() => shareDealOnWhatsApp(popupDeal)}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                          Enquire on WhatsApp
-                        </button>
-                        <button type="button" className={`mystery-popup-fav${favourites.has(popupDeal.id) ? ' active' : ''}`} onClick={() => toggleFavourite(popupDeal.id)}>
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill={favourites.has(popupDeal.id) ? 'var(--secondary)' : 'none'} stroke={favourites.has(popupDeal.id) ? 'var(--secondary)' : '#999'} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
-                          {favourites.has(popupDeal.id) ? 'Saved' : 'Save Deal'}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )
-          })()}
-
-          {/* Deal reveal popup form */}
-          {dealFormId && (
-            <div className="deal-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) { setDealFormId(null); setDealFormStatus('idle') } }}>
-              <div className="deal-form-popup">
-                <button className="contest-close" onClick={() => { setDealFormId(null); setDealFormStatus('idle') }} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-
-                {dealFormStatus === 'sent' ? (
-                  <div className="deal-form-success">
-                    <div className="deal-form-check">
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-                      </svg>
-                    </div>
-                    <h3>Deal Revealed!</h3>
-                    <p>Price details are being sent to your WhatsApp. Check your phone!</p>
-                    <div className="deal-form-wa-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                      Opening WhatsApp...
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="deal-form-header">
-                      <div className="deal-form-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </div>
-                      <h3>Reveal This Deal</h3>
-                      <p>Enter your details to see the exclusive price. We&apos;ll also send the deal info to your WhatsApp!</p>
-                    </div>
-                    <form onSubmit={handleDealReveal} className="deal-form-fields">
-                      <input type="text" placeholder="Your Name *" value={dealForm.name} onChange={(e) => setDealForm({ ...dealForm, name: e.target.value })} required />
-                      <input type="tel" placeholder="WhatsApp Number *" value={dealForm.phone} onChange={(e) => setDealForm({ ...dealForm, phone: e.target.value })} required />
-                      <input type="email" placeholder="Email *" value={dealForm.email} onChange={(e) => setDealForm({ ...dealForm, email: e.target.value })} required />
-                      <button type="submit" className="btn btn-secondary deal-form-submit" disabled={dealFormStatus === 'sending'}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                        {dealFormStatus === 'sending' ? 'Revealing...' : 'Reveal & Send to WhatsApp'}
-                      </button>
-                    </form>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* ===== DISCOUNT COUPONS ===== */}
-      {coupons.length > 0 && (
-        <section className="exh-coupons" id="coupons">
-          <div className="container">
-            <h2 className="section-title">Discount Coupons</h2>
-            <div className="coupons-grid">
-              {coupons.map((coupon) => (
-                <div key={coupon.id} className="coupon-card">
-                  {coupon.image && (
-                    <Image src={mediaUrl(coupon.image)} alt={coupon.title} width={300} height={200} quality={75} loading="lazy" className="coupon-image" sizes="(max-width: 768px) 100vw, 300px" style={{ width: '100%', height: 'auto' }} />
-                  )}
-                  <div className="coupon-body">
-                    <h4>{coupon.title}</h4>
-                    {coupon.description && <p>{coupon.description}</p>}
-                    {coupon.code && <span className="coupon-code">{coupon.code}</span>}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -960,14 +618,259 @@ export default function ExhibitionDetail({
         </section>
       )}
 
-      {/* ===== SHARE & WIN — Interactive ===== */}
-      {exhibition.shareAndWin?.enabled && (
-        <ShareAndWin
-          title={exhibition.shareAndWin.title || 'Share & Win'}
-          description={exhibition.shareAndWin.description || ''}
-          eventTitle={exhibition.title}
-          shareWinSlug={shareWinSlug}
-        />
+      {/* ===== CRAZY DEALS — Mystery Box reveal ===== */}
+      {previewDeals.length > 0 && (
+        <section className="exh-deals" id="crazy-deals">
+          <div className="container">
+            <div className="ed-deals-header">
+              <h2 className="section-title">Crazy Deals</h2>
+              <p>Tap any mystery box to reveal all exclusive expo-only deals!</p>
+              <div className="deals-progress">
+                <span className="deals-progress-text">
+                  🎁 {revealedDeals.size} of {previewDeals.length} deals revealed
+                </span>
+                <div className="deals-progress-bar">
+                  <div className="deals-progress-fill" style={{ width: `${(revealedDeals.size / previewDeals.length) * 100}%` }} />
+                </div>
+                {revealedDeals.size === previewDeals.length && (
+                  <div className="deals-all-revealed">All deals unlocked! Visit the expo to grab them! 🎉</div>
+                )}
+              </div>
+              {revealedDeals.size < previewDeals.length && (
+                <button
+                  type="button"
+                  className="deals-reveal-all-btn"
+                  onClick={revealAllDeals}
+                  disabled={revealingAll}
+                >
+                  {revealingAll ? (
+                    <>
+                      <span className="deals-reveal-spinner" />
+                      Revealing…
+                    </>
+                  ) : (
+                    <>🎁 Reveal All Deals</>
+                  )}
+                </button>
+              )}
+            </div>
+            <div className="deals-grid">
+              {previewDeals.map((deal, i) => (
+                <div
+                  key={deal.id}
+                  className={`deal-card${revealedDeals.has(deal.id) ? ' revealed' : ''}`}
+                  style={{ ['--deal-delay' as string]: `${i * 80}ms` }}
+                >
+                  {revealedDeals.has(deal.id) ? (
+                    /* ===== REVEALED STATE — image only ===== */
+                    <div className="deal-revealed-card">
+                      {mediaUrl(deal.image) && (
+                        <div className="deal-revealed-image">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={optimizedImg(mediaUrl(deal.image), 384)} alt={deal.title} />
+                        </div>
+                      )}
+                      <div className="deal-revealed-actions">
+                        <button
+                          type="button"
+                          className="deal-wa-btn-sm"
+                          onClick={() => shareDealOnWhatsApp(deal)}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                          Enquire
+                        </button>
+                        <button
+                          type="button"
+                          className={`deal-fav-btn-sm${favourites.has(deal.id) ? ' active' : ''}`}
+                          onClick={() => toggleFavourite(deal.id)}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill={favourites.has(deal.id) ? 'var(--secondary)' : 'none'} stroke={favourites.has(deal.id) ? 'var(--secondary)' : '#999'} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* ===== MYSTERY BOX STATE — tap any box to reveal ALL ===== */
+                    <button
+                      type="button"
+                      className="mystery-box"
+                      onClick={revealAllDeals}
+                      disabled={revealingAll}
+                      aria-label="Tap to reveal all mystery deals"
+                    >
+                      <div className="mystery-box-glow" />
+                      <div className="mystery-box-icon">🎁</div>
+                      <div className="mystery-box-label">Tap to Reveal</div>
+                      <div className="mystery-box-hint">Mystery Deal</div>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            {crazyDeals.length > 8 && (
+              <div className="deals-cta">
+                <Link href={`/p/crazy-deals-${exhibition.slug}`} className="btn btn-primary">
+                  Browse All {crazyDeals.length} Deals →
+                </Link>
+              </div>
+            )}
+
+            {/* Favourites summary */}
+            {favourites.size > 0 && (
+              <button type="button" className="fav-summary" onClick={() => setShowFavDrawer(true)}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--secondary)" stroke="var(--secondary)" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                <span>{favourites.size} item{favourites.size > 1 ? 's' : ''} saved — View My List →</span>
+              </button>
+            )}
+          </div>
+
+          {/* Deal reveal popup form */}
+          {dealFormId && (
+            <div className="deal-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) { setDealFormId(null); setDealFormStatus('idle') } }}>
+              <div className="deal-form-popup">
+                <button className="contest-close" onClick={() => { setDealFormId(null); setDealFormStatus('idle') }} type="button">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                </button>
+
+                {dealFormStatus === 'sent' ? (
+                  <div className="deal-form-success">
+                    <div className="deal-form-check">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                    </div>
+                    <h3>Deal Revealed!</h3>
+                    <p>Price details are being sent to your WhatsApp. Check your phone!</p>
+                    <div className="deal-form-wa-icon">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                      Opening WhatsApp...
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="deal-form-header">
+                      <div className="deal-form-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
+                        </svg>
+                      </div>
+                      <h3>Reveal This Deal</h3>
+                      <p>Enter your details to see the exclusive price. We&apos;ll also send the deal info to your WhatsApp!</p>
+                    </div>
+                    <form onSubmit={handleDealReveal} className="deal-form-fields">
+                      <input type="text" placeholder="Your Name *" value={dealForm.name} onChange={(e) => setDealForm({ ...dealForm, name: e.target.value })} required />
+                      <input type="tel" placeholder="WhatsApp Number *" value={dealForm.phone} onChange={(e) => setDealForm({ ...dealForm, phone: e.target.value })} required />
+                      <input type="email" placeholder="Email *" value={dealForm.email} onChange={(e) => setDealForm({ ...dealForm, email: e.target.value })} required />
+                      <button type="submit" className="btn btn-secondary deal-form-submit" disabled={dealFormStatus === 'sending'}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                        {dealFormStatus === 'sending' ? 'Revealing...' : 'Reveal & Send to WhatsApp'}
+                      </button>
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* ===== LOCATION & DIRECTIONS ===== */}
+      <section className="exh-location" id="location">
+        <div className="container">
+          <div className="ed-map-wrap">
+            <h3>Location &amp; Directions</h3>
+            <iframe
+              src={`https://www.google.com/maps?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&output=embed`}
+              width="100%"
+              height="320"
+              style={{ border: 0, borderRadius: '14px' }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title={`Map of ${exhibition.venue}`}
+            />
+            <div className="ed-map-info">
+              <div>
+                <strong>{exhibition.venue}</strong>
+                <span>{exhibition.state}, Malaysia</span>
+              </div>
+            </div>
+            <div className="ed-map-actions">
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ed-map-action-btn primary"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
+                Get Directions
+              </a>
+              <Link href={tncSlug ? `/p/${tncSlug}` : '/terms-conditions'} className="ed-map-action-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                View T&amp;C
+              </Link>
+            </div>
+          </div>
+
+          {/* Get Event Updates — compact subscribe */}
+          <div className="ed-inline-subscribe exh-location-subscribe">
+            <h4>Get Event Updates</h4>
+            {subStatus === 'sent' ? (
+              <p className="sub-success-inline">You&apos;re subscribed! We&apos;ll keep you updated.</p>
+            ) : (
+              <form onSubmit={handleSubscribe} className="ed-inline-form">
+                <div className="ed-inline-fields">
+                  <input type="text" placeholder="Name" value={subForm.name} onChange={(e) => setSubForm({ ...subForm, name: e.target.value })} required />
+                  <input type="tel" placeholder="Phone" value={subForm.phone} onChange={(e) => setSubForm({ ...subForm, phone: e.target.value })} required />
+                  <input type="email" placeholder="Email" value={subForm.email} onChange={(e) => setSubForm({ ...subForm, email: e.target.value })} required />
+                </div>
+                <button type="submit" className="btn btn-primary ed-inline-btn" disabled={subStatus === 'sending'}>
+                  {subStatus === 'sending' ? 'Subscribing...' : 'Subscribe →'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BRANDS — Marquee carousel ===== */}
+      {brands.length > 0 && (
+        <section className="exh-brands" id="brands">
+          <div className="container">
+            <h2 className="section-title">Participating Top Brands</h2>
+            <p className="section-subtitle">{brands.length}+ trusted and top brands exclusively at {exhibition.city || exhibition.state} HOMElove home expo</p>
+          </div>
+          <div className="exh-brands-marquee">
+            <div className="exh-brands-track">
+              {[...brands, ...brands].map((brand, i) => (
+                <div key={`${brand.id}-${i}`} className="exh-brand-logo-wrap">
+                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={160} height={80} quality={75} loading="lazy" style={{ width: 'auto', height: '50px', objectFit: 'contain' }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ===== DISCOUNT COUPONS ===== */}
+      {coupons.length > 0 && (
+        <section className="exh-coupons" id="coupons">
+          <div className="container">
+            <h2 className="section-title">Discount Coupons</h2>
+            <div className="coupons-grid">
+              {coupons.map((coupon) => (
+                <div key={coupon.id} className="coupon-card">
+                  {coupon.image && (
+                    <Image src={mediaUrl(coupon.image)} alt={coupon.title} width={300} height={200} quality={75} loading="lazy" className="coupon-image" sizes="(max-width: 768px) 100vw, 300px" style={{ width: '100%', height: 'auto' }} />
+                  )}
+                  <div className="coupon-body">
+                    <h4>{coupon.title}</h4>
+                    {coupon.description && <p>{coupon.description}</p>}
+                    {coupon.code && <span className="coupon-code">{coupon.code}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* ===== FAQ ===== */}

@@ -67,14 +67,20 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 22px;
+    background: linear-gradient(135deg, #F9A13A 0%, #E08103 55%, #B35D02 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    padding: 9px 24px;
     border-radius: 50px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.3px;
     margin-bottom: 20px;
-    backdrop-filter: blur(4px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    box-shadow:
+        0 6px 20px rgba(224, 129, 3, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.15);
     animation: fadeInUp 0.7s ease forwards;
 }
 
@@ -132,7 +138,21 @@
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.stat-value::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 2px;
+    background: var(--orange);
+    border-radius: 2px;
 }
 
 .stat-label {
@@ -143,7 +163,7 @@
 
 /* ===== JOURNEY TIMELINE ===== */
 .about-journey {
-    padding: 100px 0 80px;
+    padding: 100px 0 40px;
     background: var(--white);
 }
 
@@ -158,9 +178,20 @@
     top: 0;
     bottom: 0;
     width: 3px;
+    background: rgba(1, 75, 152, 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.timeline-line-fill {
+    position: absolute;
+    inset: 0;
     background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--orange));
     border-radius: 3px;
-    opacity: 0.2;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.15s linear;
+    will-change: transform;
 }
 
 /* Timeline dot */
@@ -183,6 +214,29 @@
     border: 3px solid white;
     box-shadow: 0 0 0 3px rgba(1, 75, 152, 0.2);
     margin-bottom: 6px;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s;
+}
+
+.journey-block.dot-active .timeline-dot::before {
+    transform: scale(1);
+    animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(1, 75, 152, 0.2); }
+    50% { box-shadow: 0 0 0 8px rgba(1, 75, 152, 0.08); }
+}
+
+.journey-block .timeline-year {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s 0.2s, transform 0.4s 0.2s;
+}
+
+.journey-block.dot-active .timeline-year {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .timeline-year {
@@ -194,11 +248,13 @@
     white-space: nowrap;
 }
 
+.mission-block .timeline-year { color: var(--orange); }
+
 /* Journey blocks */
 .journey-block {
     position: relative;
-    margin-left: 80px;
-    margin-bottom: 80px;
+    margin-left: 120px;
+    margin-bottom: 110px;
     padding-left: 0;
 }
 
@@ -219,7 +275,7 @@
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
 }
 
 .journey-label.light {
@@ -231,8 +287,8 @@
 .journey-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
+    gap: 56px;
+    align-items: center;
 }
 
 .journey-image {
@@ -257,7 +313,7 @@
     font-size: 32px;
     font-weight: 800;
     color: var(--dark);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     line-height: 1.2;
 }
 
@@ -265,14 +321,18 @@
     font-size: 15px;
     color: var(--gray);
     line-height: 1.8;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
+}
+
+.journey-content p:last-child {
+    margin-bottom: 0;
 }
 
 /* ===== MISSION ===== */
 .mission-card {
     background: var(--primary);
     border-radius: 20px;
-    padding: 48px;
+    padding: 56px 52px;
     color: white;
     position: relative;
     overflow: hidden;
@@ -305,21 +365,21 @@
 .mission-card h2 {
     font-size: 32px;
     font-weight: 800;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 .mission-intro {
     font-size: 16px;
     line-height: 1.7;
     opacity: 0.9;
-    margin-bottom: 28px;
-    max-width: 600px;
+    margin-bottom: 36px;
+    max-width: 720px;
 }
 
 .mission-points {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .mission-point {
@@ -328,7 +388,7 @@
     gap: 14px;
     background: rgba(255,255,255,0.08);
     border-radius: 12px;
-    padding: 16px 20px;
+    padding: 18px 22px;
     backdrop-filter: blur(4px);
     transition: background 0.3s;
 }
@@ -361,7 +421,7 @@
 .mission-point span,
 .vision-point span {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .mission-point span {
@@ -373,32 +433,48 @@
     font-size: 32px;
     font-weight: 800;
     color: var(--dark);
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 .vision-intro {
     font-size: 16px;
     color: var(--gray);
     line-height: 1.7;
-    margin-bottom: 28px;
-    max-width: 600px;
+    margin-bottom: 36px;
+    max-width: none;
+    white-space: nowrap;
 }
 
 .vision-points {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    column-gap: 32px;
+    row-gap: 28px;
+    grid-auto-rows: 1fr;
+}
+
+.vision-points > * {
+    height: 100%;
+    min-width: 0;
+    display: flex;
+}
+
+.vision-points > .scroll-reveal > .vision-point,
+.vision-points > .vision-point {
+    flex: 1;
 }
 
 .vision-point {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
     background: var(--gray-light);
     border-radius: 12px;
-    padding: 18px 20px;
+    padding: 20px 22px;
     border: 1px solid #eee;
     transition: all 0.3s;
+    width: 100%;
+    height: 100%;
 }
 
 .vision-point:hover {
@@ -465,11 +541,12 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 16px;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background 0.3s;
 }
 
 .strength-card:hover .strength-icon {
     transform: scale(1.1) rotate(4deg);
+    background: var(--orange);
 }
 
 .strength-card h3 {
@@ -532,6 +609,9 @@
 }
 
 .location-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 8px 18px;
     background: var(--gray-light);
     border: 1.5px solid #e0e0e0;
@@ -540,6 +620,16 @@
     font-weight: 600;
     color: var(--dark);
     transition: all 0.3s;
+}
+
+.location-tag svg {
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: color 0.3s;
+}
+
+.location-tag:hover svg {
+    color: var(--primary);
 }
 
 .location-tag:hover {
@@ -616,6 +706,7 @@
     background: white;
     border-radius: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border-left: 4px solid var(--orange);
 }
 
 .org-logo img {
@@ -676,6 +767,10 @@
 
     .vision-points {
         grid-template-columns: 1fr;
+    }
+
+    .vision-intro {
+        white-space: normal;
     }
 }
 
