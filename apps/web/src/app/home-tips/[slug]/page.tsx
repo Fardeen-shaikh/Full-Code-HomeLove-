@@ -31,11 +31,22 @@ export default async function Page({
 
   if (!post) notFound()
 
-  // Fetch related posts (same category, exclude current)
-  const related = await getBlogPosts({ category: post.category, limit: 4 }).catch(() => ({
+  const RELATED_TARGET = 3
+
+  // Fetch related posts (same category first, exclude current)
+  const sameCategory = await getBlogPosts({ category: post.category, limit: RELATED_TARGET + 1 }).catch(() => ({
     docs: [],
   }))
-  const relatedPosts = related.docs.filter((p) => p.id !== post.id).slice(0, 3)
+  let relatedPosts = sameCategory.docs.filter((p) => p.id !== post.id).slice(0, RELATED_TARGET)
+
+  // Top up from any category if the same-category pool is too small
+  if (relatedPosts.length < RELATED_TARGET) {
+    const fallback = await getBlogPosts({ limit: RELATED_TARGET + 5 }).catch(() => ({ docs: [] }))
+    const extras = fallback.docs.filter(
+      (p) => p.id !== post.id && !relatedPosts.some((r) => r.id === p.id),
+    )
+    relatedPosts = [...relatedPosts, ...extras].slice(0, RELATED_TARGET)
+  }
 
   // Fetch all posts to find prev/next
   const allPosts = await getBlogPosts({ limit: 100 }).catch(() => ({ docs: [] }))
@@ -46,10 +57,14 @@ export default async function Page({
   const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
   const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null
 
+  // Sidebar pool: exclude current, cap for the client-side filter
+  const sidebarPool = sortedPosts.filter((p) => p.id !== post.id).slice(0, 30)
+
   return (
     <BlogArticle
       post={post}
       relatedPosts={relatedPosts}
+      sidebarPool={sidebarPool}
       prevPost={prevPost ? { title: prevPost.title, slug: prevPost.slug } : null}
       nextPost={nextPost ? { title: nextPost.title, slug: nextPost.slug } : null}
     />

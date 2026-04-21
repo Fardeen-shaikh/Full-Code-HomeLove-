@@ -31,6 +31,8 @@ coverage/
 
 # Database
 *.sql.bak
+railway_dump.sql
+*.sql
 
 # Payload
 media/

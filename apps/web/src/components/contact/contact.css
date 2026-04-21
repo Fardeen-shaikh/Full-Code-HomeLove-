@@ -7,10 +7,17 @@
     background-size: cover;
     background-position: center;
     color: white;
-    padding: 160px 0 80px;
+    padding: 200px 0 140px;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
     position: relative;
     overflow: hidden;
     text-align: center;
+}
+
+.contact-hero > .container {
+    width: 100%;
 }
 
 .contact-hero-overlay {
@@ -275,21 +282,50 @@
     margin-bottom: 24px;
 }
 
-/* Office Address */
+/* CAPTCHA block */
+.form-captcha {
+    margin: 8px 0 20px;
+    padding: 18px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: var(--gray-light, #f9fafb);
+}
+
+.form-captcha-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+
+.form-captcha-hint {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+.form-captcha-widget {
+    min-height: 78px;
+}
+
+/* Office Address — styled to match About Us "Organised by" card */
 .contact-address {
     padding: 0 0 80px;
     background: var(--white);
 }
 
 .address-card {
-    max-width: 720px;
-    margin: 0 auto;
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 32px;
-    background: var(--gray-light);
+    align-items: center;
+    gap: 36px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px;
+    background: white;
     border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 
 .address-icon {
@@ -305,22 +341,41 @@
 }
 
 .address-content h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
 }
 
 .address-content p {
     font-size: 14px;
     color: var(--gray);
     line-height: 1.8;
+    margin: 0;
+}
+
+.address-content p strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.address-content .address-reg {
+    font-weight: 400;
+    color: var(--gray);
+    margin-left: 4px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .contact-hero {
-        padding: 130px 0 60px;
+        padding: 150px 0 90px;
+        min-height: 440px;
     }
 
     .contact-hero h1 {
@@ -362,7 +417,8 @@
 
 @media (max-width: 480px) {
     .contact-hero {
-        padding: 120px 0 50px;
+        padding: 130px 0 70px;
+        min-height: 380px;
     }
 
     .contact-hero h1 {

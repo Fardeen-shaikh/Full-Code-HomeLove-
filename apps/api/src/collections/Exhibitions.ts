@@ -38,6 +38,7 @@ export const Exhibitions: CollectionConfig = {
       required: true,
       options: MALAYSIAN_STATES,
     },
+    { name: 'city', type: 'text', admin: { description: 'City or town where the exhibition is held, e.g. Kuching, Penang, Johor Bahru. Falls back to state if empty.' } },
     { name: 'bannerImage', type: 'upload', relationTo: 'media', required: true },
     { name: 'verticalVideo', type: 'upload', relationTo: 'media' },
     { name: 'floorplanImage', type: 'upload', relationTo: 'media' },

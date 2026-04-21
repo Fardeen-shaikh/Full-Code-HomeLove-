@@ -103,18 +103,15 @@ export default function ExhibitionListing({
         />
         <div className="container">
           <div className="exh-hero-content">
-            <div className="exh-hero-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              {upcoming.length > 0 ? `${upcoming.length} Upcoming Event${upcoming.length > 1 ? 's' : ''}` : 'HOMElove Exhibitions'}
-            </div>
-            <h1>Find an Exhibition<br /><span>Near You</span></h1>
-            <p>Discover home expos across Malaysia. Free admission at every venue.</p>
+            <h1>Find the best HOMElove<br /><span>home expo near you</span></h1>
+            <p>Discover best home deals with over 300 top brands we have to offer across Malaysia! FREE admission with gifts at every venue and more.</p>
 
             {featured && (
               <div className="exh-hero-featured">
-                <div className="featured-next-label">Next Event</div>
+                <div className="featured-next-label">
+                  <span className="happening-dot" />
+                  Happening Now
+                </div>
                 <Link href={`/exhibitions/${featured.slug}`} className="featured-card">
                   <div className="featured-date-block">
                     <span className="featured-month">{formatMonth(featured.startDate)}</span>
@@ -186,8 +183,8 @@ export default function ExhibitionListing({
                 <line x1="8" y1="2" x2="8" y2="6" />
                 <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
-              <h3>No exhibitions found</h3>
-              <p>{currentState ? `No events in ${currentState} right now. Try another location.` : 'Check back soon for upcoming home expos across Malaysia.'}</p>
+              <h3>No HOMElove Expo found</h3>
+              <p>{currentState ? `No expo found in ${currentState} right now. How about finding another location that could be near you?` : 'Check back soon for upcoming home expos across Malaysia.'}</p>
               {currentState && (
                 <Link href="/exhibitions" className="btn btn-primary" style={{ marginTop: '16px', display: 'inline-block' }}>
                   View All Locations
@@ -201,8 +198,8 @@ export default function ExhibitionListing({
                 <>
                   <div className="exh-section-header">
                     <div>
-                      <h2>Upcoming Events</h2>
-                      <p className="exh-section-sub">Don&apos;t miss these upcoming HOMElove expos</p>
+                      <h2>Upcoming HOMElove Home Expo</h2>
+                      <p className="exh-section-sub">At our expo, we offer you the best deals with quality top brands selection so you can get all your home needs under one roof.</p>
                     </div>
                     <span className="exh-count">{upcoming.length} event{upcoming.length > 1 ? 's' : ''}</span>
                   </div>
@@ -304,6 +301,54 @@ export default function ExhibitionListing({
               )}
             </>
           )}
+        </div>
+      </section>
+
+      {/* Why Visit HOMElove */}
+      <section className="exh-why-visit">
+        <div className="container">
+          <div className="exh-why-header">
+            <h2>Why Visit a <span className="highlight">HOMElove Expo?</span></h2>
+            <p>Everything you need for your home — all under one roof, with exclusive expo-only deals you won&apos;t find online or in stores.</p>
+          </div>
+          <div className="exh-why-grid">
+            <div className="exh-why-card">
+              <div className="exh-why-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </div>
+              <h3>Exclusive Expo Deals</h3>
+              <p>Cashback, branded gifts and bundle offers you won&apos;t find anywhere else — only during the expo.</p>
+            </div>
+            <div className="exh-why-card">
+              <div className="exh-why-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              </div>
+              <h3>Top Home Brands</h3>
+              <p>Browse 300+ booths featuring furniture, appliances, renovation, smart home and more from trusted Malaysian and global brands.</p>
+            </div>
+            <div className="exh-why-card">
+              <div className="exh-why-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+              </div>
+              <h3>Everything Under One Roof</h3>
+              <p>From kitchen to bedroom, smart locks to mattresses — shop every home category at one venue in one day.</p>
+            </div>
+            <div className="exh-why-card">
+              <div className="exh-why-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+              <h3>Free Admission &amp; Parking</h3>
+              <p>Entry is always free. Come as you are, bring the family, and make a day of it.</p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -2,17 +2,45 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { ChecklistProfile, ChecklistCategory } from '@/lib/api'
-import { getChecklistCategories, getExhibitions, createSession, getSession, updateSession } from '@/lib/api'
+import { getChecklistCategories, getExhibitions, createSession, getSession, updateSession, mediaUrl } from '@/lib/api'
 import type { Exhibition } from '@/lib/api'
 import './checklist.css'
+import '../exhibitions/exhibitions.css'
+
+function formatMonth(date: string) {
+  return new Date(date).toLocaleDateString('en-MY', { month: 'short' }).toUpperCase()
+}
+function formatDay(date: string) {
+  return new Date(date).getDate()
+}
+function formatDateRange(start: string, end: string) {
+  const s = new Date(start)
+  const e = new Date(end)
+  const month = s.toLocaleDateString('en-MY', { month: 'short' })
+  const year = s.getFullYear()
+  return `${s.getDate()} – ${e.getDate()} ${month} ${year}`
+}
+function daysUntil(date: string) {
+  const diff = new Date(date).getTime() - Date.now()
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
+}
+function isLive(start: string, end: string) {
+  const now = Date.now()
+  const endOfDay = new Date(end)
+  endOfDay.setHours(23, 59, 59, 999)
+  const startOfDay = new Date(start)
+  startOfDay.setHours(0, 0, 0, 0)
+  return startOfDay.getTime() <= now && endOfDay.getTime() >= now
+}
 
 const COMPARE_ITEMS = [
-  'Product Price',
-  'Warranty Period',
-  'Installation Cost',
-  'Delivery Time',
-  'Bundle Deals / Free Gifts',
+  { icon: '💰', title: 'Product Price', hint: 'Compare prices across different booths before deciding' },
+  { icon: '🛡️', title: 'Warranty Period', hint: 'Longer warranty usually means better value long-term' },
+  { icon: '🔧', title: 'Installation Cost', hint: 'Ask if installation is included or charged separately' },
+  { icon: '🚚', title: 'Delivery Time', hint: 'Confirm expected delivery window before purchasing' },
+  { icon: '🎁', title: 'Bundle Deals / Free Gifts', hint: 'Look for bundled offers that add extra value' },
 ]
 
 const PROFILE_ICONS: Record<string, string> = {
@@ -32,7 +60,7 @@ function getSessionId(): string {
 }
 
 export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile[] }) {
-  const [activeProfile, setActiveProfile] = useState<ChecklistProfile | null>(null)
+  const [activeProfile, setActiveProfile] = useState<ChecklistProfile | null>(profiles[0] || null)
   const [categories, setCategories] = useState<ChecklistCategory[]>([])
   const [checked, setChecked] = useState<Record<string, boolean>>({})
   const [loading, setLoading] = useState(false)
@@ -41,6 +69,7 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
   const [totalItems, setTotalItems] = useState(0)
   const [upcomingEvents, setUpcomingEvents] = useState<Exhibition[]>([])
   const [generatingPdf, setGeneratingPdf] = useState(false)
+  const [sparkleOn, setSparkleOn] = useState<string | null>(null)
   const printRef = useRef<HTMLDivElement>(null)
 
   // Load session
@@ -125,9 +154,9 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
     `).join('')
 
     const compareHtml = COMPARE_ITEMS.map(item => {
-      const cKey = 'compare-' + item
+      const cKey = 'compare-' + item.title
       const isDone = checked[cKey]
-      return '<div class="item' + (isDone ? ' done' : '') + '"><span class="cb' + (isDone ? ' done' : '') + '">' + (isDone ? '✓' : '') + '</span><span>' + item + '</span></div>'
+      return '<div class="item' + (isDone ? ' done' : '') + '"><span class="cb' + (isDone ? ' done' : '') + '">' + (isDone ? '✓' : '') + '</span><span>' + item.title + '</span></div>'
     }).join('')
 
     const upcomingHtml = upcomingEvents.length > 0 ? `
@@ -158,9 +187,7 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
   /* Header */
   .header { background: #014B98; color: white; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; }
   .header-left { display: flex; align-items: center; gap: 16px; }
-  .header-logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-  .header-logo span { color: #CB1510; }
-  .header-tag { font-size: 11px; opacity: 0.7; }
+  .header-logo-img { height: 44px; width: auto; display: block; }
   .header-right { text-align: right; }
   .header-right div:first-child { font-size: 18px; font-weight: 800; }
   .header-right div:last-child { font-size: 11px; opacity: 0.7; margin-top: 2px; }
@@ -194,11 +221,11 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
   .compare .item { border-bottom-color: #E5E7EB; }
 
   /* Events */
-  .events { margin-top: 20px; background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 10px; padding: 16px; }
-  .events h3 { font-size: 13px; font-weight: 700; color: #CB1510; margin-bottom: 10px; }
+  .events { margin-top: 20px; background: #EEF4FB; border: 1.5px solid #B9D1EA; border-radius: 10px; padding: 16px; }
+  .events h3 { font-size: 13px; font-weight: 700; color: #014B98; margin-bottom: 10px; }
   .events-list { display: flex; flex-direction: column; gap: 8px; }
   .evt { display: flex; align-items: center; gap: 12px; }
-  .evt-date { width: 50px; height: 40px; background: #CB1510; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; text-align: center; line-height: 1.2; }
+  .evt-date { width: 50px; height: 40px; background: #014B98; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; text-align: center; line-height: 1.2; }
   .evt-info strong { font-size: 12px; display: block; color: #1F2937; }
   .evt-info span { font-size: 11px; color: #6B7280; }
 
@@ -220,10 +247,7 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
 
 <div class="header">
   <div class="header-left">
-    <div>
-      <div class="header-logo">HOME<span>love</span></div>
-      <div class="header-tag">Home &amp; Living Expo</div>
-    </div>
+    <img src="${window.location.origin}/logos/homelove/homelove-white.png" alt="HOMElove" class="header-logo-img" />
   </div>
   <div class="header-right">
     <div>Home Checklist</div>
@@ -317,7 +341,12 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
 
   const toggleItem = useCallback((itemId: string) => {
     setChecked((prev) => {
-      const next = { ...prev, [itemId]: !prev[itemId] }
+      const wasChecked = !!prev[itemId]
+      const next = { ...prev, [itemId]: !wasChecked }
+      if (!wasChecked) {
+        setSparkleOn(itemId)
+        setTimeout(() => setSparkleOn((curr) => (curr === itemId ? null : curr)), 600)
+      }
       if (sessionDbId) {
         updateSession(sessionDbId, { checklistSelections: next }).catch(() => {})
       }
@@ -331,6 +360,14 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
   }
 
   const progress = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0
+
+  const milestoneMessage =
+    totalChecked === 0 ? null :
+    progress >= 100 ? '🎉 Ready for the expo!' :
+    progress >= 75 ? 'Almost done — nearly there!' :
+    progress >= 50 ? 'Halfway there!' :
+    progress >= 25 ? 'Great start — keep going!' :
+    null
 
   return (
     <>
@@ -356,7 +393,7 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
         <div className="container">
           <div className="cl-profiles-header">
             <h2>Choose Your Profile</h2>
-            <p>Select the option that best matches your current needs:</p>
+            <p>Your checklist appears below. Click any profile to switch and see a different list.</p>
           </div>
           <div className="cl-profiles-grid">
             {profiles.map((profile) => (
@@ -393,7 +430,10 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
               <div className="cl-progress-track">
                 <div className="cl-progress-fill" style={{ width: `${progress}%` }} />
               </div>
-              <div className="cl-progress-percent">{progress}% complete</div>
+              <div className="cl-progress-percent">{progress}% on list</div>
+              {milestoneMessage && (
+                <div key={milestoneMessage} className="cl-progress-milestone">{milestoneMessage}</div>
+              )}
             </div>
 
             {loading ? (
@@ -422,6 +462,16 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                   <polyline points="20 6 9 17 4 12" />
                                 </svg>
+                                {sparkleOn === itemKey && (
+                                  <span className="cl-sparkle" aria-hidden="true">
+                                    <i style={{ ['--a' as string]: '0deg' }} />
+                                    <i style={{ ['--a' as string]: '60deg' }} />
+                                    <i style={{ ['--a' as string]: '120deg' }} />
+                                    <i style={{ ['--a' as string]: '180deg' }} />
+                                    <i style={{ ['--a' as string]: '240deg' }} />
+                                    <i style={{ ['--a' as string]: '300deg' }} />
+                                  </span>
+                                )}
                               </span>
                               <span className="cl-item-label">{item.label}</span>
                             </label>
@@ -434,24 +484,19 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
               </div>
             )}
 
-            {/* Compare section */}
+            {/* Compare section — Pro tips to use at the expo */}
             <div className="cl-compare">
-              <h3>Things to Compare at the Expo</h3>
-              <div className="cl-compare-items">
-                {COMPARE_ITEMS.map((item) => (
-                  <label key={item} className={`cl-item${checked[`compare-${item}`] ? ' checked' : ''}`}>
-                    <input
-                      type="checkbox"
-                      checked={!!checked[`compare-${item}`]}
-                      onChange={() => toggleItem(`compare-${item}`)}
-                    />
-                    <span className="cl-checkbox">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </span>
-                    <span className="cl-item-label">{item}</span>
-                  </label>
+              <div className="cl-compare-header">
+                <h3>Things to Compare at the Expo</h3>
+                <p>Take this with you to make smarter decisions while browsing the booths.</p>
+              </div>
+              <div className="cl-compare-grid">
+                {COMPARE_ITEMS.map((item, i) => (
+                  <div key={item.title} className="cl-tip-card">
+                    <div className="cl-tip-num">{String(i + 1).padStart(2, '0')}</div>
+                    <div className="cl-tip-icon" aria-hidden="true">{item.icon}</div>
+                    <h4 className="cl-tip-title">{item.title}</h4>
+                  </div>
                 ))}
               </div>
             </div>
@@ -501,19 +546,60 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
               <h2>Shop Your Checklist at These Expos</h2>
               <p>Based on your checklist, visit these upcoming HOMElove expos to find everything you need</p>
             </div>
-            <div className="cl-events-grid">
-              {upcomingEvents.map((evt) => (
-                <Link href={`/exhibitions/${evt.slug}`} key={evt.id} className="cl-event-card">
-                  <div className="cl-event-date">
-                    <span className="cl-event-month">{new Date(evt.startDate).toLocaleDateString('en-MY', { month: 'short' }).toUpperCase()}</span>
-                    <span className="cl-event-day">{new Date(evt.startDate).getDate()}</span>
+            <div className="exh-grid">
+              {upcomingEvents.map((exh) => (
+                <Link href={`/exhibitions/${exh.slug}`} key={exh.id} className="exh-card upcoming">
+                  <div className="exh-card-image">
+                    <Image
+                      src={mediaUrl(exh.bannerImage) || '/images/events/event-kuching.png'}
+                      alt={exh.bannerImage?.alt || exh.title}
+                      width={640}
+                      height={360}
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      quality={75}
+                      loading="lazy"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
-                  <div className="cl-event-info">
-                    <h4>{evt.title}</h4>
-                    <span>{evt.venue}, {evt.state}</span>
-                    <span className="cl-event-range">{new Date(evt.startDate).getDate()} – {new Date(evt.endDate).getDate()} {new Date(evt.startDate).toLocaleDateString('en-MY', { month: 'short' })} {new Date(evt.startDate).getFullYear()}</span>
+                  <div className="exh-card-status-bar">
+                    {isLive(exh.startDate, exh.endDate) ? (
+                      <div className="exh-status-live">
+                        <span className="live-dot" />LIVE NOW
+                      </div>
+                    ) : (
+                      <div className="exh-status-countdown">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {daysUntil(exh.startDate)} days to go
+                      </div>
+                    )}
+                    <span className="exh-status-state">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                      {exh.state}
+                    </span>
                   </div>
-                  {evt.brandCount && <div className="cl-event-brands">{evt.brandCount}+ brands</div>}
+                  <div className="exh-card-body">
+                    <div className="exh-card-date-strip">
+                      <div className="date-block">
+                        <span className="date-month">{formatMonth(exh.startDate)}</span>
+                        <span className="date-day">{formatDay(exh.startDate)}</span>
+                      </div>
+                      <div className="date-details">
+                        <div className="exh-card-dates">{formatDateRange(exh.startDate, exh.endDate)}</div>
+                        <div className="exh-card-location">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                          </svg>
+                          {exh.state}
+                        </div>
+                      </div>
+                    </div>
+                    <h3>{exh.title}</h3>
+                    <p className="exh-card-venue">{exh.venue}</p>
+                    <div className="exh-card-footer">
+                      {exh.brandCount && <span className="exh-brands-count">{exh.brandCount}+ brands</span>}
+                      <span className="exh-card-cta">View Details →</span>
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>

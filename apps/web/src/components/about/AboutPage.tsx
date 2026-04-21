@@ -144,7 +144,66 @@ function ScrollReveal({ children, className = '', delay = 0 }: { children: React
   )
 }
 
+function useTimelineProgress(
+  sectionRef: React.RefObject<HTMLElement | null>,
+  fillRef: React.RefObject<HTMLDivElement | null>
+) {
+  useEffect(() => {
+    const section = sectionRef.current
+    const fill = fillRef.current
+    if (!section || !fill) return
+
+    let ticking = false
+    function update() {
+      if (!section || !fill) return
+      const rect = section.getBoundingClientRect()
+      const viewportH = window.innerHeight
+      const total = rect.height
+      const scrolled = viewportH * 0.5 - rect.top
+      const progress = Math.max(0, Math.min(1, scrolled / total))
+      fill.style.transform = `scaleY(${progress})`
+      ticking = false
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update)
+        ticking = true
+      }
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [sectionRef, fillRef])
+}
+
+function JourneyBlock({ className, children }: { className: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.classList.add('dot-active')
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -80px 0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+  return <div ref={ref} className={className}>{children}</div>
+}
+
 export default function AboutPage() {
+  const journeyRef = useRef<HTMLElement>(null)
+  const fillRef = useRef<HTMLDivElement>(null)
+  useTimelineProgress(journeyRef, fillRef)
+
   return (
     <>
       {/* Hero */}
@@ -176,13 +235,15 @@ export default function AboutPage() {
       </section>
 
       {/* Journey Timeline — Our Story → Mission → Vision */}
-      <section className="about-journey" id="our-story">
+      <section ref={journeyRef} className="about-journey" id="our-story">
         <div className="container">
           {/* Timeline line */}
-          <div className="timeline-line" />
+          <div className="timeline-line">
+            <div ref={fillRef} className="timeline-line-fill" />
+          </div>
 
           {/* ===== OUR STORY ===== */}
-          <div className="journey-block story-block">
+          <JourneyBlock className="journey-block story-block">
             <div className="timeline-dot">
               <span className="timeline-year">2015</span>
             </div>
@@ -226,10 +287,10 @@ export default function AboutPage() {
                 </ScrollReveal>
               </div>
             </div>
-          </div>
+          </JourneyBlock>
 
           {/* ===== MISSION ===== */}
-          <div className="journey-block mission-block">
+          <JourneyBlock className="journey-block mission-block">
             <div className="timeline-dot">
               <span className="timeline-year">Present</span>
             </div>
@@ -256,10 +317,10 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </JourneyBlock>
 
           {/* ===== VISION ===== */}
-          <div className="journey-block vision-block">
+          <JourneyBlock className="journey-block vision-block">
             <div className="timeline-dot">
               <span className="timeline-year">Future</span>
             </div>
@@ -286,7 +347,7 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </JourneyBlock>
         </div>
       </section>
 
@@ -319,7 +380,13 @@ export default function AboutPage() {
               <p>We organise exhibitions in major cities and convention centres across the country, bringing home solutions closer to Malaysians everywhere.</p>
               <div className="location-tags">
                 {LOCATIONS.map((loc) => (
-                  <span key={loc} className="location-tag">{loc}</span>
+                  <span key={loc} className="location-tag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    {loc}
+                  </span>
                 ))}
               </div>
             </div>

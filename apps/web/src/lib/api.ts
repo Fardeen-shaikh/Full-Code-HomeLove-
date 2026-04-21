@@ -81,6 +81,7 @@ export interface Exhibition {
   endDate: string
   venue: string
   state: string
+  city?: string
   bannerImage: MediaItem
   verticalVideo?: MediaItem
   floorplanImage?: MediaItem
@@ -354,6 +355,7 @@ export async function submitContactInquiry(data: {
   email: string
   phone: string
   message?: string
+  captchaToken?: string
 }) {
   return postAPI<{ doc: { id: string } }>('contact-inquiries', data)
 }

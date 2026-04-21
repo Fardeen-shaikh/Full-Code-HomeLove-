@@ -5,6 +5,7 @@ import '../components/home/wireframe.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ChatWidget from '@/components/chat/ChatWidget'
+import BackToTop from '@/components/ui/BackToTop'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ChatWidget />
+        <BackToTop />
       </body>
     </html>
   )

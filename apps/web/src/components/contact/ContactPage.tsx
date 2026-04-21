@@ -1,8 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Script from 'next/script'
 import { submitContactInquiry } from '@/lib/api'
 import './contact.css'
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      render: (el: HTMLElement, opts: { sitekey: string; callback: (token: string) => void; 'expired-callback'?: () => void }) => number
+      reset: (id?: number) => void
+    }
+    onRecaptchaLoad?: () => void
+  }
+}
 
 const CONTACT_CARDS = [
   {
@@ -47,13 +60,45 @@ export default function ContactPage() {
     message: '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState(false)
+  const captchaRef = useRef<HTMLDivElement | null>(null)
+  const captchaWidgetId = useRef<number | null>(null)
+
+  function renderCaptcha() {
+    if (!RECAPTCHA_SITE_KEY || !captchaRef.current || !window.grecaptcha || captchaWidgetId.current !== null) return
+    captchaWidgetId.current = window.grecaptcha.render(captchaRef.current, {
+      sitekey: RECAPTCHA_SITE_KEY,
+      callback: (token: string) => {
+        setCaptchaToken(token)
+        setCaptchaError(false)
+      },
+      'expired-callback': () => setCaptchaToken(''),
+    })
+  }
+
+  useEffect(() => {
+    window.onRecaptchaLoad = renderCaptcha
+    if (window.grecaptcha && typeof window.grecaptcha.render === 'function') renderCaptcha()
+  }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 11)
+    setForm((prev) => ({ ...prev, phone: digits }))
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    if (RECAPTCHA_SITE_KEY && !captchaToken) {
+      setCaptchaError(true)
+      return
+    }
+
     setStatus('sending')
 
     try {
@@ -62,9 +107,14 @@ export default function ContactPage() {
         email: form.email,
         phone: form.phone,
         message: form.message || undefined,
+        captchaToken: captchaToken || undefined,
       })
       setStatus('sent')
       setForm({ name: '', email: '', phone: '', message: '' })
+      setCaptchaToken('')
+      if (window.grecaptcha && captchaWidgetId.current !== null) {
+        window.grecaptcha.reset(captchaWidgetId.current)
+      }
     } catch {
       setStatus('error')
     }
@@ -72,6 +122,14 @@ export default function ContactPage() {
 
   return (
     <>
+      {RECAPTCHA_SITE_KEY && (
+        <Script
+          src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
+          strategy="afterInteractive"
+          async
+          defer
+        />
+      )}
       {/* Hero Banner */}
       <section className="contact-hero" id="contact">
         <div className="contact-hero-overlay" />
@@ -165,9 +223,11 @@ export default function ContactPage() {
                       id="phone"
                       name="phone"
                       value={form.phone}
-                      onChange={handleChange}
+                      onChange={handlePhoneChange}
                       required
-                      placeholder="e.g. 012-345 6789"
+                      inputMode="numeric"
+                      maxLength={11}
+                      placeholder="e.g. 0123456789"
                     />
                   </div>
                 </div>
@@ -183,6 +243,19 @@ export default function ContactPage() {
                     placeholder="How can we help you?"
                   />
                 </div>
+
+                {RECAPTCHA_SITE_KEY && (
+                  <div className="form-captcha">
+                    <label className="form-captcha-label">CAPTCHA <span className="required">*</span></label>
+                    <p className="form-captcha-hint">
+                      This question is for testing whether or not you are a human visitor and to prevent automated spam submissions.
+                    </p>
+                    <div ref={captchaRef} className="form-captcha-widget" />
+                    {captchaError && (
+                      <p className="form-error" style={{ marginTop: 8 }}>Please confirm you are not a robot.</p>
+                    )}
+                  </div>
+                )}
 
                 <div className="contact-form-footer">
                   <p className="form-disclaimer">
@@ -219,10 +292,9 @@ export default function ContactPage() {
             <div className="address-content">
               <h3>Office Address</h3>
               <p>
-                <strong>Empire Asia Events Marketing Sdn. Bhd.</strong> (1102402-K)<br />
-                Unit D-3A-01 Capital 4, Oasis Square, No.2,<br />
-                Jalan PJU 1A/7A Oasis Damansara,<br />
-                47301 Petaling Jaya, Selangor, Malaysia
+                <strong>Empire Asia Events Marketing Sdn. Bhd. <span className="address-reg">(1102402-K)</span></strong>
+                Unit D-3A-01 Capital 4, Oasis Square, No.2, Jalan PJU 1A/7A<br />
+                Oasis Damansara, 47301 Petaling Jaya, Selangor, Malaysia
               </p>
             </div>
           </div>
