@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { submitExhibitorInquiry } from '@/lib/api'
+import { executeRecaptcha } from '@/lib/recaptcha'
 import './exhibit.css'
 
 const BENEFITS = [
@@ -188,6 +189,7 @@ export default function ExhibitPage() {
     e.preventDefault()
     setStatus('sending')
     try {
+      const captchaToken = (await executeRecaptcha('exhibitor_inquiry')) ?? undefined
       await submitExhibitorInquiry({
         email: form.email,
         phone: form.phone,
@@ -195,6 +197,7 @@ export default function ExhibitPage() {
         companyName: form.company,
         productService: form.product,
         additionalInfo: form.additionalInfo || undefined,
+        captchaToken,
       })
       setStatus('sent')
       setForm({ email: '', phone: '', venue: '', company: '', product: '', additionalInfo: '' })

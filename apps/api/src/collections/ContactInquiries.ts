@@ -1,21 +1,5 @@
 import type { CollectionConfig } from 'payload'
-
-async function verifyRecaptcha(token: string | undefined): Promise<boolean> {
-  const secret = process.env.RECAPTCHA_SECRET_KEY
-  if (!secret) return true
-  if (!token) return false
-  try {
-    const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ secret, response: token }).toString(),
-    })
-    const data = (await res.json()) as { success?: boolean }
-    return Boolean(data.success)
-  } catch {
-    return false
-  }
-}
+import { verifyRecaptcha } from '../lib/verifyRecaptcha'
 
 export const ContactInquiries: CollectionConfig = {
   slug: 'contact-inquiries',
@@ -30,8 +14,9 @@ export const ContactInquiries: CollectionConfig = {
         if (operation !== 'create') return data
         if (req.user) return data
         const token = (data as Record<string, unknown> | undefined)?.captchaToken as string | undefined
-        const ok = await verifyRecaptcha(token)
-        if (!ok) {
+        const result = await verifyRecaptcha(token, 'contact_submit')
+        if (!result.ok) {
+          req.payload.logger.warn(`[recaptcha] contact_submit rejected: ${result.reason}`)
           throw new Error('CAPTCHA verification failed. Please try again.')
         }
         if (data && typeof data === 'object') {

@@ -282,34 +282,6 @@
     margin-bottom: 24px;
 }
 
-/* CAPTCHA block */
-.form-captcha {
-    margin: 8px 0 20px;
-    padding: 18px 20px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    background: var(--gray-light, #f9fafb);
-}
-
-.form-captcha-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 6px;
-}
-
-.form-captcha-hint {
-    font-size: 13px;
-    color: var(--gray);
-    margin: 0 0 12px;
-    line-height: 1.5;
-}
-
-.form-captcha-widget {
-    min-height: 78px;
-}
-
 /* Office Address — styled to match About Us "Organised by" card */
 .contact-address {
     padding: 0 0 80px;

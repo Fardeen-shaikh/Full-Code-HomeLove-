@@ -367,6 +367,7 @@ export async function submitExhibitorInquiry(data: {
   companyName: string
   productService: string
   additionalInfo?: string
+  captchaToken?: string
 }) {
   return postAPI<{ doc: { id: string } }>('exhibitor-inquiries', data)
 }
@@ -377,6 +378,8 @@ export async function submitSubscriber(data: {
   email: string
   state: string
   source?: string
+  captchaToken?: string
+  captchaAction?: string
 }) {
   return postAPI<{ doc: { id: string } }>('subscribers', {
     ...data,

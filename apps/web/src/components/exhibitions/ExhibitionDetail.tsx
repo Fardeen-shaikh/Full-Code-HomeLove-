@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Exhibition, CrazyDeal, DiscountCoupon, FeaturedBrand } from '@/lib/api'
 import { submitSubscriber, mediaUrl, createSession, getSession, updateSession } from '@/lib/api'
+import { executeRecaptcha } from '@/lib/recaptcha'
 import './exhibitions.css'
 
 function optimizedImg(src: string, width: number, quality = 75): string {
@@ -247,7 +248,13 @@ export default function ExhibitionDetail({
     e.preventDefault()
     setSubStatus('sending')
     try {
-      await submitSubscriber({ ...subForm, source: 'event' })
+      const captchaToken = (await executeRecaptcha('event_subscribe')) ?? undefined
+      await submitSubscriber({
+        ...subForm,
+        source: 'event',
+        captchaToken,
+        captchaAction: 'event_subscribe',
+      })
       setSubStatus('sent')
     } catch {
       setSubStatus('error')
@@ -260,7 +267,14 @@ export default function ExhibitionDetail({
     setDealFormStatus('sending')
 
     try {
-      await submitSubscriber({ ...dealForm, state: exhibition.state, source: 'event' })
+      const captchaToken = (await executeRecaptcha('deal_reveal')) ?? undefined
+      await submitSubscriber({
+        ...dealForm,
+        state: exhibition.state,
+        source: 'event',
+        captchaToken,
+        captchaAction: 'deal_reveal',
+      })
     } catch {
       // still reveal even if subscribe fails
     }

@@ -1,21 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import Script from 'next/script'
+import { useState } from 'react'
 import { submitContactInquiry } from '@/lib/api'
+import { executeRecaptcha } from '@/lib/recaptcha'
 import './contact.css'
-
-const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      render: (el: HTMLElement, opts: { sitekey: string; callback: (token: string) => void; 'expired-callback'?: () => void }) => number
-      reset: (id?: number) => void
-    }
-    onRecaptchaLoad?: () => void
-  }
-}
 
 const CONTACT_CARDS = [
   {
@@ -60,27 +48,6 @@ export default function ContactPage() {
     message: '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
-  const [captchaToken, setCaptchaToken] = useState('')
-  const [captchaError, setCaptchaError] = useState(false)
-  const captchaRef = useRef<HTMLDivElement | null>(null)
-  const captchaWidgetId = useRef<number | null>(null)
-
-  function renderCaptcha() {
-    if (!RECAPTCHA_SITE_KEY || !captchaRef.current || !window.grecaptcha || captchaWidgetId.current !== null) return
-    captchaWidgetId.current = window.grecaptcha.render(captchaRef.current, {
-      sitekey: RECAPTCHA_SITE_KEY,
-      callback: (token: string) => {
-        setCaptchaToken(token)
-        setCaptchaError(false)
-      },
-      'expired-callback': () => setCaptchaToken(''),
-    })
-  }
-
-  useEffect(() => {
-    window.onRecaptchaLoad = renderCaptcha
-    if (window.grecaptcha && typeof window.grecaptcha.render === 'function') renderCaptcha()
-  }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -93,28 +60,19 @@ export default function ContactPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-
-    if (RECAPTCHA_SITE_KEY && !captchaToken) {
-      setCaptchaError(true)
-      return
-    }
-
     setStatus('sending')
 
     try {
+      const captchaToken = (await executeRecaptcha('contact_submit')) ?? undefined
       await submitContactInquiry({
         name: form.name,
         email: form.email,
         phone: form.phone,
         message: form.message || undefined,
-        captchaToken: captchaToken || undefined,
+        captchaToken,
       })
       setStatus('sent')
       setForm({ name: '', email: '', phone: '', message: '' })
-      setCaptchaToken('')
-      if (window.grecaptcha && captchaWidgetId.current !== null) {
-        window.grecaptcha.reset(captchaWidgetId.current)
-      }
     } catch {
       setStatus('error')
     }
@@ -122,14 +80,6 @@ export default function ContactPage() {
 
   return (
     <>
-      {RECAPTCHA_SITE_KEY && (
-        <Script
-          src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
-          strategy="afterInteractive"
-          async
-          defer
-        />
-      )}
       {/* Hero Banner */}
       <section className="contact-hero" id="contact">
         <div className="contact-hero-overlay" />
@@ -244,22 +194,12 @@ export default function ContactPage() {
                   />
                 </div>
 
-                {RECAPTCHA_SITE_KEY && (
-                  <div className="form-captcha">
-                    <label className="form-captcha-label">CAPTCHA <span className="required">*</span></label>
-                    <p className="form-captcha-hint">
-                      This question is for testing whether or not you are a human visitor and to prevent automated spam submissions.
-                    </p>
-                    <div ref={captchaRef} className="form-captcha-widget" />
-                    {captchaError && (
-                      <p className="form-error" style={{ marginTop: 8 }}>Please confirm you are not a robot.</p>
-                    )}
-                  </div>
-                )}
-
                 <div className="contact-form-footer">
                   <p className="form-disclaimer">
-                    Looking to join HOMElove as an exhibitor? Please visit our <a href="/exhibit-with-us">Exhibit With Us</a> page.
+                    This site is protected by reCAPTCHA and the Google{' '}
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>{' '}
+                    and{' '}
+                    <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> apply.
                   </p>
                   <button
                     type="submit"

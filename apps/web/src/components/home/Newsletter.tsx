@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { submitSubscriber } from '@/lib/api'
+import { executeRecaptcha } from '@/lib/recaptcha'
 import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
 const STATES = [
@@ -20,12 +21,14 @@ export default function Newsletter() {
     if (!form) return
     const data = new FormData(form)
     try {
+      const captchaToken = (await executeRecaptcha('newsletter_signup')) ?? undefined
       await submitSubscriber({
         name: data.get('name') as string,
         phone: data.get('phone') as string,
         email: data.get('email') as string,
         state: data.get('state') as string,
         source: 'newsletter',
+        captchaToken,
       })
     } catch {
       // Still show success even if API fails
