@@ -2,20 +2,21 @@
 
 /* ===== LISTING HERO ===== */
 .blog-hero {
-    background: linear-gradient(135deg, rgba(1, 75, 152, 0.93) 0%, rgba(10, 40, 100, 0.95) 100%),
+    background: linear-gradient(135deg, rgba(1, 40, 80, 0.97) 0%, rgba(5, 25, 60, 0.98) 100%),
         url('/images/backgrounds/hero-bg.webp');
     background-size: cover;
     background-position: center;
     color: white;
-    padding: 170px 0 80px;
+    padding: 180px 0 100px;
     position: relative;
     text-align: center;
+    overflow: hidden;
 }
 
 @media (min-width: 769px) {
     .blog-hero {
-        min-height: 520px;
-        padding: 220px 0 140px;
+        min-height: 640px;
+        padding: 240px 0 160px;
         display: flex;
         align-items: center;
     }
@@ -280,7 +281,10 @@
 }
 
 .filter-chip {
-    padding: 9px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
     border-radius: 50px;
     font-size: 13px;
     font-weight: 600;
@@ -293,6 +297,14 @@
     flex-shrink: 0;
 }
 
+.filter-chip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: color 0.25s;
+}
+
 .filter-chip:hover {
     border-color: var(--primary);
     color: var(--primary);
@@ -302,6 +314,10 @@
     background: var(--primary);
     color: white;
     border-color: var(--primary);
+}
+
+.filter-chip.active .filter-chip-icon {
+    color: white;
 }
 
 /* ===== POSTS GRID ===== */

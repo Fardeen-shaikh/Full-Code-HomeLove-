@@ -7,14 +7,52 @@ import type { BlogPost } from '@/lib/api'
 import { mediaUrl } from '@/lib/api'
 import './blog.css'
 
+const CAT_ICONS = {
+  all: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />
+    </svg>
+  ),
+  homeTips: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 10c0-1 .5-2 1.5-3L10 3.5a3 3 0 014 0L18.5 7c1 1 1.5 2 1.5 3v8a2 2 0 01-2 2H6a2 2 0 01-2-2z" /><path d="M9 14h6" /><path d="M12 11v6" />
+    </svg>
+  ),
+  trends: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 17 9 11 13 15 21 7" /><polyline points="15 7 21 7 21 13" />
+    </svg>
+  ),
+  buying: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" />
+    </svg>
+  ),
+  renovation: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+    </svg>
+  ),
+  interior: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 18h18" /><path d="M5 18v-6a2 2 0 012-2h10a2 2 0 012 2v6" /><path d="M8 10V7a2 2 0 012-2h4a2 2 0 012 2v3" /><line x1="4" y1="21" x2="4" y2="18" /><line x1="20" y1="21" x2="20" y2="18" />
+    </svg>
+  ),
+  smart: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2.5" /><line x1="12" y1="18" x2="12" y2="18.01" />
+    </svg>
+  ),
+}
+
 const CATEGORIES = [
-  { label: 'All', value: '' },
-  { label: 'Home Tips', value: 'home-tips' },
-  { label: 'Trends & Ideas', value: 'trends-ideas' },
-  { label: 'Buying Guide', value: 'buying-guide' },
-  { label: 'Renovation', value: 'renovation' },
-  { label: 'Interior Design', value: 'interior-design' },
-  { label: 'Smart Home', value: 'smart-home' },
+  { label: 'All', value: '', icon: CAT_ICONS.all },
+  { label: 'Home Tips', value: 'home-tips', icon: CAT_ICONS.homeTips },
+  { label: 'Trends & Ideas', value: 'trends-ideas', icon: CAT_ICONS.trends },
+  { label: 'Buying Guide', value: 'buying-guide', icon: CAT_ICONS.buying },
+  { label: 'Renovation', value: 'renovation', icon: CAT_ICONS.renovation },
+  { label: 'Interior Design', value: 'interior-design', icon: CAT_ICONS.interior },
+  { label: 'Smart Home', value: 'smart-home', icon: CAT_ICONS.smart },
 ]
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
@@ -163,7 +201,8 @@ export default function BlogListing({
                 href={cat.value ? `/home-tips?category=${cat.value}` : '/home-tips'}
                 className={`filter-chip${currentCategory === cat.value ? ' active' : ''}`}
               >
-                {cat.label}
+                <span className="filter-chip-icon" aria-hidden="true">{cat.icon}</span>
+                <span>{cat.label}</span>
               </Link>
             ))}
           </div>
