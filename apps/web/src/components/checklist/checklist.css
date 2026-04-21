@@ -96,9 +96,46 @@
 }
 
 .cl-profile-card.active {
-    border-color: var(--primary);
-    background: rgba(1, 75, 152, 0.03);
-    box-shadow: 0 0 0 3px rgba(1, 75, 152, 0.15);
+    border-color: #3B7BD0;
+    background: linear-gradient(135deg, #5BA0E5 0%, #3B7BD0 55%, #2A6BC2 100%);
+    box-shadow: 0 12px 32px rgba(59, 123, 208, 0.32);
+    transform: translateY(-4px);
+    position: relative;
+}
+
+.cl-profile-card.active h3,
+.cl-profile-card.active p,
+.cl-profile-card.active .cl-profile-priorities,
+.cl-profile-card.active .cl-profile-priorities strong {
+    color: white;
+}
+
+.cl-profile-card.active p,
+.cl-profile-card.active .cl-profile-priorities {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.cl-profile-card.active::after {
+    content: '✓';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(224, 129, 3, 0.4);
+}
+
+.cl-profile-card.active:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(1, 75, 152, 0.28);
 }
 
 .cl-profile-icon {
@@ -135,7 +172,7 @@
 
 /* ===== CHECKLIST ===== */
 .cl-checklist {
-    padding: 60px 0 80px;
+    padding: 60px 0 40px;
     background: var(--white);
 }
 
@@ -263,6 +300,40 @@
     flex-shrink: 0;
     transition: all 0.25s;
     color: transparent;
+    position: relative;
+}
+
+/* ===== SPARKLE BURST ===== */
+.cl-sparkle {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.cl-sparkle i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(255, 241, 0, 0.9);
+    transform-origin: 0 0;
+    animation: sparkleBurst 0.55s ease-out forwards;
+}
+
+.cl-sparkle i:nth-child(even) { background: var(--orange); box-shadow: 0 0 6px rgba(224, 129, 3, 0.8); }
+
+@keyframes sparkleBurst {
+    0% {
+        transform: translate(-50%, -50%) rotate(var(--a)) translateX(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(var(--a)) translateX(22px) scale(0);
+        opacity: 0;
+    }
 }
 
 .cl-item.checked .cl-checkbox {
@@ -278,31 +349,127 @@
 }
 
 .cl-item.checked .cl-item-label {
-    text-decoration: line-through;
-    color: var(--gray);
+    color: var(--dark);
+    font-weight: 600;
+    background: linear-gradient(120deg, rgba(255, 241, 0, 0.45) 0%, rgba(255, 241, 0, 0.45) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 55%;
+    background-position: 0 85%;
+    padding: 0 2px;
 }
 
 /* Compare section */
 .cl-compare {
-    max-width: 600px;
-    margin: 0 auto;
-    background: var(--gray-light);
-    border-radius: 16px;
-    padding: 32px;
+    max-width: 1000px;
+    margin: 48px auto 0;
+    padding: 0;
+}
+
+.cl-compare-header {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.cl-compare-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(224, 129, 3, 0.1);
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 10px;
 }
 
 .cl-compare h3 {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 800;
     color: var(--dark);
-    margin-bottom: 16px;
-    text-align: center;
+    margin-bottom: 6px;
 }
 
-.cl-compare-items {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.cl-compare-header p {
+    font-size: 14px;
+    color: var(--gray);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.cl-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+}
+
+.cl-compare-grid > .cl-tip-card:nth-child(1) { grid-column: span 2; }
+.cl-compare-grid > .cl-tip-card:nth-child(2) { grid-column: span 2; }
+.cl-compare-grid > .cl-tip-card:nth-child(3) { grid-column: span 2; }
+.cl-compare-grid > .cl-tip-card:nth-child(4) { grid-column: 2 / span 2; }
+.cl-compare-grid > .cl-tip-card:nth-child(5) { grid-column: 4 / span 2; }
+
+.cl-tip-card {
+    position: relative;
+    background: #DCE6F2;
+    border: none;
+    border-radius: 14px;
+    padding: 22px 20px 18px;
+    text-align: center;
+    transition: transform 0.25s, background 0.25s;
+}
+
+.cl-tip-card:hover {
+    transform: translateY(-3px);
+    background: #C7D6EA;
+}
+
+.cl-tip-num {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: 0.5px;
+    background: rgba(224, 129, 3, 0.08);
+    padding: 3px 9px;
+    border-radius: 50px;
+}
+
+.cl-tip-icon {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.cl-tip-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+
+.cl-tip-hint {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .cl-compare-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .cl-compare-grid > .cl-tip-card:nth-child(n) { grid-column: auto; }
+    .cl-compare-grid > .cl-tip-card:nth-child(5) { grid-column: 1 / -1; }
+}
+
+@media (max-width: 560px) {
+    .cl-compare-grid {
+        grid-template-columns: 1fr;
+    }
+    .cl-compare-grid > .cl-tip-card:nth-child(5) { grid-column: auto; }
 }
 
 /* Loading */
@@ -389,7 +556,7 @@
 
 /* ===== EVENT RECOMMENDATIONS ===== */
 .cl-events {
-    padding: 70px 0;
+    padding: 48px 0 60px;
     background: var(--gray-light);
 }
 
@@ -505,7 +672,7 @@
 /* ===== BOTTOM CTA ===== */
 .cl-bottom-cta {
     padding: 80px 0;
-    background: var(--primary);
+    background: #4A90D9;
     color: white;
     text-align: center;
 }
@@ -601,9 +768,6 @@
         grid-template-columns: 1fr;
     }
 
-    .cl-compare {
-        padding: 24px 18px;
-    }
 }
 
 @media (min-width: 1440px) {
@@ -611,3 +775,19 @@
         font-size: 52px;
     }
 }
+
+/* ===== MILESTONE MESSAGE ===== */
+.cl-progress-milestone {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 0.3px;
+    animation: milestoneSlide 0.45s ease-out;
+}
+
+@keyframes milestoneSlide {
+    0% { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
