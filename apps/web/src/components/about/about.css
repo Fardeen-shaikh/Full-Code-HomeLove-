@@ -67,7 +67,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #F9A13A 0%, #E08103 55%, #B35D02 100%);
+    background: linear-gradient(135deg, #E63A35 0%, #CB1510 55%, #9C0F0B 100%);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: white;
     padding: 9px 24px;
@@ -78,7 +78,7 @@
     margin-bottom: 20px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
     box-shadow:
-        0 6px 20px rgba(224, 129, 3, 0.45),
+        0 6px 20px rgba(203, 21, 16, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.35),
         inset 0 -2px 4px rgba(0, 0, 0, 0.15);
     animation: fadeInUp 0.7s ease forwards;
@@ -936,5 +936,45 @@
 @media (min-width: 1440px) {
     .about-hero h1 {
         font-size: 54px;
+    }
+}
+
+/* ===== Upcoming HOMElove Home Expo (bottom of About) ===== */
+.about-upcoming {
+    padding: 80px 0 90px;
+    background: var(--color-gray-light, #F3F4F6);
+    border-top: 1px solid rgba(1, 75, 152, 0.08);
+}
+
+.about-upcoming .section-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.about-upcoming .section-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-dark, #1F2937);
+    letter-spacing: -0.01em;
+}
+
+.about-upcoming-cta {
+    text-align: center;
+    margin-top: 36px;
+}
+
+@media (max-width: 768px) {
+    .about-upcoming {
+        padding: 56px 0 64px;
+    }
+
+    .about-upcoming .section-header h2 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-upcoming .section-header h2 {
+        font-size: 22px;
     }
 }

@@ -1,9 +1,38 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { submitExhibitorInquiry } from '@/lib/api'
+import Link from 'next/link'
+import type { Exhibition } from '@/lib/api'
+import { submitExhibitorInquiry, getExhibitions, mediaUrl } from '@/lib/api'
 import './exhibit.css'
+import '../exhibitions/exhibitions.css'
+
+function formatMonth(date: string) {
+  return new Date(date).toLocaleDateString('en-MY', { month: 'short' }).toUpperCase()
+}
+function formatDay(date: string) {
+  return new Date(date).getDate()
+}
+function formatDateRange(start: string, end: string) {
+  const s = new Date(start)
+  const e = new Date(end)
+  const month = s.toLocaleDateString('en-MY', { month: 'short' })
+  const year = s.getFullYear()
+  return `${s.getDate()} – ${e.getDate()} ${month} ${year}`
+}
+function daysUntil(date: string) {
+  const diff = new Date(date).getTime() - Date.now()
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
+}
+function isLive(start: string, end: string) {
+  const now = Date.now()
+  const endOfDay = new Date(end)
+  endOfDay.setHours(23, 59, 59, 999)
+  const startOfDay = new Date(start)
+  startOfDay.setHours(0, 0, 0, 0)
+  return startOfDay.getTime() <= now && endOfDay.getTime() >= now
+}
 
 const BENEFITS = [
   {
@@ -179,9 +208,21 @@ export default function ExhibitPage() {
     additionalInfo: '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [upcomingEvents, setUpcomingEvents] = useState<Exhibition[]>([])
+
+  useEffect(() => {
+    getExhibitions({ upcoming: true, limit: 6 })
+      .then((res) => setUpcomingEvents(res.docs || []))
+      .catch(() => setUpcomingEvents([]))
+  }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 11)
+    setForm((prev) => ({ ...prev, phone: digits }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -261,7 +302,7 @@ export default function ExhibitPage() {
                       <input type="text" name="company" value={form.company} onChange={handleChange} required placeholder="Company Name *" />
                       <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Email Address *" />
                     </div>
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder="Phone Number *" />
+                    <input type="tel" name="phone" value={form.phone} onChange={handlePhoneChange} required inputMode="numeric" maxLength={11} placeholder="Phone Number *" />
                     <select name="venue" value={form.venue} onChange={handleChange} required>
                       <option value="">Preferred Event Location *</option>
                       {VENUES.map((v) => (
@@ -394,19 +435,84 @@ export default function ExhibitPage() {
         </div>
       </section>
 
-      {/* 5. Event Photos */}
-      <section className="exhibit-photos" id="event-photos">
+      {/* 5. Upcoming Expos — proves a non-stop pipeline to exhibitors */}
+      <section className="exhibit-upcoming" id="event-photos">
         <div className="container">
           <div className="section-header">
             <h2>Where Home Brands Meet Ready Buyers</h2>
           </div>
-          <div className="photos-grid">
-            {EVENT_PHOTOS.map((photo) => (
-              <div key={photo.alt} className="photo-item">
-                <Image src={photo.src} alt={photo.alt} width={400} height={300} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+          {upcomingEvents.length > 0 ? (
+            <>
+              <div className="exh-grid">
+                {upcomingEvents.map((exh) => (
+                  <Link href={`/exhibitions/${exh.slug}`} key={exh.id} className="exh-card upcoming">
+                    <div className="exh-card-image">
+                      <Image
+                        src={mediaUrl(exh.bannerImage) || '/images/events/event-kuching.png'}
+                        alt={exh.bannerImage?.alt || exh.title}
+                        width={640}
+                        height={360}
+                        sizes="(max-width: 768px) 100vw, 400px"
+                        quality={75}
+                        loading="lazy"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div className="exh-card-status-bar">
+                      {isLive(exh.startDate, exh.endDate) ? (
+                        <div className="exh-status-live">
+                          <span className="live-dot" />LIVE NOW
+                        </div>
+                      ) : (
+                        <div className="exh-status-countdown">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          {daysUntil(exh.startDate)} days to go
+                        </div>
+                      )}
+                      <span className="exh-status-state">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                        {exh.state}
+                      </span>
+                    </div>
+                    <div className="exh-card-body">
+                      <div className="exh-card-date-strip">
+                        <div className="date-block">
+                          <span className="date-month">{formatMonth(exh.startDate)}</span>
+                          <span className="date-day">{formatDay(exh.startDate)}</span>
+                        </div>
+                        <div className="date-details">
+                          <div className="exh-card-dates">{formatDateRange(exh.startDate, exh.endDate)}</div>
+                          <div className="exh-card-location">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                            </svg>
+                            {exh.state}
+                          </div>
+                        </div>
+                      </div>
+                      <h3>{exh.title}</h3>
+                      <p className="exh-card-venue">{exh.venue}</p>
+                      <div className="exh-card-footer">
+                        {exh.brandCount && <span className="exh-brands-count">{exh.brandCount}+ brands</span>}
+                        <span className="exh-card-cta">View Details →</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
+              <div className="exhibit-upcoming-cta">
+                <Link href="/exhibitions" className="btn btn-secondary">See Full Expo Calendar →</Link>
+              </div>
+            </>
+          ) : (
+            <div className="photos-grid">
+              {EVENT_PHOTOS.map((photo) => (
+                <div key={photo.alt} className="photo-item">
+                  <Image src={photo.src} alt={photo.alt} width={400} height={300} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

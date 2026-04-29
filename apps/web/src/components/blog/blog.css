@@ -2,7 +2,7 @@
 
 /* ===== LISTING HERO ===== */
 .blog-hero {
-    background: linear-gradient(135deg, rgba(1, 75, 152, 0.93) 0%, rgba(10, 40, 100, 0.95) 100%),
+    background: linear-gradient(135deg, rgba(1, 55, 120, 0.65) 0%, rgba(5, 25, 70, 0.72) 100%),
         url('/images/backgrounds/hero-bg.webp');
     background-size: cover;
     background-position: center;
@@ -40,12 +40,13 @@
     font-size: 46px;
     font-weight: 800;
     margin-bottom: 12px;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
     animation: fadeInUp 0.7s ease forwards;
 }
 
 .blog-hero p {
     font-size: 18px;
-    opacity: 0.9;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
     animation: fadeInUp 0.7s ease 0.15s forwards;
     opacity: 0;
 }
@@ -801,8 +802,11 @@
 }
 
 .share-btn {
+    position: relative;
     width: 40px;
     height: 40px;
+    border: none;
+    padding: 0;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -810,6 +814,7 @@
     color: white;
     transition: all 0.3s;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .share-btn:hover {
@@ -820,6 +825,39 @@
 .share-tw { background: #000; }
 .share-wa { background: #25D366; }
 .share-li { background: #0A66C2; }
+.share-tt { background: #000; }
+.share-xhs { background: #FF2442; }
+
+.share-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1F2937;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    animation: tooltipFade 0.2s ease;
+}
+
+.share-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1F2937;
+}
+
+@keyframes tooltipFade {
+    from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
 
 /* Sidebar posts */
 .sidebar-posts {
@@ -1193,5 +1231,53 @@
 
     .article-hero h1 {
         font-size: 46px;
+    }
+}
+
+/* ===== UPCOMING EXPOS — shown after all blogs revealed ===== */
+.blog-upcoming {
+    padding: 64px 0 80px;
+    background: var(--color-gray-light, #F3F4F6);
+    border-top: 1px solid rgba(1, 75, 152, 0.08);
+}
+
+.blog-upcoming-header {
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blog-upcoming-header h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--color-dark, #1F2937);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.blog-upcoming-header p {
+    font-size: 15px;
+    color: var(--color-gray, #6B7280);
+    line-height: 1.5;
+}
+
+.blog-upcoming-cta {
+    text-align: center;
+    margin-top: 36px;
+}
+
+@media (max-width: 768px) {
+    .blog-upcoming {
+        padding: 48px 0 60px;
+    }
+
+    .blog-upcoming-header h2 {
+        font-size: 24px;
+    }
+
+    .blog-upcoming-header p {
+        font-size: 14px;
     }
 }
