@@ -552,6 +552,57 @@
     color: var(--dark);
 }
 
+/* Upcoming Expos — replaces the photo collage with a live event grid */
+.exhibit-upcoming {
+    padding: 90px 0;
+    background: var(--gray-light);
+}
+
+.exhibit-upcoming .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.exhibit-upcoming .section-header h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.exhibit-upcoming-sub {
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray);
+}
+
+.exhibit-upcoming-cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .exhibit-upcoming {
+        padding: 60px 0;
+    }
+
+    .exhibit-upcoming .section-header h2 {
+        font-size: 28px;
+    }
+
+    .exhibit-upcoming-sub {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .exhibit-upcoming .section-header h2 {
+        font-size: 24px;
+    }
+}
+
 .photos-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

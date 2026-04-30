@@ -198,12 +198,12 @@ export default function ExhibitionListing({
                 <>
                   <div className="exh-section-header">
                     <div>
-                      <h2>Upcoming HOMElove Home Expo</h2>
+                      <h2 data-count={`${upcoming.length} event${upcoming.length > 1 ? 's' : ''}`}>Upcoming HOMElove Home Expo</h2>
                       <p className="exh-section-sub">At our expo, we offer you the best deals with quality top brands selection so you can get all your home needs under one roof.</p>
                     </div>
                     <span className="exh-count">{upcoming.length} event{upcoming.length > 1 ? 's' : ''}</span>
                   </div>
-                  <div className="exh-grid">
+                  <div className="exh-grid exh-grid-upcoming">
                     {upcoming.map((exh) => (
                       <Link href={`/exhibitions/${exh.slug}`} key={exh.id} className="exh-card upcoming">
                         <div className="exh-card-image">
@@ -260,6 +260,7 @@ export default function ExhibitionListing({
                       </Link>
                     ))}
                   </div>
+                  {upcoming.length > 1 && <div className="swipe-hint exh-swipe-hint">Swipe to see more</div>}
                 </>
               )}
 
@@ -268,7 +269,7 @@ export default function ExhibitionListing({
                 <>
                   <div className="exh-section-header past">
                     <div>
-                      <h2>Past Events</h2>
+                      <h2 data-count={`${past.length} event${past.length > 1 ? 's' : ''}`}>Past Events</h2>
                       <p className="exh-section-sub">Browse our previous exhibitions</p>
                     </div>
                     <span className="exh-count">{past.length} event{past.length > 1 ? 's' : ''}</span>

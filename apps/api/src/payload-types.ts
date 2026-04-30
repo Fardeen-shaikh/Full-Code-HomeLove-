@@ -468,7 +468,7 @@ export interface BlogPost {
     [k: string]: unknown;
   };
   featuredImage: number | Media;
-  category: 'home-tips' | 'trends-ideas' | 'buying-guide' | 'renovation' | 'interior-design' | 'smart-home';
+  category: 'home-electronics' | 'interior-design-renovation' | 'kitchen-appliances' | 'furniture-furnishing';
   author?: string | null;
   publishedAt: string;
   seo?: {

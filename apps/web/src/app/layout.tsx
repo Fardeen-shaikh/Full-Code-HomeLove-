@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ChatWidget from '@/components/chat/ChatWidget'
 import BackToTop from '@/components/ui/BackToTop'
+import { ScrollFadeObserver } from '@/components/ui/ScrollFadeObserver'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Footer />
         <ChatWidget />
         <BackToTop />
+        <ScrollFadeObserver />
       </body>
     </html>
   )

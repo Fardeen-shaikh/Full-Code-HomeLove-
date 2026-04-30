@@ -484,24 +484,7 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
               </div>
             )}
 
-            {/* Compare section — Pro tips to use at the expo */}
-            <div className="cl-compare">
-              <div className="cl-compare-header">
-                <h3>Things to Compare at the Expo</h3>
-                <p>Take this with you to make smarter decisions while browsing the booths.</p>
-              </div>
-              <div className="cl-compare-grid">
-                {COMPARE_ITEMS.map((item, i) => (
-                  <div key={item.title} className="cl-tip-card">
-                    <div className="cl-tip-num">{String(i + 1).padStart(2, '0')}</div>
-                    <div className="cl-tip-icon" aria-hidden="true">{item.icon}</div>
-                    <h4 className="cl-tip-title">{item.title}</h4>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Action buttons — PDF + WhatsApp */}
+            {/* Action buttons — PDF + WhatsApp (shown right after checklist so users see next steps) */}
             {totalChecked > 0 && (
               <div className="cl-actions">
                 <div className="cl-actions-header">
@@ -534,6 +517,23 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
                 </div>
               </div>
             )}
+
+            {/* Compare section — Pro tips to use at the expo */}
+            <div className="cl-compare">
+              <div className="cl-compare-header">
+                <h3>Things to Compare at the Expo</h3>
+                <p>Take this with you to make smarter decisions while browsing the booths.</p>
+              </div>
+              <div className="cl-compare-grid">
+                {COMPARE_ITEMS.map((item, i) => (
+                  <div key={item.title} className="cl-tip-card">
+                    <div className="cl-tip-num">{String(i + 1).padStart(2, '0')}</div>
+                    <div className="cl-tip-icon" aria-hidden="true">{item.icon}</div>
+                    <h4 className="cl-tip-title">{item.title}</h4>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       )}

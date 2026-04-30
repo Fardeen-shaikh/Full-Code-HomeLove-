@@ -30,15 +30,23 @@ const SHARE_ICONS = {
       <circle cx="4" cy="4" r="2" />
     </svg>
   ),
+  tiktok: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43V8.65a8.16 8.16 0 004.77 1.52V6.73a4.85 4.85 0 01-1.84-.04z" />
+    </svg>
+  ),
+  xhs: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 5h18v14H3V5zm2.6 3.4v7.2h1.7v-2.7h.6l1.4 2.7h2L9.6 12.6c.7-.3 1.1-.9 1.1-1.7 0-1.3-.9-2-2.4-2H5.6zm1.7 1.4h1c.6 0 1 .3 1 .8s-.4.8-1 .8h-1V9.8zm5.2-1.4v7.2h4.5v-1.5h-2.9v-1.5h2.4v-1.5h-2.4v-1.2h2.8V8.4h-4.4z" />
+    </svg>
+  ),
 }
 
 const CATEGORIES: Record<string, string> = {
-  'home-tips': 'Home Tips',
-  'trends-ideas': 'Trends & Ideas',
-  'buying-guide': 'Buying Guide',
-  'renovation': 'Renovation',
-  'interior-design': 'Interior Design',
-  'smart-home': 'Smart Home',
+  'home-electronics': 'Home Electronics',
+  'interior-design-renovation': 'Interior Design & Renovation',
+  'kitchen-appliances': 'Kitchen Appliances',
+  'furniture-furnishing': 'Mattress, Sofa, Dining Sets & Soft Furnishing',
 }
 
 function formatDate(dateStr: string) {
@@ -118,6 +126,15 @@ export default function BlogArticle({
 }) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const shareTitle = post.title
+  const [copiedTarget, setCopiedTarget] = useState<string | null>(null)
+
+  function copyShareLink(target: string) {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return
+    navigator.clipboard.writeText(`${shareTitle} ${shareUrl}`).then(() => {
+      setCopiedTarget(target)
+      setTimeout(() => setCopiedTarget(null), 1800)
+    }).catch(() => {})
+  }
 
   const MORE_POSTS_LIMIT = 5
   const [morePostsCategory, setMorePostsCategory] = useState<string>('')
@@ -224,6 +241,24 @@ export default function BlogArticle({
                   >
                     {SHARE_ICONS.linkedin}
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => copyShareLink('tiktok')}
+                    className="share-btn share-tt"
+                    aria-label="Copy link to share on TikTok"
+                  >
+                    {SHARE_ICONS.tiktok}
+                    {copiedTarget === 'tiktok' && <span className="share-tooltip">Link copied!</span>}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => copyShareLink('xhs')}
+                    className="share-btn share-xhs"
+                    aria-label="Copy link to share on Xiaohongshu (RedNote)"
+                  >
+                    {SHARE_ICONS.xhs}
+                    {copiedTarget === 'xhs' && <span className="share-tooltip">Link copied!</span>}
+                  </button>
                 </div>
               </div>
 

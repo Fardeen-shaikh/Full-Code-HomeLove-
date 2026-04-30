@@ -198,21 +198,12 @@ export default function ExhibitionDetail({
   // Favourites drawer
   const [showFavDrawer, setShowFavDrawer] = useState(false)
 
-  // Contest popup
-  const [showContest, setShowContest] = useState(false)
-  const [contestForm, setContestForm] = useState({ name: '', email: '', phone: '' })
-  const [contestStatus, setContestStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
+  // Directions popover (Google Maps vs Waze)
+  const [showDirections, setShowDirections] = useState(false)
 
   // Favourites
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
   const [sessionDbId, setSessionDbId] = useState<string | null>(null)
-
-  // Deal reveal
-  const [revealedDeals, setRevealedDeals] = useState<Set<string>>(new Set())
-  const [revealingAll, setRevealingAll] = useState(false)
-  const [dealFormId, setDealFormId] = useState<string | null>(null)
-  const [dealForm, setDealForm] = useState({ name: '', phone: '', email: '' })
-  const [dealFormStatus, setDealFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
 
   // Load favourites from session
   useEffect(() => {
@@ -261,92 +252,12 @@ export default function ExhibitionDetail({
     }
   }
 
-  async function handleDealReveal(e: React.FormEvent) {
-    e.preventDefault()
-    if (!dealFormId) return
-    setDealFormStatus('sending')
-
-    try {
-      const captchaToken = (await executeRecaptcha('deal_reveal')) ?? undefined
-      await submitSubscriber({
-        ...dealForm,
-        state: exhibition.state,
-        source: 'event',
-        captchaToken,
-        captchaAction: 'deal_reveal',
-      })
-    } catch {
-      // still reveal even if subscribe fails
-    }
-
-    // Reveal the deal
-    setRevealedDeals((prev) => new Set(prev).add(dealFormId))
-    setDealFormStatus('sent')
-
-    // Find the deal to send WhatsApp
-    const deal = crazyDeals.find((d) => d.id === dealFormId)
-    if (deal) {
-      const msg = `Hi! I'm interested in this HOMElove Crazy Deal:\n\n*${deal.title}*${deal.brand ? ` by ${deal.brand}` : ''}\n${deal.dealPrice ? `Deal Price: RM ${deal.dealPrice.toLocaleString()}` : ''}${deal.originalPrice ? ` (was RM ${deal.originalPrice.toLocaleString()})` : ''}\n\nEvent: ${exhibition.title}\n\nPlease share more details!`
-      setTimeout(() => {
-        window.open(`https://wa.me/60102323620?text=${encodeURIComponent(msg)}`, '_blank')
-      }, 1500)
-    }
-
-    // Reset form for next deal
-    setTimeout(() => {
-      setDealFormId(null)
-      setDealFormStatus('idle')
-    }, 3000)
-  }
-
-  async function handleContestSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setContestStatus('sending')
-    // TODO: POST to a contest submissions endpoint
-    await new Promise((r) => setTimeout(r, 1000))
-    setContestStatus('sent')
-  }
-
-  function shareDealOnWhatsApp(deal: CrazyDeal) {
-    const imageUrl = mediaUrl(deal.image)
-    const fullImageUrl = imageUrl?.startsWith('http') ? imageUrl : `${window.location.origin}${imageUrl}`
-    const text = `Hi! I'd like to enquire about this deal from *${exhibition.title}*.\n\n${fullImageUrl}\n\nPlease share more details!`
-    window.open(`https://wa.me/60102323620?text=${encodeURIComponent(text)}`, '_blank')
+  function handleSubPhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 11)
+    setSubForm((prev) => ({ ...prev, phone: digits }))
   }
 
   const previewDeals = crazyDeals.slice(0, 8)
-
-  function revealAllDeals() {
-    if (revealingAll) return
-    const unrevealed = previewDeals.filter((d) => !revealedDeals.has(d.id))
-    if (unrevealed.length === 0) return
-    setRevealingAll(true)
-
-    // Preload & decode all deal images BEFORE triggering the reveal animation.
-    // This prevents the flip from stuttering while the browser decodes images.
-    const preloads = unrevealed.map((deal) => {
-      const src = mediaUrl(deal.image)
-      if (!src) return Promise.resolve()
-      return new Promise<void>((resolve) => {
-        const img = new window.Image()
-        img.onload = () => resolve()
-        img.onerror = () => resolve()
-        img.src = optimizedImg(src, 384)
-      })
-    })
-
-    Promise.all(preloads).then(() => {
-      // All images decoded — now trigger reveal in a single render.
-      // CSS animation-delay handles the staggered wave on the GPU.
-      setRevealedDeals((prev) => {
-        const next = new Set(prev)
-        unrevealed.forEach((d) => next.add(d.id))
-        return next
-      })
-      const totalMs = unrevealed.length * 70 + 700
-      setTimeout(() => setRevealingAll(false), totalMs)
-    })
-  }
   const bannerUrl = mediaUrl(exhibition.bannerImage) || '/images/events/event-kuching.png'
   const tncSlug = typeof exhibition.tncPage === 'object' && exhibition.tncPage ? exhibition.tncPage.slug : null
 
@@ -443,7 +354,7 @@ export default function ExhibitionDetail({
               ) : (
                 <form onSubmit={handleSubscribe} className="subscribe-form">
                   <input type="text" placeholder="Name *" value={subForm.name} onChange={(e) => setSubForm({ ...subForm, name: e.target.value })} required />
-                  <input type="tel" placeholder="Phone *" value={subForm.phone} onChange={(e) => setSubForm({ ...subForm, phone: e.target.value })} required />
+                  <input type="tel" placeholder="Phone *" value={subForm.phone} onChange={handleSubPhoneChange} required inputMode="numeric" maxLength={11} />
                   <input type="email" placeholder="Email *" value={subForm.email} onChange={(e) => setSubForm({ ...subForm, email: e.target.value })} required />
                   <select value={subForm.state} onChange={(e) => setSubForm({ ...subForm, state: e.target.value })} required>
                     {MALAYSIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -483,7 +394,7 @@ export default function ExhibitionDetail({
             <div className="ed-stat-item">
               <span className="ed-stat-icon">📅</span>
               <div>
-                <div className="ed-stat-value">{Math.ceil((new Date(exhibition.endDate).getTime() - new Date(exhibition.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}</div>
+                <div className="ed-stat-value">{Math.round((new Date(exhibition.endDate).getTime() - new Date(exhibition.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}</div>
                 <div className="ed-stat-label">Days</div>
               </div>
             </div>
@@ -541,96 +452,23 @@ export default function ExhibitionDetail({
                   </div>
                 ))}
               </div>
-              {tncSlug && (
-                <div className="ed-programs-tnc">
-                  <Link href={`/p/${tncSlug}`} className="btn btn-primary ed-programs-tnc-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
-                    View Terms &amp; Conditions
-                  </Link>
-                </div>
-              )}
+              {/* Falls back to the global /terms-conditions page when no
+                  event-specific TNC hidden page is linked in Payload yet. */}
+              <div className="ed-programs-tnc">
+                <Link href={tncSlug ? `/p/${tncSlug}` : '/terms-conditions'} className="btn btn-primary ed-programs-tnc-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                  View Event Terms &amp; Conditions
+                </Link>
+              </div>
             </div>
           </div>
         </section>
       )}
 
       {/* ===== CONTEST SECTION — Vibrant ===== */}
-      {exhibition.contest?.enabled && (
-        <section className="ed-contest" id="contest">
-          <div className="container">
-            <div className="contest-banner">
-              <div className="contest-confetti">
-                <span /><span /><span /><span /><span />
-              </div>
-              <div className="contest-banner-content">
-                <div className="contest-icon-wrap">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
-                </div>
-                <h2>{exhibition.contest.title || 'Contest'}</h2>
-                {exhibition.contest.description && <p>{exhibition.contest.description}</p>}
-                <div className="contest-prizes">
-                  <div className="prize-tag">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15a7 7 0 100-14 7 7 0 000 14z" /><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" /></svg>
-                    Win Amazing Prizes
-                  </div>
-                  <div className="prize-tag">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2" /><circle cx="9" cy="7" r="4" /></svg>
-                    Open to All
-                  </div>
-                  <div className="prize-tag">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    Limited Time
-                  </div>
-                </div>
-                <button type="button" className="btn btn-secondary contest-join-btn" onClick={() => setShowContest(true)}>
-                  Join Now — It&apos;s Free!
-                </button>
-              </div>
-              {exhibition.contest.image && (
-                <div className="contest-banner-image">
-                  <Image src={mediaUrl(exhibition.contest.image)} alt={exhibition.contest.title || 'Contest'} width={800} height={400} quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, 800px" style={{ width: '100%', height: 'auto' }} />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Contest popup form */}
-          {showContest && (
-            <div className="contest-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowContest(false) }}>
-              <div className="contest-popup">
-                <button className="contest-close" onClick={() => setShowContest(false)} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-                <div className="contest-popup-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-                </div>
-                <h3>{exhibition.contest.title || 'Join Contest'}</h3>
-                <p className="contest-popup-desc">Fill in your details to enter the contest</p>
-                {contestStatus === 'sent' ? (
-                  <div className="contest-success">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                    <h4>You&apos;re In!</h4>
-                    <p>Your contest entry has been submitted. Good luck! Winners will be announced at the expo.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleContestSubmit} className="contest-form">
-                    <input type="text" placeholder="Full Name *" value={contestForm.name} onChange={(e) => setContestForm({ ...contestForm, name: e.target.value })} required />
-                    <input type="email" placeholder="Email *" value={contestForm.email} onChange={(e) => setContestForm({ ...contestForm, email: e.target.value })} required />
-                    <input type="tel" placeholder="Phone *" value={contestForm.phone} onChange={(e) => setContestForm({ ...contestForm, phone: e.target.value })} required />
-                    <button type="submit" className="btn btn-secondary" disabled={contestStatus === 'sending'} style={{ width: '100%', borderRadius: '50px' }}>
-                      {contestStatus === 'sending' ? 'Submitting...' : 'Submit My Entry'}
-                    </button>
-                  </form>
-                )}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
+      {/* Colouring Contest section removed per client — future events that
+          have a contest will be promoted as a card inside the Program section
+          with a CTA linking to a hidden registration page. */}
 
       {/* ===== CRAZY DEALS — Mystery Box reveal ===== */}
       {previewDeals.length > 0 && (
@@ -638,85 +476,35 @@ export default function ExhibitionDetail({
           <div className="container">
             <div className="ed-deals-header">
               <h2 className="section-title">Crazy Deals</h2>
-              <p>Tap any mystery box to reveal all exclusive expo-only deals!</p>
-              <div className="deals-progress">
-                <span className="deals-progress-text">
-                  🎁 {revealedDeals.size} of {previewDeals.length} deals revealed
-                </span>
-                <div className="deals-progress-bar">
-                  <div className="deals-progress-fill" style={{ width: `${(revealedDeals.size / previewDeals.length) * 100}%` }} />
-                </div>
-                {revealedDeals.size === previewDeals.length && (
-                  <div className="deals-all-revealed">All deals unlocked! Visit the expo to grab them! 🎉</div>
-                )}
-              </div>
-              {revealedDeals.size < previewDeals.length && (
-                <button
-                  type="button"
-                  className="deals-reveal-all-btn"
-                  onClick={revealAllDeals}
-                  disabled={revealingAll}
-                >
-                  {revealingAll ? (
-                    <>
-                      <span className="deals-reveal-spinner" />
-                      Revealing…
-                    </>
-                  ) : (
-                    <>🎁 Reveal All Deals</>
-                  )}
-                </button>
-              )}
+              <p>Exclusive expo-only deals — visit the expo to grab them!</p>
             </div>
             <div className="deals-grid">
-              {previewDeals.map((deal, i) => (
-                <div
-                  key={deal.id}
-                  className={`deal-card${revealedDeals.has(deal.id) ? ' revealed' : ''}`}
-                  style={{ ['--deal-delay' as string]: `${i * 80}ms` }}
-                >
-                  {revealedDeals.has(deal.id) ? (
-                    /* ===== REVEALED STATE — image only ===== */
-                    <div className="deal-revealed-card">
-                      {mediaUrl(deal.image) && (
-                        <div className="deal-revealed-image">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={optimizedImg(mediaUrl(deal.image), 384)} alt={deal.title} />
-                        </div>
-                      )}
-                      <div className="deal-revealed-actions">
-                        <button
-                          type="button"
-                          className="deal-wa-btn-sm"
-                          onClick={() => shareDealOnWhatsApp(deal)}
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                          Enquire
-                        </button>
-                        <button
-                          type="button"
-                          className={`deal-fav-btn-sm${favourites.has(deal.id) ? ' active' : ''}`}
-                          onClick={() => toggleFavourite(deal.id)}
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill={favourites.has(deal.id) ? 'var(--secondary)' : 'none'} stroke={favourites.has(deal.id) ? 'var(--secondary)' : '#999'} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
-                        </button>
-                      </div>
+              {previewDeals.map((deal) => (
+                <div key={deal.id} className="deal-card revealed">
+                  <div className="deal-revealed-card">
+                    {mediaUrl(deal.image) && (
+                      <button
+                        type="button"
+                        className="deal-revealed-image"
+                        onClick={() => toggleFavourite(deal.id)}
+                        aria-label={favourites.has(deal.id) ? 'Remove from favourites' : 'Save to favourites'}
+                        aria-pressed={favourites.has(deal.id)}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={optimizedImg(mediaUrl(deal.image), 384)} alt={deal.title} />
+                      </button>
+                    )}
+                    <div className="deal-revealed-footer">
+                      <button
+                        type="button"
+                        className={`deal-fav-btn-icon${favourites.has(deal.id) ? ' active' : ''}`}
+                        onClick={() => toggleFavourite(deal.id)}
+                        aria-label={favourites.has(deal.id) ? 'Remove from favourites' : 'Save to favourites'}
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill={favourites.has(deal.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                      </button>
                     </div>
-                  ) : (
-                    /* ===== MYSTERY BOX STATE — tap any box to reveal ALL ===== */
-                    <button
-                      type="button"
-                      className="mystery-box"
-                      onClick={revealAllDeals}
-                      disabled={revealingAll}
-                      aria-label="Tap to reveal all mystery deals"
-                    >
-                      <div className="mystery-box-glow" />
-                      <div className="mystery-box-icon">🎁</div>
-                      <div className="mystery-box-label">Tap to Reveal</div>
-                      <div className="mystery-box-hint">Mystery Deal</div>
-                    </button>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -737,53 +525,6 @@ export default function ExhibitionDetail({
             )}
           </div>
 
-          {/* Deal reveal popup form */}
-          {dealFormId && (
-            <div className="deal-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) { setDealFormId(null); setDealFormStatus('idle') } }}>
-              <div className="deal-form-popup">
-                <button className="contest-close" onClick={() => { setDealFormId(null); setDealFormStatus('idle') }} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-
-                {dealFormStatus === 'sent' ? (
-                  <div className="deal-form-success">
-                    <div className="deal-form-check">
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-                      </svg>
-                    </div>
-                    <h3>Deal Revealed!</h3>
-                    <p>Price details are being sent to your WhatsApp. Check your phone!</p>
-                    <div className="deal-form-wa-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                      Opening WhatsApp...
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="deal-form-header">
-                      <div className="deal-form-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </div>
-                      <h3>Reveal This Deal</h3>
-                      <p>Enter your details to see the exclusive price. We&apos;ll also send the deal info to your WhatsApp!</p>
-                    </div>
-                    <form onSubmit={handleDealReveal} className="deal-form-fields">
-                      <input type="text" placeholder="Your Name *" value={dealForm.name} onChange={(e) => setDealForm({ ...dealForm, name: e.target.value })} required />
-                      <input type="tel" placeholder="WhatsApp Number *" value={dealForm.phone} onChange={(e) => setDealForm({ ...dealForm, phone: e.target.value })} required />
-                      <input type="email" placeholder="Email *" value={dealForm.email} onChange={(e) => setDealForm({ ...dealForm, email: e.target.value })} required />
-                      <button type="submit" className="btn btn-secondary deal-form-submit" disabled={dealFormStatus === 'sending'}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-                        {dealFormStatus === 'sending' ? 'Revealing...' : 'Reveal & Send to WhatsApp'}
-                      </button>
-                    </form>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
         </section>
       )}
 
@@ -808,19 +549,51 @@ export default function ExhibitionDetail({
               </div>
             </div>
             <div className="ed-map-actions">
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ed-map-action-btn primary"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
-                Get Directions
-              </a>
-              <Link href={tncSlug ? `/p/${tncSlug}` : '/terms-conditions'} className="ed-map-action-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
-                View T&amp;C
-              </Link>
+              <div className="ed-directions-wrap">
+                <button
+                  type="button"
+                  className="ed-map-action-btn primary"
+                  onClick={() => setShowDirections((v) => !v)}
+                  aria-expanded={showDirections}
+                  aria-haspopup="menu"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
+                  Get Directions
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 4 }}><polyline points="6 9 12 15 18 9" /></svg>
+                </button>
+                {showDirections && (
+                  <>
+                    <div
+                      className="ed-directions-backdrop"
+                      onClick={() => setShowDirections(false)}
+                    />
+                    <div className="ed-directions-menu" role="menu">
+                      <a
+                        role="menuitem"
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ed-directions-item"
+                        onClick={() => setShowDirections(false)}
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="#4285F4" /></svg>
+                        <span>Google Maps</span>
+                      </a>
+                      <a
+                        role="menuitem"
+                        href={`https://www.waze.com/ul?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&navigate=yes`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ed-directions-item"
+                        onClick={() => setShowDirections(false)}
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#33CCFF"><path d="M20.54 6.63A9.93 9.93 0 0012 2C7.31 2 3.34 5.27 2.34 9.65l1.94.45C5.07 6.61 8.21 4 12 4c2.39 0 4.5 1.05 5.96 2.71-1.45 1.04-2.46 2.7-2.46 4.79v.5h-7v.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5v-1c0-1.49.74-2.81 1.88-3.6.39.81.62 1.71.62 2.6 0 4.41-3.59 8-8 8-3.81 0-7.01-2.66-7.81-6.21l-1.94.43C3.41 17.74 7.4 21 12 21c5.51 0 10-4.49 10-10 0-1.55-.36-3.02-1-4.37l-.46.0z" /></svg>
+                        <span>Waze</span>
+                      </a>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -833,7 +606,7 @@ export default function ExhibitionDetail({
               <form onSubmit={handleSubscribe} className="ed-inline-form">
                 <div className="ed-inline-fields">
                   <input type="text" placeholder="Name" value={subForm.name} onChange={(e) => setSubForm({ ...subForm, name: e.target.value })} required />
-                  <input type="tel" placeholder="Phone" value={subForm.phone} onChange={(e) => setSubForm({ ...subForm, phone: e.target.value })} required />
+                  <input type="tel" placeholder="Phone" value={subForm.phone} onChange={handleSubPhoneChange} required inputMode="numeric" maxLength={11} />
                   <input type="email" placeholder="Email" value={subForm.email} onChange={(e) => setSubForm({ ...subForm, email: e.target.value })} required />
                 </div>
                 <button type="submit" className="btn btn-primary ed-inline-btn" disabled={subStatus === 'sending'}>
