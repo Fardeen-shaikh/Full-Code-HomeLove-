@@ -75,6 +75,14 @@ export function Stats() {
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
+
+    // If the section is already in (or above) the viewport on mount, kick off immediately
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setStarted(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -82,10 +90,18 @@ export function Stats() {
           observer.disconnect()
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     )
     observer.observe(el)
-    return () => observer.disconnect()
+
+    // Safety net: if the observer never fires (browsers with disabled IO, fast scroll past, etc.)
+    // start the animation after 4s so numbers are guaranteed to render.
+    const fallback = setTimeout(() => setStarted(true), 4000)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallback)
+    }
   }, [])
 
   return (
