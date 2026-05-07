@@ -9,8 +9,8 @@ const CARDS = [
     body: 'Speak directly with interior designers, renovation contractors, and product specialists on the floor.' },
   { icon: '🎁', bg: '#fce4ec', delay: 2, title: 'Lucky Draws & Prizes',
     body: 'Win exciting home products and vouchers at our exciting daily lucky draw sessions every day.' },
-  { icon: '👨‍👩‍👧‍👦', bg: '#e0f7fa', delay: 3, title: 'Family Friendly Events',
-    body: 'Bring the whole family — kids zone and safe activities and comfortable spaces for everyone to enjoy.' },
+  { icon: '🛡️', bg: '#e0f7fa', delay: 3, title: 'Shop with Confidence',
+    body: 'Enjoy peace of mind with HOMECare+ purchase protection and trusted exhibitors all in one place.' },
 ]
 
 export function WhatToExpectExpo() {

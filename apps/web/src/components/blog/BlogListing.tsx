@@ -44,13 +44,35 @@ const CATEGORIES = [
   { label: 'Smart Home', value: 'smart-home' },
 ]
 
-const SEARCH_SUGGESTIONS = [
-  "Try 'best sofa'",
-  "Try 'kitchen renovation tips'",
-  "Try 'mattress buying guide'",
-  "Try 'small living room ideas'",
-  "Try 'smart home essentials'",
+const FALLBACK_SUGGESTIONS = [
+  "Search articles…",
+  "Try 'home tips'",
+  "Try 'renovation'",
+  "Try 'interior design'",
+  "Try 'smart home'",
 ]
+
+// Pull short keyword phrases from real titles so any suggestion is guaranteed to match
+function buildSuggestionsFromTitles(titles: string[]): string[] {
+  const stopwords = new Set([
+    'the', 'a', 'an', 'and', 'or', 'of', 'for', 'to', 'in', 'on', 'with',
+    'your', 'you', 'at', 'is', 'how', 'why', 'what', 'when', 'best', 'top',
+    'guide', 'tips', '5', '7', '10', '2026', '2025',
+  ])
+  const phrases = new Set<string>()
+  for (const t of titles) {
+    if (!t) continue
+    const words = t.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(Boolean)
+    const kept = words.filter((w) => w.length > 2 && !stopwords.has(w))
+    for (let i = 0; i < kept.length - 1 && phrases.size < 6; i++) {
+      phrases.add(`${kept[i]} ${kept[i + 1]}`)
+    }
+    if (phrases.size >= 6) break
+  }
+  return phrases.size > 0
+    ? Array.from(phrases).map((p) => `Try '${p}'`)
+    : FALLBACK_SUGGESTIONS
+}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -75,6 +97,8 @@ export default function BlogListing({
   const q = searchQuery.trim().toLowerCase()
   const isSearching = q.length > 0
   const PAGE_SIZE = 6
+
+  const suggestions = buildSuggestionsFromTitles(posts.map((p) => p.title || ''))
 
   const visiblePosts = isSearching
     ? posts.filter(
@@ -111,10 +135,10 @@ export default function BlogListing({
   useEffect(() => {
     if (searchFocused || searchQuery.length > 0) return
     const id = setInterval(() => {
-      setSuggestionIdx((i) => (i + 1) % SEARCH_SUGGESTIONS.length)
+      setSuggestionIdx((i) => (i + 1) % suggestions.length)
     }, 2800)
     return () => clearInterval(id)
-  }, [searchFocused, searchQuery])
+  }, [searchFocused, searchQuery, suggestions.length])
 
   useEffect(() => {
     getExhibitions({ upcoming: true, limit: 3 })
@@ -178,7 +202,7 @@ export default function BlogListing({
             <svg className="blog-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
             <input
               type="search"
-              placeholder={SEARCH_SUGGESTIONS[suggestionIdx]}
+              placeholder={suggestions[suggestionIdx % suggestions.length]}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setSearchFocused(true)}

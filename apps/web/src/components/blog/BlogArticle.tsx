@@ -43,10 +43,12 @@ const SHARE_ICONS = {
 }
 
 const CATEGORIES: Record<string, string> = {
-  'home-electronics': 'Home Electronics',
-  'interior-design-renovation': 'Interior Design & Renovation',
-  'kitchen-appliances': 'Kitchen Appliances',
-  'furniture-furnishing': 'Mattress, Sofa, Dining Sets & Soft Furnishing',
+  'home-tips': 'Home Tips',
+  'trends-ideas': 'Trends & Ideas',
+  'buying-guide': 'Buying Guide',
+  'renovation': 'Renovation',
+  'interior-design': 'Interior Design',
+  'smart-home': 'Smart Home',
 }
 
 function formatDate(dateStr: string) {
@@ -149,11 +151,8 @@ export default function BlogArticle({
     return src.slice(0, MORE_POSTS_LIMIT)
   }, [pool, morePostsCategory])
 
-  // Only show categories that actually have posts in the pool
-  const availableCategories = useMemo(() => {
-    const set = new Set(pool.map((p) => p.category))
-    return Object.entries(CATEGORIES).filter(([value]) => set.has(value))
-  }, [pool])
+  // Show every defined category so the filter is always available
+  const availableCategories = useMemo(() => Object.entries(CATEGORIES), [])
 
   return (
     <>
@@ -284,49 +283,48 @@ export default function BlogArticle({
               </div>
 
               {/* More Posts — with category filter */}
-              {filteredMorePosts.length > 0 && (
+              {pool.length > 0 && (
                 <div className="sidebar-card">
                   <div className="sidebar-more-head">
                     <h4>More Posts</h4>
-                    {availableCategories.length > 1 && (
-                      <select
-                        className="sidebar-more-filter"
-                        value={morePostsCategory}
-                        onChange={(e) => setMorePostsCategory(e.target.value)}
-                        aria-label="Filter more posts by category"
-                      >
-                        <option value="">All</option>
-                        {availableCategories.map(([value, label]) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
-                    )}
                   </div>
-                  <div className="sidebar-posts">
-                    {filteredMorePosts.map((rp) => (
-                      <Link href={`/home-tips/${rp.slug}`} key={rp.id} className="sidebar-post">
-                        <div className="sidebar-post-image">
-                          <Image
-                            src={mediaUrl(rp.featuredImage) || '/images/blog/kitchen-design.jpg'}
-                            alt={rp.featuredImage?.alt || rp.title}
-                            width={80}
-                            height={60}
-                            quality={75}
-                            loading="lazy"
-                            sizes="80px"
-                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                          />
-                        </div>
-                        <div className="sidebar-post-info">
-                          <span className="sidebar-post-title">{rp.title}</span>
-                          <time>{formatDate(rp.publishedAt)}</time>
-                        </div>
-                      </Link>
+                  <select
+                    className="sidebar-more-filter"
+                    value={morePostsCategory}
+                    onChange={(e) => setMorePostsCategory(e.target.value)}
+                    aria-label="Filter more posts by category"
+                  >
+                    <option value="">All categories</option>
+                    {availableCategories.map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
                     ))}
-                  </div>
-                  {morePostsCategory && filteredMorePosts.length === 0 && (
+                  </select>
+                  {filteredMorePosts.length > 0 ? (
+                    <div className="sidebar-posts">
+                      {filteredMorePosts.map((rp) => (
+                        <Link href={`/home-tips/${rp.slug}`} key={rp.id} className="sidebar-post">
+                          <div className="sidebar-post-image">
+                            <Image
+                              src={mediaUrl(rp.featuredImage) || '/images/blog/kitchen-design.jpg'}
+                              alt={rp.featuredImage?.alt || rp.title}
+                              width={80}
+                              height={60}
+                              quality={75}
+                              loading="lazy"
+                              sizes="80px"
+                              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            />
+                          </div>
+                          <div className="sidebar-post-info">
+                            <span className="sidebar-post-title">{rp.title}</span>
+                            <time>{formatDate(rp.publishedAt)}</time>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
                     <p className="sidebar-more-empty">No posts in this category yet.</p>
                   )}
                 </div>
