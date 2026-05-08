@@ -198,9 +198,6 @@ export default function ExhibitionDetail({
   // Favourites drawer
   const [showFavDrawer, setShowFavDrawer] = useState(false)
 
-  // Directions popover (Google Maps vs Waze)
-  const [showDirections, setShowDirections] = useState(false)
-
   // Favourites
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
   const [sessionDbId, setSessionDbId] = useState<string | null>(null)
@@ -549,51 +546,29 @@ export default function ExhibitionDetail({
               </div>
             </div>
             <div className="ed-map-actions">
-              <div className="ed-directions-wrap">
-                <button
-                  type="button"
-                  className="ed-map-action-btn primary"
-                  onClick={() => setShowDirections((v) => !v)}
-                  aria-expanded={showDirections}
-                  aria-haspopup="menu"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
-                  Get Directions
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 4 }}><polyline points="6 9 12 15 18 9" /></svg>
-                </button>
-                {showDirections && (
-                  <>
-                    <div
-                      className="ed-directions-backdrop"
-                      onClick={() => setShowDirections(false)}
-                    />
-                    <div className="ed-directions-menu" role="menu">
-                      <a
-                        role="menuitem"
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ed-directions-item"
-                        onClick={() => setShowDirections(false)}
-                      >
-                        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="#4285F4" /></svg>
-                        <span>Google Maps</span>
-                      </a>
-                      <a
-                        role="menuitem"
-                        href={`https://www.waze.com/ul?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&navigate=yes`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ed-directions-item"
-                        onClick={() => setShowDirections(false)}
-                      >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#33CCFF"><path d="M20.54 6.63A9.93 9.93 0 0012 2C7.31 2 3.34 5.27 2.34 9.65l1.94.45C5.07 6.61 8.21 4 12 4c2.39 0 4.5 1.05 5.96 2.71-1.45 1.04-2.46 2.7-2.46 4.79v.5h-7v.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5v-1c0-1.49.74-2.81 1.88-3.6.39.81.62 1.71.62 2.6 0 4.41-3.59 8-8 8-3.81 0-7.01-2.66-7.81-6.21l-1.94.43C3.41 17.74 7.4 21 12 21c5.51 0 10-4.49 10-10 0-1.55-.36-3.02-1-4.37l-.46.0z" /></svg>
-                        <span>Waze</span>
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ed-map-action-btn brand-gmaps"
+              >
+                <svg width="16" height="20" viewBox="0 0 24 32" aria-hidden="true">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 20 12 20s12-11 12-20c0-6.63-5.37-12-12-12z" fill="#EA4335" />
+                  <circle cx="12" cy="12" r="4.5" fill="#FFFFFF" />
+                </svg>
+                Google Maps
+              </a>
+              <a
+                href={`https://www.waze.com/ul?q=${encodeURIComponent(exhibition.venue + ', ' + exhibition.state + ', Malaysia')}&navigate=yes`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ed-map-action-btn brand-waze"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.06 2 11.05c0 1.97.7 3.79 1.88 5.27-.34.66-.88 1.45-1.6 2.07-.4.34-.18 1 .35 1.06 1.78.2 4.14-.2 6.06-1.7.74.18 1.52.27 2.31.27 5.52 0 10-4.06 10-9.05S17.52 2 12 2z" fill="#FFFFFF" />
+                </svg>
+                Waze
+              </a>
             </div>
           </div>
 

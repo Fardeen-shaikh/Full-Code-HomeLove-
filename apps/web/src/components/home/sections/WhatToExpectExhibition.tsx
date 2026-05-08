@@ -11,8 +11,8 @@ const CARDS = [
     body: 'Automated curtains, smart locks, lighting systems, and air purifiers for the modern home.' },
   { icon: '🎨', delay: 2, title: 'Interior Design',
     body: 'Consult with professional interior designers and get custom renovation quotes on-site.' },
-  { icon: '🏷️', delay: 3, title: 'Exclusive Deals',
-    body: 'Show-only promotions, bundle packages, 0% installment plans, and free delivery offers.' },
+  { icon: '🏷️', delay: 3, title: 'More Deals, More Choices',
+    body: 'Explore a wide range of promotions across brands and find deals that suit your budget.' },
 ]
 
 const BASE_BACKGROUND = 'linear-gradient(145deg,#ffffff,#f8faff)'

@@ -850,7 +850,10 @@
 
 /* ===== HERO — SPLIT: Info left, Banner right ===== */
 .ed-hero {
-    background: linear-gradient(135deg, var(--primary) 0%, #1E5BB8 50%, var(--primary) 100%);
+    background: linear-gradient(135deg, rgba(1, 75, 152, 0.92) 0%, rgba(20, 74, 149, 0.88) 100%),
+        url('/images/backgrounds/hero-bg.webp');
+    background-size: cover;
+    background-position: center;
     color: white;
     padding: 150px 0 72px;
     position: relative;
@@ -1407,6 +1410,29 @@
         transition-duration: 0.01s !important;
     }
     .ed-map-action-btn.primary::before { display: none; }
+}
+
+/* Brand-colored map action buttons */
+.ed-map-action-btn.brand-gmaps {
+    background: #ffffff;
+    color: #202124;
+    border: 1px solid #dadce0;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15);
+}
+.ed-map-action-btn.brand-gmaps:hover {
+    background: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(60, 64, 67, 0.22);
+    transform: translateY(-2px);
+}
+.ed-map-action-btn.brand-waze {
+    background: #33CCFF;
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(51, 204, 255, 0.35);
+}
+.ed-map-action-btn.brand-waze:hover {
+    background: #1ec0f4;
+    box-shadow: 0 6px 18px rgba(51, 204, 255, 0.55);
+    transform: translateY(-2px);
 }
 
 /* Get-directions popover (Google Maps / Waze chooser) */

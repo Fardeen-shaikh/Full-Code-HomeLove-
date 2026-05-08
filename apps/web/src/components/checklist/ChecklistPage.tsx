@@ -538,6 +538,17 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
         </section>
       )}
 
+      {/* Bottom CTA */}
+      <section className="cl-bottom-cta">
+        <div className="container">
+          <h2>Complete Your Home Shopping List at HOMElove</h2>
+          <p>From home essentials to smart upgrades, HOMElove brings together a wide range of brands, products, and ideas under one roof. Come with your checklist, compare options more easily, and find what fits your home, style, and budget.</p>
+          <div className="cl-bottom-btns">
+            <Link href="/exhibitions" className="btn btn-secondary">See Upcoming Events →</Link>
+          </div>
+        </div>
+      </section>
+
       {/* Upcoming Events Recommendations */}
       {activeProfile && upcomingEvents.length > 0 && (
         <section className="cl-events">
@@ -606,17 +617,6 @@ export default function ChecklistPage({ profiles }: { profiles: ChecklistProfile
           </div>
         </section>
       )}
-
-      {/* Bottom CTA */}
-      <section className="cl-bottom-cta">
-        <div className="container">
-          <h2>Complete Your Home Shopping List at HOMElove</h2>
-          <p>From home essentials to smart upgrades, HOMElove brings together a wide range of brands, products, and ideas under one roof. Come with your checklist, compare options more easily, and find what fits your home, style, and budget.</p>
-          <div className="cl-bottom-btns">
-            <Link href="/exhibitions" className="btn btn-secondary">See Upcoming Events →</Link>
-          </div>
-        </div>
-      </section>
     </>
   )
 }
