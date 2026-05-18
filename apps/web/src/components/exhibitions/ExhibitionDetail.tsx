@@ -58,7 +58,9 @@ function getSessionId(): string {
   if (typeof window === 'undefined') return ''
   let id = document.cookie.match(/homelove_session=([^;]+)/)?.[1]
   if (!id) {
-    id = crypto.randomUUID()
+    id = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`
     document.cookie = `homelove_session=${id};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`
   }
   return id
@@ -267,12 +269,14 @@ export default function ExhibitionDetail({
         </div>
         <div className="container">
           <div className="ed-hero-grid">
-            <div className="ed-hero-info">
+            <div className="ed-hero-title-block">
               {isLive && (
                 <div className="ed-live-badge"><span className="live-dot" />HAPPENING NOW</div>
               )}
               {isPast && <div className="ed-past-badge">Event Completed</div>}
               <h1>{exhibition.title}</h1>
+            </div>
+            <div className="ed-hero-info">
               <div className="ed-hero-meta">
                 <div className="ed-meta-item">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -601,13 +605,43 @@ export default function ExhibitionDetail({
             <p className="section-subtitle">{brands.length}+ trusted and top brands exclusively at {exhibition.city || exhibition.state} HOMElove home expo</p>
           </div>
           <div className="exh-brands-marquee">
-            <div className="exh-brands-track">
-              {[...brands, ...brands].map((brand, i) => (
-                <div key={`${brand.id}-${i}`} className="exh-brand-logo-wrap">
-                  <Image src={mediaUrl(brand.logo)} alt={brand.name} width={160} height={80} quality={75} loading="lazy" style={{ width: 'auto', height: '50px', objectFit: 'contain' }} />
-                </div>
-              ))}
-            </div>
+            {(() => {
+              const half = Math.ceil(brands.length / 2)
+              const row1 = brands.length > 1 ? brands.slice(0, half) : brands
+              const row2 = brands.length > 1 ? brands.slice(half) : brands
+              return (
+                <>
+                  <div className="exh-brands-track">
+                    {[...row1, ...row1, ...row1].map((brand, i) => (
+                      <img
+                        key={`r1-${brand.id}-${i}`}
+                        className="exh-brand-logo"
+                        src={mediaUrl(brand.logo)}
+                        alt={brand.name}
+                        loading="lazy"
+                        decoding="async"
+                        width={120}
+                        height={60}
+                      />
+                    ))}
+                  </div>
+                  <div className="exh-brands-track">
+                    {[...row2, ...row2, ...row2].map((brand, i) => (
+                      <img
+                        key={`r2-${brand.id}-${i}`}
+                        className="exh-brand-logo"
+                        src={mediaUrl(brand.logo)}
+                        alt={brand.name}
+                        loading="lazy"
+                        decoding="async"
+                        width={120}
+                        height={60}
+                      />
+                    ))}
+                  </div>
+                </>
+              )
+            })()}
           </div>
         </section>
       )}

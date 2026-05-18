@@ -14,7 +14,9 @@ function getSessionId(): string {
   if (typeof window === 'undefined') return ''
   let id = document.cookie.match(/homelove_chat=([^;]+)/)?.[1]
   if (!id) {
-    id = crypto.randomUUID()
+    id = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`
     document.cookie = `homelove_chat=${id};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`
   }
   return id

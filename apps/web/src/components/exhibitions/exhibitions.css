@@ -897,13 +897,17 @@
 .ed-hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    grid-template-areas:
+        "title  banner"
+        "info   banner";
+    column-gap: 48px;
+    row-gap: 20px;
     align-items: center;
 }
 
-.ed-hero-info {
-    max-width: 540px;
-}
+.ed-hero-title-block { grid-area: title; align-self: end; }
+.ed-hero-info { grid-area: info; max-width: 540px; align-self: start; }
+.ed-hero-banner { grid-area: banner; }
 
 .ed-live-badge {
     display: inline-flex;
@@ -2702,42 +2706,64 @@
     margin-top: 32px;
     overflow: hidden;
     position: relative;
-    padding: 20px 0;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.exh-brands-marquee::before,
+.exh-brands-marquee::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+.exh-brands-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--gray-light, #f5f5f5), transparent);
+}
+.exh-brands-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--gray-light, #f5f5f5), transparent);
 }
 .exh-brands-track {
     display: flex;
     align-items: center;
-    gap: 60px;
+    gap: 40px;
     width: max-content;
-    animation: exhBrandsScroll 35s linear infinite;
+    padding: 0 20px;
+    margin-bottom: 16px;
+    animation: exhBrandsScroll 30s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
-.exh-brands-marquee:hover .exh-brands-track {
+.exh-brands-track:hover {
     animation-play-state: paused;
 }
-.exh-brand-logo-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.exh-brand-logo {
+    height: 60px;
+    width: auto;
     flex-shrink: 0;
-    background: white;
-    border-radius: 12px;
-    padding: 16px 24px;
-    min-width: 140px;
-    height: 80px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    border: 1px solid #eee;
-    transition: all 0.3s;
+    transition: transform 0.3s ease;
+    object-fit: contain;
 }
-.exh-brand-logo-wrap:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    border-color: var(--primary);
+.exh-brand-logo:hover {
+    transform: scale(1.15);
 }
 @keyframes exhBrandsScroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-33.3333%); }
+}
+@media (max-width: 768px) {
+    .exh-brands { padding: 16px 0; }
+    .exh-faq { padding: 16px 0; }
+    .exh-brands-marquee { margin-top: 8px; }
+    .exh-brands-track {
+        gap: 30px;
+        animation-duration: 25s;
+        margin-bottom: 4px;
+    }
+    .exh-brand-logo { height: 50px; }
+    .exh-brands-marquee::before,
+    .exh-brands-marquee::after { width: 30px; }
 }
 
 /* ===== PROGRAM SCHEDULE ===== */
@@ -3540,16 +3566,19 @@
     }
 
     .ed-hero-grid {
+        display: flex;
+        flex-direction: column;
         grid-template-columns: 1fr;
-        gap: 28px;
+        grid-template-areas: none;
+        gap: 24px;
     }
+
+    .ed-hero-title-block { order: 1; align-self: stretch; text-align: center; }
+    .ed-hero-banner      { order: 2; align-self: stretch; max-width: 100%; }
+    .ed-hero-info        { order: 3; align-self: stretch; }
 
     .ed-hero h1 {
         font-size: 28px;
-    }
-
-    .ed-hero-banner {
-        max-width: 100%;
     }
 
     .ed-countdown {
