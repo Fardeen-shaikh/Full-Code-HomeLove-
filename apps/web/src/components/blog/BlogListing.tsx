@@ -44,36 +44,6 @@ const CATEGORIES = [
   { label: 'Smart Home', value: 'smart-home' },
 ]
 
-const FALLBACK_SUGGESTIONS = [
-  "Search articles…",
-  "Try 'home tips'",
-  "Try 'renovation'",
-  "Try 'interior design'",
-  "Try 'smart home'",
-]
-
-// Pull short keyword phrases from real titles so any suggestion is guaranteed to match
-function buildSuggestionsFromTitles(titles: string[]): string[] {
-  const stopwords = new Set([
-    'the', 'a', 'an', 'and', 'or', 'of', 'for', 'to', 'in', 'on', 'with',
-    'your', 'you', 'at', 'is', 'how', 'why', 'what', 'when', 'best', 'top',
-    'guide', 'tips', '5', '7', '10', '2026', '2025',
-  ])
-  const phrases = new Set<string>()
-  for (const t of titles) {
-    if (!t) continue
-    const words = t.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(Boolean)
-    const kept = words.filter((w) => w.length > 2 && !stopwords.has(w))
-    for (let i = 0; i < kept.length - 1 && phrases.size < 6; i++) {
-      phrases.add(`${kept[i]} ${kept[i + 1]}`)
-    }
-    if (phrases.size >= 6) break
-  }
-  return phrases.size > 0
-    ? Array.from(phrases).map((p) => `Try '${p}'`)
-    : FALLBACK_SUGGESTIONS
-}
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 export default function BlogListing({
@@ -98,7 +68,8 @@ export default function BlogListing({
   const isSearching = q.length > 0
   const PAGE_SIZE = 6
 
-  const suggestions = buildSuggestionsFromTitles(posts.map((p) => p.title || ''))
+  // Fixed placeholder per client request — no rotation
+  const suggestions = ["Try 'best sofa'"]
 
   const visiblePosts = isSearching
     ? posts.filter(
