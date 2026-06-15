@@ -18,7 +18,7 @@ export function ShoppingGuide() {
             className="animate-on-scroll"
             style={{ color: 'white', fontSize: 40, fontWeight: 800, marginBottom: 8 }}
           >
-            3 Important Steps Before You Shop the Expo
+            3 Steps Before You Shop the Expo
           </h2>
           <p
             className="animate-on-scroll"

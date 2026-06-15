@@ -426,7 +426,7 @@ export default function ExhibitionDetail({
           <div className="container">
             <div className="ed-programs-section">
               <div className="ed-programs-header">
-                <h2>Program</h2>
+                <h2>Programmes</h2>
                 <p>Exciting activities and rewards waiting for you at the expo</p>
               </div>
               <div className="ed-programs-scroll">

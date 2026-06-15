@@ -1,8 +1,8 @@
 const CARDS = [
   { icon: '🏷️', bg: '#fff3e0', delay: 1, title: 'Exclusive Expo Deals',
-    body: 'Unlock special pricing only available at the event — from furniture to renovation packages and appliances.' },
+    body: 'Discover special deals and pricings only available at the event — from furniture to renovation packages and appliances.' },
   { icon: '🎟️', bg: '#ffebee', delay: 2, title: 'Free Entry for All',
-    body: 'No tickets, no registration. Walk in and explore hundreds of home brands completely at no cost.' },
+    body: 'Walk in and explore hundreds of home brands completely at no cost.' },
   { icon: '🏪', bg: '#e3f2fd', delay: 3, title: '500+ Brand Exhibitors',
     body: 'A carefully curated mix of local and international home brands all under one roof at each show.' },
   { icon: '💡', bg: '#e8f5e9', delay: 1, title: 'Expert Consultations',
@@ -10,7 +10,7 @@ const CARDS = [
   { icon: '🎁', bg: '#fce4ec', delay: 2, title: 'Lucky Draws & Prizes',
     body: 'Win exciting home products and vouchers at our exciting daily lucky draw sessions every day.' },
   { icon: '🛡️', bg: '#e0f7fa', delay: 3, title: 'Shop with Confidence',
-    body: 'Enjoy peace of mind with HOMECare+ purchase protection and trusted exhibitors all in one place.' },
+    body: 'Enjoy shopping with HOMECare+ purchase protection and trusted exhibitors all in one place.' },
 ]
 
 export function WhatToExpectExpo() {

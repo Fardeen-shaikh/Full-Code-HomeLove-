@@ -80,7 +80,7 @@ export function Exhibitions({ events }: { events: ExhibitionEvent[] }) {
             className="animate-on-scroll"
             style={{ color: 'var(--gray)', fontSize: 15, maxWidth: 560, margin: '8px auto 0' }}
           >
-            Discover HOMElove home expos across Malaysia — furniture, renovation, home appliances, and exclusive deals. Free admission for everyone.
+            Discover HOMElove home expos across Malaysia. Furniture, renovation, home appliances, and exclusive deals. Free admission for everyone.
           </p>
         </div>
         <div ref={gridRef} className="exhibitions-grid">

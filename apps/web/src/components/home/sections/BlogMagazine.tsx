@@ -186,7 +186,7 @@ export function BlogMagazine({ blogs }: { blogs?: BlogPost[] }) {
         <div className="section-header" style={{ textAlign: 'center', marginBottom: 32 }}>
           <h2 className="animate-on-scroll" style={{ marginBottom: 6 }}>Home Tips</h2>
           <p className="animate-on-scroll" style={{ color: 'var(--gray)', fontSize: 15 }}>
-            Expert tips and design ideas for every room in your home.
+            Expert tips and design ideas for every area in your home.
           </p>
           <a
             href="/home-tips"

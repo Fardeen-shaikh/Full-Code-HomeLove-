@@ -72,7 +72,7 @@ export function WhatToExpectExhibition() {
             className="animate-on-scroll"
             style={{ color: 'var(--gray)', fontSize: 15, maxWidth: 500, margin: '0 auto' }}
           >
-            From furniture to smart home tech — everything you need for your dream home, all in one place.
+            From furniture to smart home tech, we have everything you need for your dream home, all in one place.
           </p>
         </div>
         <div

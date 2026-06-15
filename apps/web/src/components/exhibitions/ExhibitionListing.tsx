@@ -346,8 +346,8 @@ export default function ExhibitionListing({
                   <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <h3>Free Admission &amp; Parking</h3>
-              <p>Entry is always free. Come as you are, bring the family, and make a day of it.</p>
+              <h3>Free Admission</h3>
+              <p>Entry is always free. Shop all you want with your loved ones to build the perfect home.</p>
             </div>
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function ExhibitionListing({
         <div className="container">
           <h2>Want to Exhibit at HOMElove?</h2>
           <p>Showcase your brand to thousands of home shoppers across Malaysia.</p>
-          <Link href="/exhibit-with-us" className="btn btn-secondary">Enquire About Exhibiting →</Link>
+          <Link href="/exhibit-with-us" className="btn btn-secondary">Enquire Here →</Link>
         </div>
       </section>
     </>

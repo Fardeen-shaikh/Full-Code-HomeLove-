@@ -251,7 +251,7 @@ export default function AboutPage() {
           <div className="about-hero-content">
             <div className="about-hero-badge">Since 2015</div>
             <h1>Why HOMElove Home &amp; Living Exhibition?</h1>
-            <p>Your trusted Home &amp; Living Exhibition since 2015</p>
+            <p>Serving the needs of homeowners for more than 10 years.</p>
           </div>
         </div>
       </section>
@@ -305,22 +305,22 @@ export default function AboutPage() {
                 </ScrollReveal>
                 <ScrollReveal delay={200}>
                   <p>
-                    HOMElove is one of Malaysia&apos;s leading home expos that brings everything you need for your home under one roof — from electrical systems and smart home technology to furniture, refurbishment, and renovation services.
+                    HOMElove is one of Malaysia&apos;s leading home expos that brings everything you need for your home under one roof. From electrical systems and smart home technology to furniture, refurbishment, and renovation services, we cover it all.
                   </p>
                 </ScrollReveal>
                 <ScrollReveal delay={300}>
                   <p>
-                    With a team of truly inspiring professionals coming from the best in the home expo industry within Malaysia, we are dedicated to selecting quality exhibitors and ensuring visitor satisfaction at every expo we organise.
+                    With a team of truly inspiring professionals coming from the best in Malaysia&apos;s home expo industry, we are dedicated to ensuring visitor satisfaction at every expo we organise.
                   </p>
                 </ScrollReveal>
                 <ScrollReveal delay={400}>
                   <p>
-                    Every HOMElove event promises a variety of great products, services and awesome ideas for the home, along with a carnival-like experience complete with gifts, lucky draws, and discount coupons.
+                    Every HOMElove event promises a variety of great products, services and creative ideas for the home. Visitors can experience what it truly feels to get rewarded whilst shopping, complete with gifts, lucky draws, and discount coupons.
                   </p>
                 </ScrollReveal>
                 <ScrollReveal delay={500}>
                   <p>
-                    From the Klang Valley to the south in Johor Bahru and up North in Penang to Kuching in East Malaysia — HOMElove has successfully organised more than 10 events every year since 2015.
+                    From the Klang Valley to Johor Bahru in the south, Penang in the north, to Kuching in East Malaysia, HOMElove has successfully organised more than 10 events every year since 2015.
                   </p>
                 </ScrollReveal>
               </div>
